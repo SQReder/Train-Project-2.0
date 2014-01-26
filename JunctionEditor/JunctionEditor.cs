@@ -140,13 +140,23 @@ namespace TrainProject.JunctionEditor
         private void ToolPutNodes_Click(object sender, EventArgs e)
         {
             ToolMoveNodes.Checked = false;
+            ToolCreateLink.Checked = false;
             mouseAction_ = ToolPutNodes.Checked ? MouseAction.PutNode : MouseAction.None;            
         }
 
         private void ToolMoveNodes_Click(object sender, EventArgs e)
         {
             ToolPutNodes.Checked = false;
+            ToolCreateLink.Checked = false;
             mouseAction_ = ToolMoveNodes.Checked ? MouseAction.MoveNode : MouseAction.None;
+        }
+
+        private void ToolCreateLink_Click(object sender, EventArgs e)
+        {
+            ToolPutNodes.Checked = false;
+            ToolMoveNodes.Checked = false;
+            mouseAction_ = ToolCreateLink.Checked ? MouseAction.AddLink : MouseAction.None;
+
         }
     }
 }

@@ -63,6 +63,16 @@ namespace TrainProject.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ToolCreateLink {
+            get {
+                object obj = ResourceManager.GetObject("ToolCreateLink", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ToolCreateNode {
             get {
                 object obj = ResourceManager.GetObject("ToolCreateNode", resourceCulture);

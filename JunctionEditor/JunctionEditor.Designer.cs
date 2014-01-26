@@ -30,9 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JEditor));
             this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.img = new System.Windows.Forms.PictureBox();
             this.ToolPutNodes = new System.Windows.Forms.ToolStripButton();
             this.ToolMoveNodes = new System.Windows.Forms.ToolStripButton();
-            this.img = new System.Windows.Forms.PictureBox();
+            this.ToolCreateLink = new System.Windows.Forms.ToolStripButton();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.img)).BeginInit();
             this.SuspendLayout();
@@ -41,12 +42,29 @@
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolPutNodes,
-            this.ToolMoveNodes});
+            this.ToolMoveNodes,
+            this.ToolCreateLink});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(262, 25);
             this.toolStrip.TabIndex = 0;
             this.toolStrip.Text = "toolStrip1";
+            // 
+            // img
+            // 
+            this.img.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.img.Location = new System.Drawing.Point(3, 28);
+            this.img.Name = "img";
+            this.img.Size = new System.Drawing.Size(256, 158);
+            this.img.TabIndex = 1;
+            this.img.TabStop = false;
+            this.img.Click += new System.EventHandler(this.img_Click);
+            this.img.Paint += new System.Windows.Forms.PaintEventHandler(this.img_Paint);
+            this.img.MouseDown += new System.Windows.Forms.MouseEventHandler(this.img_MouseDown);
+            this.img.MouseMove += new System.Windows.Forms.MouseEventHandler(this.img_MouseMove);
+            this.img.MouseUp += new System.Windows.Forms.MouseEventHandler(this.img_MouseUp);
             // 
             // ToolPutNodes
             // 
@@ -70,21 +88,16 @@
             this.ToolMoveNodes.Text = "toolStripButton1";
             this.ToolMoveNodes.Click += new System.EventHandler(this.ToolMoveNodes_Click);
             // 
-            // img
+            // ToolCreateLink
             // 
-            this.img.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.img.Location = new System.Drawing.Point(3, 28);
-            this.img.Name = "img";
-            this.img.Size = new System.Drawing.Size(256, 158);
-            this.img.TabIndex = 1;
-            this.img.TabStop = false;
-            this.img.Click += new System.EventHandler(this.img_Click);
-            this.img.Paint += new System.Windows.Forms.PaintEventHandler(this.img_Paint);
-            this.img.MouseDown += new System.Windows.Forms.MouseEventHandler(this.img_MouseDown);
-            this.img.MouseMove += new System.Windows.Forms.MouseEventHandler(this.img_MouseMove);
-            this.img.MouseUp += new System.Windows.Forms.MouseEventHandler(this.img_MouseUp);
+            this.ToolCreateLink.CheckOnClick = true;
+            this.ToolCreateLink.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolCreateLink.Image = global::TrainProject.Properties.Resources.ToolCreateLink;
+            this.ToolCreateLink.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolCreateLink.Name = "ToolCreateLink";
+            this.ToolCreateLink.Size = new System.Drawing.Size(23, 22);
+            this.ToolCreateLink.Text = "toolStripButton1";
+            this.ToolCreateLink.Click += new System.EventHandler(this.ToolCreateLink_Click);
             // 
             // JEditor
             // 
@@ -108,5 +121,6 @@
         private System.Windows.Forms.ToolStripButton ToolPutNodes;
         private System.Windows.Forms.PictureBox img;
         private System.Windows.Forms.ToolStripButton ToolMoveNodes;
+        private System.Windows.Forms.ToolStripButton ToolCreateLink;
     }
 }
