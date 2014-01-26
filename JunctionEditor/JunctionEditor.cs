@@ -35,10 +35,13 @@ namespace TrainProject.JunctionEditor
             PutNode,
             MoveNode,
             AddLinkFindStartNode,
-            AddLinkFindEndNode
+            AddLinkFindEndNode,
+            UpdateNodeType
         };
 
         private MouseAction mouseAction_ = MouseAction.None;
+
+        private Node.NodeType newNodeType = Node.NodeType.Isolation;
 
         private void img_MouseMove(object sender, MouseEventArgs e)
         {
@@ -62,6 +65,9 @@ namespace TrainProject.JunctionEditor
                 case MouseAction.AddLinkFindEndNode:
                     UpdateSelectionStates(e.Location);
                     tempNode_.SetPosition(e.Location);
+                    break;
+                case MouseAction.UpdateNodeType:
+                    UpdateSelectionStates(e.Location);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -95,6 +101,13 @@ namespace TrainProject.JunctionEditor
                 case MouseAction.AddLinkFindEndNode:
                     UpdateSelectionStates(e.Location);
                     tempLink_.To = GetFirstSelectedNode() ?? tempNode_;
+                    break;
+                case MouseAction.UpdateNodeType:
+                    var node = GetFirstSelectedNode();
+                    if (node != null)
+                    {
+                        node.Type = newNodeType;
+                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -137,6 +150,8 @@ namespace TrainProject.JunctionEditor
 
                     mouseAction_ = MouseAction.AddLinkFindStartNode;
                     break;
+                case MouseAction.UpdateNodeType:
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -151,8 +166,8 @@ namespace TrainProject.JunctionEditor
         {
             var graphics = e.Graphics;
             graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            DrawSomething(graphics, nodes);
             DrawSomething(graphics, links);
+            DrawSomething(graphics, nodes);
             DrawSomething(graphics, tempNode_);
             DrawSomething(graphics, tempLink_);
         }
@@ -193,6 +208,7 @@ namespace TrainProject.JunctionEditor
         {
             ToolMoveNodes.Checked = false;
             ToolCreateLink.Checked = false;
+            ToolNodeTypeDock.Checked = false;
             mouseAction_ = ToolPutNodes.Checked ? MouseAction.PutNode : MouseAction.None;            
         }
 
@@ -200,6 +216,7 @@ namespace TrainProject.JunctionEditor
         {
             ToolPutNodes.Checked = false;
             ToolCreateLink.Checked = false;
+            ToolNodeTypeDock.Checked = false;
             mouseAction_ = ToolMoveNodes.Checked ? MouseAction.MoveNode : MouseAction.None;
         }
 
@@ -207,8 +224,26 @@ namespace TrainProject.JunctionEditor
         {
             ToolPutNodes.Checked = false;
             ToolMoveNodes.Checked = false;
+            ToolNodeTypeDock.Checked = false;
             mouseAction_ = ToolCreateLink.Checked ? MouseAction.AddLinkFindStartNode : MouseAction.None;
+        }
 
+        private void ToolNodeTypeDock_Click(object sender, EventArgs e)
+        {
+            ToolPutNodes.Checked = false;
+            ToolMoveNodes.Checked = false;
+            ToolCreateLink.Checked = false;
+            mouseAction_ = ToolNodeTypeDock.Checked ? MouseAction.UpdateNodeType : MouseAction.None;
+            newNodeType = Node.NodeType.Dock;
+        }
+
+        private void ToolNodeTypeIsolation_Click(object sender, EventArgs e)
+        {
+            ToolPutNodes.Checked = false;
+            ToolMoveNodes.Checked = false;
+            ToolCreateLink.Checked = false;
+            mouseAction_ = ToolNodeTypeDock.Checked ? MouseAction.UpdateNodeType : MouseAction.None;
+            newNodeType = Node.NodeType.Isolation;
         }
     }
 }

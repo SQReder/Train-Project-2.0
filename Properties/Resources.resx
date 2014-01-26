@@ -130,4 +130,10 @@
   <data name="ToolMoveNode" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ToolMoveNode.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ToolNodeTypeDock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ToolNodeTypeDock.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ToolNodeTypeIsolation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ToolNodeTypeIsolation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

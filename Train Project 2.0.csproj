@@ -94,6 +94,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="JunctionEditor\Images\Node.png" />
+    <None Include="Resources\ToolNodeTypeIsolation.png" />
+    <None Include="Resources\ToolNodeTypeDock.png" />
     <None Include="Resources\CreateNewNodesForLinks.png" />
     <None Include="Resources\ToolCreateLink.png" />
     <None Include="Resources\ToolMoveNode.png" />
