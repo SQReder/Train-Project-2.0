@@ -13,8 +13,8 @@ namespace TrainProject.JunctionEditor
 
         public void Draw(Graphics graphics)
         {
-            var size = new Size(Radius * 2, Radius * 2);
-            var rect = new Rectangle(GetPosition(), size);
+            var position = GetPosition();
+            var rect = new Rectangle(position.X - Radius, position.Y - Radius, Radius * 2, Radius * 2);
 
             if (IsSelected())
                 graphics.FillEllipse(highlightBrush_, rect);
