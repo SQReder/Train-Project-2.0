@@ -43,11 +43,37 @@ namespace TrainProject.JunctionEditor
                 var b = to_.GetPosition();
 
                 graphics.DrawLine(pen, a, b);
+                DrawArrowHead(graphics, pen, from_, to_);
             }
             catch (Exception e)
             {
                 MessageBox.Show("Can't draw link between nodes! Reason: \"" + e.Message + "\"\nContact with developer.");
             }
+        }
+
+        private void DrawArrowHead(Graphics g, Pen parentPen, Node nodeStart, Node nodeEnd)
+        {
+            const float h = 10f;
+            const float w = 4f;
+
+            var start = nodeStart.GetPosition();
+            var end = nodeEnd.GetPosition();
+
+            var mainVector = new PointF(end.X - start.X, end.Y - start.Y);
+            var mainVectorLen = (float)nodeStart.Distance(end);
+            var mainVectorNormal = new PointF(mainVector.X / mainVectorLen, mainVector.Y / mainVectorLen);
+
+            var oPointLen = mainVectorLen - h;
+            var o = new PointF(mainVectorNormal.X * oPointLen, mainVectorNormal.Y * oPointLen);
+
+            var normal = new PointF(-mainVectorNormal.Y, mainVectorNormal.X);
+
+            var A = new PointF(start.X + o.X + normal.X * w, start.Y + o.Y + normal.Y * w);
+            var B = new PointF(start.X + o.X + normal.X * -w, start.Y + o.Y + normal.Y * -w);
+
+            var headPen = new Pen(parentPen.Color, parentPen.Width);
+            g.DrawLine(headPen, end, A);
+            g.DrawLine(headPen, end, B);
         }
     }
 }

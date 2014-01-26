@@ -9,6 +9,8 @@ namespace TrainProject.JunctionEditor
 {
     public partial class JEditor : UserControl
     {
+        #region vars
+        
         private List<Node> nodes = new List<Node>();
         private List<Link> links = new List<Link>(); 
 
@@ -16,12 +18,14 @@ namespace TrainProject.JunctionEditor
         private Node movingNodeRef_;
         private Link tempLink_;
 
+        #endregion
+
         public JEditor()
         {
             InitializeComponent();
         }
 
-        #region img mouse events
+        #region mouse events
 
         private Point lastMousePos;
 
