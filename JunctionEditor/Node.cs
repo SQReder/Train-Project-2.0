@@ -11,6 +11,7 @@ namespace TrainProject.JunctionEditor
         private Brush highlightBrush_ = Brushes.DodgerBlue;
         private readonly Pen pen_ = new Pen(Color.SteelBlue,2f);
         private bool isSelected_;
+        private string title_;
 
         public enum NodeType
         {
@@ -22,7 +23,6 @@ namespace TrainProject.JunctionEditor
         }
 
         private NodeType type_ = NodeType.Isolation;
-
 
         public void Draw(Graphics graphics)
         {
@@ -64,6 +64,8 @@ namespace TrainProject.JunctionEditor
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            
+            graphics.DrawString(title_, SystemFonts.DefaultFont, Brushes.Black, new Point(position.X - Radius, position.Y + Radius*2));
         }
 
         public Point GetPosition()
@@ -99,6 +101,12 @@ namespace TrainProject.JunctionEditor
         {
             get { return type_; }
             set { type_ = value; }
+        }
+
+        public string Title
+        {
+            get { return title_; }
+            set { title_ = value; }
         }
     }
 }

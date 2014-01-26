@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -123,6 +124,7 @@ namespace TrainProject.JunctionEditor
                     break;
                 case MouseAction.PutNode:
                     tempNode_.SetPosition(e.Location);
+                    tempNode_.Title = nodes.Count.ToString(CultureInfo.InvariantCulture);
                     nodes.Add(tempNode_);
                     tempNode_ = null;
                     break;
@@ -141,6 +143,7 @@ namespace TrainProject.JunctionEditor
                     }
                     else if (CreateNewNodeForLinks.Checked)
                     {
+                        tempNode_.Title = nodes.Count.ToString(CultureInfo.InvariantCulture);
                         nodes.Add(tempNode_);
                         links.Add(tempLink_);
                     }
