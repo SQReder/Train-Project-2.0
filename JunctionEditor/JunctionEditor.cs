@@ -122,6 +122,12 @@ namespace TrainProject.JunctionEditor
                         tempLink_.To = node;
                         links.Add(tempLink_);
                     }
+                    else if (CreateNewNodeForLinks.Checked)
+                    {
+                        nodes.Add(tempNode_);
+                        links.Add(tempLink_);
+                    }
+
                     tempNode_ = null;
                     tempLink_ = null;
 

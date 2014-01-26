@@ -30,10 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JEditor));
             this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripSeparator();
             this.img = new System.Windows.Forms.PictureBox();
             this.ToolPutNodes = new System.Windows.Forms.ToolStripButton();
             this.ToolMoveNodes = new System.Windows.Forms.ToolStripButton();
             this.ToolCreateLink = new System.Windows.Forms.ToolStripButton();
+            this.CreateNewNodeForLinks = new System.Windows.Forms.ToolStripButton();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.img)).BeginInit();
             this.SuspendLayout();
@@ -43,12 +45,19 @@
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolPutNodes,
             this.ToolMoveNodes,
-            this.ToolCreateLink});
+            this.ToolCreateLink,
+            this.toolStripButton2,
+            this.CreateNewNodeForLinks});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(262, 25);
             this.toolStrip.TabIndex = 0;
             this.toolStrip.Text = "toolStrip1";
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(6, 25);
             // 
             // img
             // 
@@ -85,7 +94,7 @@
             this.ToolMoveNodes.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolMoveNodes.Name = "ToolMoveNodes";
             this.ToolMoveNodes.Size = new System.Drawing.Size(23, 22);
-            this.ToolMoveNodes.Text = "toolStripButton1";
+            this.ToolMoveNodes.Text = "Move nodes";
             this.ToolMoveNodes.Click += new System.EventHandler(this.ToolMoveNodes_Click);
             // 
             // ToolCreateLink
@@ -96,8 +105,18 @@
             this.ToolCreateLink.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolCreateLink.Name = "ToolCreateLink";
             this.ToolCreateLink.Size = new System.Drawing.Size(23, 22);
-            this.ToolCreateLink.Text = "toolStripButton1";
+            this.ToolCreateLink.Text = "Create link between nodes";
             this.ToolCreateLink.Click += new System.EventHandler(this.ToolCreateLink_Click);
+            // 
+            // CreateNewNodeForLinks
+            // 
+            this.CreateNewNodeForLinks.CheckOnClick = true;
+            this.CreateNewNodeForLinks.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.CreateNewNodeForLinks.Image = global::TrainProject.Properties.Resources.CreateNewNodeForLinks;
+            this.CreateNewNodeForLinks.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CreateNewNodeForLinks.Name = "CreateNewNodeForLinks";
+            this.CreateNewNodeForLinks.Size = new System.Drawing.Size(23, 22);
+            this.CreateNewNodeForLinks.Text = "Create new nodes when link to nowere";
             // 
             // JEditor
             // 
@@ -122,5 +141,7 @@
         private System.Windows.Forms.PictureBox img;
         private System.Windows.Forms.ToolStripButton ToolMoveNodes;
         private System.Windows.Forms.ToolStripButton ToolCreateLink;
+        private System.Windows.Forms.ToolStripSeparator toolStripButton2;
+        private System.Windows.Forms.ToolStripButton CreateNewNodeForLinks;
     }
 }
