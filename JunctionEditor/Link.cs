@@ -39,8 +39,9 @@ namespace TrainProject.JunctionEditor
         {
             try
             {
-                var a = from_.GetPosition();
-                var b = to_.GetPosition();
+                var croppedLine = GetCroppedLine(from_, to_, 6);
+                var a = croppedLine.Item1;
+                var b = croppedLine.Item2;
 
                 graphics.DrawLine(pen, a, b);
                 DrawArrowHead(graphics, pen, from_, to_);
@@ -74,6 +75,20 @@ namespace TrainProject.JunctionEditor
             var headPen = new Pen(parentPen.Color, parentPen.Width);
             g.DrawLine(headPen, end, A);
             g.DrawLine(headPen, end, B);
+        }
+
+        private Tuple<PointF, PointF> GetCroppedLine(Node nodeStart, Node nodeEnd, float crops)
+        {
+            var start = nodeStart.GetPosition();
+            var end = nodeEnd.GetPosition();
+            var mainVector = new PointF(end.X - start.X, end.Y - start.Y);
+            var mainVectorLen = (float)nodeStart.Distance(nodeEnd.GetPosition());
+            var mainVectorNormal = new PointF(mainVector.X / mainVectorLen, mainVector.Y / mainVectorLen);
+
+            var A = new PointF(start.X + mainVectorNormal.X * crops, start.Y + mainVectorNormal.Y * crops);
+            var B = new PointF(end.X - mainVectorNormal.X * crops, end.Y - mainVectorNormal.Y * crops);
+
+            return new Tuple<PointF, PointF>(A, B);
         }
     }
 }
