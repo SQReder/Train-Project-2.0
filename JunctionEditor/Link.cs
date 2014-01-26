@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TrainProject.JunctionEditor
 {
@@ -25,14 +26,17 @@ namespace TrainProject.JunctionEditor
 
         public void Draw(Graphics graphics)
         {
-            Point a, b;
             try
             {
-                a = from_.GetPosition();
-                b = to_.GetPosition();
-            }
+                var a = from_.GetPosition();
+                var b = to_.GetPosition();
 
-            graphics.DrawLine(pen, a, b);
+                graphics.DrawLine(pen, a, b);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Can't draw link between nodes! Reason: \"" + e.Message + "\"\nContact with developer.");
+            }
         }
     }
 }
