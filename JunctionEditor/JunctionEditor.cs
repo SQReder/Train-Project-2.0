@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -9,8 +10,11 @@ namespace TrainProject.JunctionEditor
     public partial class JEditor : UserControl
     {
         private List<Node> nodes = new List<Node>();
+        private List<Link> links = new List<Link>(); 
+
         private Node tempNode_;
         private Node movingNodeRef_;
+        private Link tempLink_;
 
         public JEditor()
         {
@@ -26,7 +30,8 @@ namespace TrainProject.JunctionEditor
             None,
             PutNode,
             MoveNode,
-            AddLink
+            AddLinkFindStartNode,
+            AddLinkFindEndNode
         };
 
         private MouseAction mouseAction_ = MouseAction.None;
@@ -40,20 +45,24 @@ namespace TrainProject.JunctionEditor
                 case MouseAction.PutNode:
                     if (tempNode_ != null)
                         tempNode_.SetPosition(e.Location);
-                    img.Invalidate();
                     break;
                 case MouseAction.MoveNode:
                     if (movingNodeRef_ == null)
                         UpdateSelectionStates(e.Location);
                     else
                         movingNodeRef_.SetPosition(e.Location);
-                    img.Invalidate();
                     break;
-                case MouseAction.AddLink:
+                case MouseAction.AddLinkFindStartNode:
+                    UpdateSelectionStates(e.Location);
+                    break;
+                case MouseAction.AddLinkFindEndNode:
+                    UpdateSelectionStates(e.Location);
+                    tempNode_.SetPosition(e.Location);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            img.Invalidate();
         }
 
         private void img_MouseDown(object sender, MouseEventArgs e)
@@ -65,16 +74,28 @@ namespace TrainProject.JunctionEditor
                 case MouseAction.PutNode:
                     tempNode_ = new Node();
                     tempNode_.SetPosition(e.Location);
-                    img.Invalidate();
                     break;
                 case MouseAction.MoveNode:
-                    movingNodeRef_ = nodes.FirstOrDefault(n => n.IsSelected());
+                    movingNodeRef_ = GetFirstSelectedNode();
                     break;
-                case MouseAction.AddLink:
+                case MouseAction.AddLinkFindStartNode:
+                    var startNode = GetFirstSelectedNode();
+                    if (startNode != null)
+                    {
+                        tempNode_ = new Node();
+                        tempNode_.SetPosition(e.Location);
+                        tempLink_ = new Link(startNode, tempNode_);
+                        mouseAction_ = MouseAction.AddLinkFindEndNode;
+                    }
+                    break;
+                case MouseAction.AddLinkFindEndNode:
+                    UpdateSelectionStates(e.Location);
+                    tempLink_.To = GetFirstSelectedNode() ?? tempNode_;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            img.Invalidate();
         }
 
         private void img_MouseUp(object sender, MouseEventArgs e)
@@ -87,16 +108,29 @@ namespace TrainProject.JunctionEditor
                     tempNode_.SetPosition(e.Location);
                     nodes.Add(tempNode_);
                     tempNode_ = null;
-                    img.Invalidate();
                     break;
                 case MouseAction.MoveNode:
                     movingNodeRef_ = null;
                     break;
-                case MouseAction.AddLink:
+                case MouseAction.AddLinkFindStartNode:
+                    tempLink_ = null;
+                    break;
+                case MouseAction.AddLinkFindEndNode:
+                    var node = GetFirstSelectedNode();
+                    if (node != null)
+                    {
+                        tempLink_.To = node;
+                        links.Add(tempLink_);
+                    }
+                    tempNode_ = null;
+                    tempLink_ = null;
+
+                    mouseAction_ = MouseAction.AddLinkFindStartNode;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            img.Invalidate();
         }
 
         #endregion
@@ -106,8 +140,11 @@ namespace TrainProject.JunctionEditor
         private void img_Paint(object sender, PaintEventArgs e)
         {
             var graphics = e.Graphics;
+            graphics.SmoothingMode = SmoothingMode.AntiAlias;
             DrawSomething(graphics, nodes);
+            DrawSomething(graphics, links);
             DrawSomething(graphics, tempNode_);
+            DrawSomething(graphics, tempLink_);
         }
 
         private void DrawSomething(Graphics g, IEnumerable<IDrawable> drawables)
@@ -130,6 +167,11 @@ namespace TrainProject.JunctionEditor
         {
             foreach (var node in nodes)
                 node.UpdateSelectionState(position);
+        }
+
+        private Node GetFirstSelectedNode()
+        {
+            return nodes.FirstOrDefault(node => node.IsSelected());
         }
 
         private void img_Click(object sender, EventArgs e)
@@ -155,7 +197,7 @@ namespace TrainProject.JunctionEditor
         {
             ToolPutNodes.Checked = false;
             ToolMoveNodes.Checked = false;
-            mouseAction_ = ToolCreateLink.Checked ? MouseAction.AddLink : MouseAction.None;
+            mouseAction_ = ToolCreateLink.Checked ? MouseAction.AddLinkFindStartNode : MouseAction.None;
 
         }
     }
