@@ -18,10 +18,21 @@ namespace TrainProject.JunctionEditor
             DashPattern = new[] { 2.0F, 1.0F }
         };
 
-        private Link(Node from, Node to)
+        public Link(Node from, Node to)
         {
             from_ = from;
             to_ = to;
+        }
+
+        public Node From
+        {
+            get { return from_; }
+        }
+
+        public Node To
+        {
+            get { return to_; }
+            set { to_ = value; }
         }
 
         public void Draw(Graphics graphics)
