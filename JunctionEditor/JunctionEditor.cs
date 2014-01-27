@@ -51,6 +51,7 @@ namespace TrainProject.JunctionEditor
                 case MouseAction.None:
                     break;
                 case MouseAction.PutNode:
+                    UpdateSelectionStates(e.Location);
                     if (tempNode_ != null)
                         tempNode_.SetPosition(e.Location);
                     break;
@@ -68,7 +69,6 @@ namespace TrainProject.JunctionEditor
                     tempNode_.SetPosition(e.Location);
                     break;
                 case MouseAction.UpdateNodeType:
-                    UpdateSelectionStates(e.Location);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -78,13 +78,21 @@ namespace TrainProject.JunctionEditor
 
         private void img_MouseDown(object sender, MouseEventArgs e)
         {
+            Node node;
             switch (mouseAction_)
             {
                 case MouseAction.None:
                     break;
                 case MouseAction.PutNode:
-                    tempNode_ = new Node();
-                    tempNode_.SetPosition(e.Location);
+                    if (e.Button.HasFlag(MouseButtons.Right))
+                    {
+                        RemoveSelectedNode();
+                    }
+                    else if (e.Button.HasFlag(MouseButtons.Left))
+                    {
+                        tempNode_ = new Node();
+                        tempNode_.SetPosition(e.Location);
+                    }
                     break;
                 case MouseAction.MoveNode:
                     movingNodeRef_ = GetFirstSelectedNode();
@@ -104,7 +112,7 @@ namespace TrainProject.JunctionEditor
                     tempLink_.To = GetFirstSelectedNode() ?? tempNode_;
                     break;
                 case MouseAction.UpdateNodeType:
-                    var node = GetFirstSelectedNode();
+                    node = GetFirstSelectedNode();
                     if (node != null)
                     {
                         node.Type = newNodeType;
@@ -116,6 +124,21 @@ namespace TrainProject.JunctionEditor
             img.Invalidate();
         }
 
+        private void RemoveSelectedNode()
+        {
+            var node = GetFirstSelectedNode();
+            if (node != null)
+            {
+                var nodeToRemove = nodes.FirstOrDefault(n => n == node);
+
+                var linksToRemove = links.Where(l => l.From == nodeToRemove || l.To == nodeToRemove).ToList();
+                foreach (var link in linksToRemove)
+                    links.Remove(link);
+
+                nodes.Remove(nodeToRemove);
+            }
+        }
+
         private void img_MouseUp(object sender, MouseEventArgs e)
         {
             switch (mouseAction_)
@@ -123,10 +146,13 @@ namespace TrainProject.JunctionEditor
                 case MouseAction.None:
                     break;
                 case MouseAction.PutNode:
-                    tempNode_.SetPosition(e.Location);
-                    tempNode_.Title = nodes.Count.ToString(CultureInfo.InvariantCulture);
-                    nodes.Add(tempNode_);
-                    tempNode_ = null;
+                    if (tempNode_ != null)
+                    {
+                        tempNode_.SetPosition(e.Location);
+                        tempNode_.Title = nodes.Count.ToString(CultureInfo.InvariantCulture);
+                        nodes.Add(tempNode_);
+                        tempNode_ = null;
+                    }
                     break;
                 case MouseAction.MoveNode:
                     movingNodeRef_ = null;
