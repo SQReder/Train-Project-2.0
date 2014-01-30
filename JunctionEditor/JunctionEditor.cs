@@ -44,6 +44,7 @@ namespace TrainProject.JunctionEditor
 
         private Node.NodeType newNodeType = Node.NodeType.Isolation;
 
+
         private void img_MouseMove(object sender, MouseEventArgs e)
         {
             switch (mouseAction_)
@@ -75,6 +76,7 @@ namespace TrainProject.JunctionEditor
             }
             img.Invalidate();
         }
+
 
         private void img_MouseDown(object sender, MouseEventArgs e)
         {
@@ -124,6 +126,7 @@ namespace TrainProject.JunctionEditor
             img.Invalidate();
         }
 
+
         private void RemoveSelectedNode()
         {
             var node = GetFirstSelectedNode();
@@ -138,6 +141,7 @@ namespace TrainProject.JunctionEditor
                 nodes.Remove(nodeToRemove);
             }
         }
+
 
         private void img_MouseUp(object sender, MouseEventArgs e)
         {
@@ -194,6 +198,7 @@ namespace TrainProject.JunctionEditor
 
         #endregion
 
+
         #region draw routines
 
         private void img_Paint(object sender, PaintEventArgs e)
@@ -206,6 +211,7 @@ namespace TrainProject.JunctionEditor
             DrawSomething(graphics, tempLink_);
         }
 
+
         private void DrawSomething(Graphics g, IEnumerable<IDrawable> drawables)
         {
             foreach (var drawable in drawables)
@@ -214,13 +220,16 @@ namespace TrainProject.JunctionEditor
             }
         }
 
+
         private void DrawSomething(Graphics g, IDrawable drawable)
         {
             if (drawable != null)
                 drawable.Draw(g);
         }
 
+
         #endregion
+
 
         private void UpdateSelectionStates(Point position)
         {
@@ -228,15 +237,18 @@ namespace TrainProject.JunctionEditor
                 node.UpdateSelectionState(position);
         }
 
+
         private Node GetFirstSelectedNode()
         {
             return nodes.FirstOrDefault(node => node.IsSelected());
         }
 
+
         private void img_Click(object sender, EventArgs e)
         {
             Invalidate(true);
         }
+
 
         private void ToolPutNodes_Click(object sender, EventArgs e)
         {
@@ -246,6 +258,7 @@ namespace TrainProject.JunctionEditor
             mouseAction_ = ToolPutNodes.Checked ? MouseAction.PutNode : MouseAction.None;            
         }
 
+
         private void ToolMoveNodes_Click(object sender, EventArgs e)
         {
             ToolPutNodes.Checked = false;
@@ -253,6 +266,7 @@ namespace TrainProject.JunctionEditor
             ToolNodeTypeDock.Checked = false;
             mouseAction_ = ToolMoveNodes.Checked ? MouseAction.MoveNode : MouseAction.None;
         }
+
 
         private void ToolCreateLink_Click(object sender, EventArgs e)
         {
@@ -262,6 +276,7 @@ namespace TrainProject.JunctionEditor
             mouseAction_ = ToolCreateLink.Checked ? MouseAction.AddLinkFindStartNode : MouseAction.None;
         }
 
+
         private void ToolNodeTypeDock_Click(object sender, EventArgs e)
         {
             ToolPutNodes.Checked = false;
@@ -270,6 +285,7 @@ namespace TrainProject.JunctionEditor
             mouseAction_ = ToolNodeTypeDock.Checked ? MouseAction.UpdateNodeType : MouseAction.None;
             newNodeType = Node.NodeType.Dock;
         }
+
 
         private void ToolNodeTypeIsolation_Click(object sender, EventArgs e)
         {
