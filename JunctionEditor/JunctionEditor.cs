@@ -171,10 +171,16 @@ namespace TrainProject.JunctionEditor
                         tempLink_.To = node;
                         var sameLink =
                             links.FirstOrDefault(l => l.From == tempLink_.From && l.To == tempLink_.To);
-                        if (sameLink == null)
-                            links.Add(tempLink_);
-                        else
+                        var reverseLink = links.FirstOrDefault(l => l.From == tempLink_.To && l.To == tempLink_.From);
+                        if (sameLink != null)
                             links.Remove(sameLink);
+                        else if (reverseLink != null)
+                        {
+                            links.Remove(reverseLink);
+                            links.Add(tempLink_);
+                        }
+                        else
+                            links.Add(tempLink_);
                     }
                     else if (CreateNewNodeForLinks.Checked)
                     {
