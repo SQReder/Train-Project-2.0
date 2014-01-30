@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace TrainProject.JunctionEditor
 {
     class Node : IDrawable, ISelectable, IPositionable
     {
-        private const int Radius = 4;
+        private const int Radius = 5;
         private Point position_ = new Point(0,0);
         private Brush highlightBrush_ = Brushes.DodgerBlue;
         private readonly Pen pen_ = new Pen(Color.SteelBlue,2f);
@@ -15,11 +16,11 @@ namespace TrainProject.JunctionEditor
 
         public enum NodeType
         {
-            Isolation,
-            Entrance,
-            Dock,
-            Ppp,
-            Cross
+             Isolation
+            ,Entrance
+            ,Dock
+            ,Ppp
+            ,Cross
         }
 
         private NodeType type_ = NodeType.Isolation;
@@ -28,6 +29,7 @@ namespace TrainProject.JunctionEditor
         {
             var position = GetPosition();
             Rectangle rect;
+            Point[] lines;
             switch (type_)
             {
                 case NodeType.Isolation:
@@ -37,8 +39,19 @@ namespace TrainProject.JunctionEditor
                         graphics.FillEllipse(highlightBrush_, rect);
                     graphics.DrawEllipse(pen_, rect);
                     break;
+
                 case NodeType.Entrance:
+                    lines = new List<Point>
+                    {
+                        new Point(position.X - Radius / 2, position.Y - Radius),
+                        new Point(position.X + Radius / 2, position.Y),
+                        new Point(position.X - Radius / 2, position.Y + Radius)
+                    }.ToArray();
+                    if (IsSelected())
+                        graphics.FillPolygon(highlightBrush_, lines);
+                    graphics.DrawLines(pen_, lines);
                     break;
+
                 case NodeType.Dock:
                     if (isSelected_)
                     {
@@ -48,19 +61,45 @@ namespace TrainProject.JunctionEditor
                         graphics.FillRectangle(highlightBrush_, rect);
                     }
 
-                    var lines = new List<Point>();
-                    lines.Add(new Point(position.X + Radius, position.Y + Radius));
-                    lines.Add(new Point(position.X, position.Y + Radius));
-                    lines.Add(new Point(position.X, position.Y));
-                    lines.Add(new Point(position.X, position.Y - Radius));
-                    lines.Add(new Point(position.X + Radius, position.Y - Radius));
+                    lines = new List<Point>
+                    {
+                        new Point(position.X + Radius, position.Y + Radius),
+                        new Point(position.X, position.Y + Radius),
+                        new Point(position.X, position.Y),
+                        new Point(position.X, position.Y - Radius),
+                        new Point(position.X + Radius, position.Y - Radius)
+                    }.ToArray();
 
-                    graphics.DrawLines(pen_, lines.ToArray());
+                    graphics.DrawLines(pen_, lines);
                     break;
+
                 case NodeType.Ppp:
+                    if (isSelected_)
+                    {
+                        rect = new Rectangle(
+                            position.X, position.Y - Radius,
+                            Radius, Radius * 2);
+                        graphics.FillRectangle(highlightBrush_, rect);
+                    }
+
+                    lines = new List<Point>
+                    {
+                        new Point(position.X + Radius, position.Y + Radius),
+                        new Point(position.X, position.Y + Radius),
+                        new Point(position.X, position.Y),
+                        new Point(position.X+Radius,position.Y),
+                        new Point(position.X, position.Y),
+                        new Point(position.X, position.Y - Radius),
+                        new Point(position.X + Radius, position.Y - Radius)
+                    }.ToArray();
+
+                    graphics.DrawLines(pen_, lines);
+
                     break;
+
                 case NodeType.Cross:
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }

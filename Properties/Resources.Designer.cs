@@ -113,9 +113,29 @@ namespace TrainProject.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ToolNodeTypeInput {
+            get {
+                object obj = ResourceManager.GetObject("ToolNodeTypeInput", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ToolNodeTypeIsolation {
             get {
                 object obj = ResourceManager.GetObject("ToolNodeTypeIsolation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ToolNodeTypePPP {
+            get {
+                object obj = ResourceManager.GetObject("ToolNodeTypePPP", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

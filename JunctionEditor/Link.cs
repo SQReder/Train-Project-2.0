@@ -11,6 +11,7 @@ namespace TrainProject.JunctionEditor
 {
     class Link: IDrawable
     {
+        private const float LineMargin = 8f;
         private Node from_, to_;
         static Pen pen = new Pen(Color.DarkViolet, 2f)
         {
@@ -39,12 +40,14 @@ namespace TrainProject.JunctionEditor
         {
             try
             {
-                var croppedLine = GetCroppedLine(from_, to_, 6);
+                var croppedLine = GetCroppedLine(from_, to_, LineMargin);
                 var a = croppedLine.Item1;
                 var b = croppedLine.Item2;
 
                 graphics.DrawLine(pen, a, b);
-                DrawArrowHead(graphics, pen, from_, to_);
+
+                if (from_.Distance(to_.GetPosition()) > LineMargin*2)
+                    DrawArrowHead(graphics, pen, from_, to_);
             }
             catch (Exception e)
             {
@@ -52,16 +55,17 @@ namespace TrainProject.JunctionEditor
             }
         }
 
-        private void DrawArrowHead(Graphics g, Pen parentPen, Node nodeStart, Node nodeEnd)
+        private void DrawArrowHead(Graphics g, Pen parentPen, IPositionable nodeStart, IPositionable nodeEnd)
         {
             const float h = 10f;
             const float w = 4f;
 
+            var croppedLine = GetCroppedLine(nodeStart, nodeEnd, LineMargin);
             var start = nodeStart.GetPosition();
-            var end = nodeEnd.GetPosition();
+            var end = croppedLine.Item2;
 
             var mainVector = new PointF(end.X - start.X, end.Y - start.Y);
-            var mainVectorLen = (float)nodeStart.Distance(end);
+            var mainVectorLen = (float)nodeStart.Distance(new Point((int)end.X,(int)end.Y));
             var mainVectorNormal = new PointF(mainVector.X / mainVectorLen, mainVector.Y / mainVectorLen);
 
             var oPointLen = mainVectorLen - h;
@@ -77,7 +81,7 @@ namespace TrainProject.JunctionEditor
             g.DrawLine(headPen, end, B);
         }
 
-        private Tuple<PointF, PointF> GetCroppedLine(Node nodeStart, Node nodeEnd, float crops)
+        private static Tuple<PointF, PointF> GetCroppedLine(IPositionable nodeStart, IPositionable nodeEnd, float crops)
         {
             var start = nodeStart.GetPosition();
             var end = nodeEnd.GetPosition();

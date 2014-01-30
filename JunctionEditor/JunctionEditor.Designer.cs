@@ -40,6 +40,8 @@
             this.CreateNewNodeForLinks = new System.Windows.Forms.ToolStripButton();
             this.ToolNodeTypeIsolation = new System.Windows.Forms.ToolStripButton();
             this.ToolNodeTypeDock = new System.Windows.Forms.ToolStripButton();
+            this.ToolNodeTypeEntrance = new System.Windows.Forms.ToolStripButton();
+            this.ToolNodeTypePPP = new System.Windows.Forms.ToolStripButton();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.img)).BeginInit();
             this.SuspendLayout();
@@ -55,10 +57,12 @@
             this.toolStripButton2,
             this.toolStripLabel1,
             this.ToolNodeTypeIsolation,
-            this.ToolNodeTypeDock});
+            this.ToolNodeTypeDock,
+            this.ToolNodeTypeEntrance,
+            this.ToolNodeTypePPP});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(262, 25);
+            this.toolStrip.Size = new System.Drawing.Size(439, 25);
             this.toolStrip.TabIndex = 0;
             this.toolStrip.Text = "toolStrip1";
             // 
@@ -85,7 +89,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.img.Location = new System.Drawing.Point(3, 28);
             this.img.Name = "img";
-            this.img.Size = new System.Drawing.Size(256, 158);
+            this.img.Size = new System.Drawing.Size(433, 189);
             this.img.TabIndex = 1;
             this.img.TabStop = false;
             this.img.Click += new System.EventHandler(this.img_Click);
@@ -159,6 +163,27 @@
             this.ToolNodeTypeDock.Text = "Set node type to dock";
             this.ToolNodeTypeDock.Click += new System.EventHandler(this.ToolNodeTypeDock_Click);
             // 
+            // ToolNodeTypeEntrance
+            // 
+            this.ToolNodeTypeEntrance.CheckOnClick = true;
+            this.ToolNodeTypeEntrance.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolNodeTypeEntrance.Image = global::TrainProject.Properties.Resources.ToolNodeTypeInput;
+            this.ToolNodeTypeEntrance.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolNodeTypeEntrance.Name = "ToolNodeTypeEntrance";
+            this.ToolNodeTypeEntrance.Size = new System.Drawing.Size(23, 22);
+            this.ToolNodeTypeEntrance.Text = "Set node type to input";
+            this.ToolNodeTypeEntrance.Click += new System.EventHandler(this.ToolNodeTypeEntrance_Click);
+            // 
+            // ToolNodeTypePPP
+            // 
+            this.ToolNodeTypePPP.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolNodeTypePPP.Image = global::TrainProject.Properties.Resources.ToolNodeTypePPP;
+            this.ToolNodeTypePPP.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolNodeTypePPP.Name = "ToolNodeTypePPP";
+            this.ToolNodeTypePPP.Size = new System.Drawing.Size(23, 22);
+            this.ToolNodeTypePPP.Text = "toolStripButton1";
+            this.ToolNodeTypePPP.Click += new System.EventHandler(this.ToolNodeTypePPP_Click);
+            // 
             // JEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -166,7 +191,7 @@
             this.Controls.Add(this.img);
             this.Controls.Add(this.toolStrip);
             this.Name = "JEditor";
-            this.Size = new System.Drawing.Size(262, 189);
+            this.Size = new System.Drawing.Size(439, 220);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.img)).EndInit();
@@ -188,5 +213,7 @@
         private System.Windows.Forms.ToolStripButton ToolNodeTypeDock;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripButton ToolNodeTypeIsolation;
+        private System.Windows.Forms.ToolStripButton ToolNodeTypeEntrance;
+        private System.Windows.Forms.ToolStripButton ToolNodeTypePPP;
     }
 }

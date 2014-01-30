@@ -42,7 +42,7 @@ namespace TrainProject.JunctionEditor
 
         private MouseAction mouseAction_ = MouseAction.None;
 
-        private Node.NodeType newNodeType = Node.NodeType.Isolation;
+        private Node.NodeType? newNodeType_ = Node.NodeType.Isolation;
 
 
         private void img_MouseMove(object sender, MouseEventArgs e)
@@ -70,6 +70,7 @@ namespace TrainProject.JunctionEditor
                     tempNode_.SetPosition(e.Location);
                     break;
                 case MouseAction.UpdateNodeType:
+                    UpdateSelectionStates(e.Location);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -115,31 +116,13 @@ namespace TrainProject.JunctionEditor
                     break;
                 case MouseAction.UpdateNodeType:
                     node = GetFirstSelectedNode();
-                    if (node != null)
-                    {
-                        node.Type = newNodeType;
-                    }
+                    if (node != null && newNodeType_.HasValue)
+                        node.Type = newNodeType_.Value;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
             img.Invalidate();
-        }
-
-
-        private void RemoveSelectedNode()
-        {
-            var node = GetFirstSelectedNode();
-            if (node != null)
-            {
-                var nodeToRemove = nodes.FirstOrDefault(n => n == node);
-
-                var linksToRemove = links.Where(l => l.From == nodeToRemove || l.To == nodeToRemove).ToList();
-                foreach (var link in linksToRemove)
-                    links.Remove(link);
-
-                nodes.Remove(nodeToRemove);
-            }
         }
 
 
@@ -236,6 +219,20 @@ namespace TrainProject.JunctionEditor
 
         #endregion
 
+        private void RemoveSelectedNode()
+        {
+            var node = GetFirstSelectedNode();
+            if (node != null)
+            {
+                var nodeToRemove = nodes.FirstOrDefault(n => n == node);
+
+                var linksToRemove = links.Where(l => l.From == nodeToRemove || l.To == nodeToRemove).ToList();
+                foreach (var link in linksToRemove)
+                    links.Remove(link);
+
+                nodes.Remove(nodeToRemove);
+            }
+        }
 
         private void UpdateSelectionStates(Point position)
         {
@@ -284,22 +281,34 @@ namespace TrainProject.JunctionEditor
 
 
         private void ToolNodeTypeDock_Click(object sender, EventArgs e)
-        {
-            ToolPutNodes.Checked = false;
-            ToolMoveNodes.Checked = false;
-            ToolCreateLink.Checked = false;
-            mouseAction_ = ToolNodeTypeDock.Checked ? MouseAction.UpdateNodeType : MouseAction.None;
-            newNodeType = Node.NodeType.Dock;
-        }
-
+        { SelectActiveToolTypeButton(Node.NodeType.Dock); }
 
         private void ToolNodeTypeIsolation_Click(object sender, EventArgs e)
+        { SelectActiveToolTypeButton(Node.NodeType.Isolation); }
+
+        private void ToolNodeTypeEntrance_Click(object sender, EventArgs e)
+        { SelectActiveToolTypeButton(Node.NodeType.Entrance); }
+
+        private void ToolNodeTypePPP_Click(object sender, EventArgs e)
+        { SelectActiveToolTypeButton(Node.NodeType.Ppp); }
+
+        private void SelectActiveToolTypeButton(Node.NodeType? nodeType)
         {
             ToolPutNodes.Checked = false;
             ToolMoveNodes.Checked = false;
             ToolCreateLink.Checked = false;
-            mouseAction_ = ToolNodeTypeDock.Checked ? MouseAction.UpdateNodeType : MouseAction.None;
-            newNodeType = Node.NodeType.Isolation;
+
+            mouseAction_ = MouseAction.UpdateNodeType;
+
+            if (nodeType.HasValue)
+            {
+                ToolNodeTypeDock.Checked = Node.NodeType.Dock == nodeType.Value;
+                ToolNodeTypeIsolation.Checked = Node.NodeType.Isolation == nodeType.Value;
+                ToolNodeTypeEntrance.Checked = Node.NodeType.Entrance == nodeType.Value;
+                ToolNodeTypePPP.Checked = Node.NodeType.Ppp == nodeType.Value;
+            }
+
+            newNodeType_ = nodeType;
         }
     }
 }

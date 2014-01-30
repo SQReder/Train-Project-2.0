@@ -127,6 +127,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="JunctionEditor\Images\Node.png" />
+    <None Include="Resources\ToolNodeTypeInput.png" />
+    <None Include="Resources\ToolNodeTypePPP.png" />
     <Content Include="train-512.ico" />
     <None Include="Resources\ToolNodeTypeIsolation.png" />
     <None Include="Resources\ToolNodeTypeDock.png" />
