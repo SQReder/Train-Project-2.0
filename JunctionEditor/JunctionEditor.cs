@@ -28,8 +28,6 @@ namespace TrainProject.JunctionEditor
 
         #region mouse events
 
-        private Point lastMousePos;
-
         private enum MouseAction
         {
             None,

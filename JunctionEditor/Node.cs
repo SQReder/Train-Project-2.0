@@ -9,7 +9,7 @@ namespace TrainProject.JunctionEditor
     {
         private const int Radius = 5;
         private Point position_ = new Point(0,0);
-        private Brush highlightBrush_ = Brushes.DodgerBlue;
+        private readonly Brush highlightBrush_ = Brushes.DodgerBlue;
         private readonly Pen pen_ = new Pen(Color.SteelBlue,2f);
         private bool isSelected_;
         private string title_;
@@ -36,8 +36,10 @@ namespace TrainProject.JunctionEditor
                     rect = new Rectangle(position.X - Radius, position.Y - Radius, Radius * 2, Radius * 2);
 
                     if (IsSelected())
-                        graphics.FillEllipse(highlightBrush_, rect);
-                    graphics.DrawEllipse(pen_, rect);
+                        graphics.FillRectangle(highlightBrush_, rect);
+                    graphics.DrawLine(pen_, new Point(position.X - Radius, position.Y - Radius), new Point(position.X + Radius, position.Y - Radius));
+                    graphics.DrawLine(pen_, new Point(position.X, position.Y - Radius), new Point(position.X, position.Y + Radius));
+                    graphics.DrawLine(pen_, new Point(position.X - Radius, position.Y + Radius), new Point(position.X + Radius, position.Y + Radius));
                     break;
 
                 case NodeType.Entrance:

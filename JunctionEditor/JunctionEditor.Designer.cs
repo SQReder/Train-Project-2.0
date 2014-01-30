@@ -30,18 +30,19 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JEditor));
             this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.img = new System.Windows.Forms.PictureBox();
             this.ToolPutNodes = new System.Windows.Forms.ToolStripButton();
             this.ToolMoveNodes = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolCreateLink = new System.Windows.Forms.ToolStripButton();
             this.CreateNewNodeForLinks = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.ToolNodeTypeIsolation = new System.Windows.Forms.ToolStripButton();
             this.ToolNodeTypeDock = new System.Windows.Forms.ToolStripButton();
             this.ToolNodeTypeEntrance = new System.Windows.Forms.ToolStripButton();
             this.ToolNodeTypePPP = new System.Windows.Forms.ToolStripButton();
+            this.img = new System.Windows.Forms.PictureBox();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.img)).BeginInit();
             this.SuspendLayout();
@@ -59,44 +60,13 @@
             this.ToolNodeTypeIsolation,
             this.ToolNodeTypeDock,
             this.ToolNodeTypeEntrance,
-            this.ToolNodeTypePPP});
+            this.ToolNodeTypePPP,
+            this.toolStripButton1});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(439, 25);
             this.toolStrip.TabIndex = 0;
             this.toolStrip.Text = "toolStrip1";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(70, 22);
-            this.toolStripLabel1.Text = "Node types:";
-            // 
-            // img
-            // 
-            this.img.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.img.Location = new System.Drawing.Point(3, 28);
-            this.img.Name = "img";
-            this.img.Size = new System.Drawing.Size(433, 189);
-            this.img.TabIndex = 1;
-            this.img.TabStop = false;
-            this.img.Click += new System.EventHandler(this.img_Click);
-            this.img.Paint += new System.Windows.Forms.PaintEventHandler(this.img_Paint);
-            this.img.MouseDown += new System.Windows.Forms.MouseEventHandler(this.img_MouseDown);
-            this.img.MouseMove += new System.Windows.Forms.MouseEventHandler(this.img_MouseMove);
-            this.img.MouseUp += new System.Windows.Forms.MouseEventHandler(this.img_MouseUp);
             // 
             // ToolPutNodes
             // 
@@ -120,6 +90,11 @@
             this.ToolMoveNodes.Text = "Move nodes";
             this.ToolMoveNodes.Click += new System.EventHandler(this.ToolMoveNodes_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
             // ToolCreateLink
             // 
             this.ToolCreateLink.CheckOnClick = true;
@@ -141,11 +116,22 @@
             this.CreateNewNodeForLinks.Size = new System.Drawing.Size(23, 22);
             this.CreateNewNodeForLinks.Text = "Create new nodes when link to nowere";
             // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(70, 22);
+            this.toolStripLabel1.Text = "Node types:";
+            // 
             // ToolNodeTypeIsolation
             // 
             this.ToolNodeTypeIsolation.CheckOnClick = true;
             this.ToolNodeTypeIsolation.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolNodeTypeIsolation.Image = global::TrainProject.Properties.Resources.ToolNodeTypeIsolation;
+            this.ToolNodeTypeIsolation.Image = global::TrainProject.Properties.Resources.NodeTypeIsolation;
             this.ToolNodeTypeIsolation.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolNodeTypeIsolation.Name = "ToolNodeTypeIsolation";
             this.ToolNodeTypeIsolation.Size = new System.Drawing.Size(23, 22);
@@ -184,6 +170,31 @@
             this.ToolNodeTypePPP.Text = "toolStripButton1";
             this.ToolNodeTypePPP.Click += new System.EventHandler(this.ToolNodeTypePPP_Click);
             // 
+            // img
+            // 
+            this.img.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.img.Location = new System.Drawing.Point(3, 28);
+            this.img.Name = "img";
+            this.img.Size = new System.Drawing.Size(433, 189);
+            this.img.TabIndex = 1;
+            this.img.TabStop = false;
+            this.img.Click += new System.EventHandler(this.img_Click);
+            this.img.Paint += new System.Windows.Forms.PaintEventHandler(this.img_Paint);
+            this.img.MouseDown += new System.Windows.Forms.MouseEventHandler(this.img_MouseDown);
+            this.img.MouseMove += new System.Windows.Forms.MouseEventHandler(this.img_MouseMove);
+            this.img.MouseUp += new System.Windows.Forms.MouseEventHandler(this.img_MouseUp);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = global::TrainProject.Properties.Resources.NodeTypeIsolation;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
+            // 
             // JEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -215,5 +226,6 @@
         private System.Windows.Forms.ToolStripButton ToolNodeTypeIsolation;
         private System.Windows.Forms.ToolStripButton ToolNodeTypeEntrance;
         private System.Windows.Forms.ToolStripButton ToolNodeTypePPP;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }

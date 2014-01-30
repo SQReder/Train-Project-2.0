@@ -13,7 +13,7 @@ namespace TrainProject.JunctionEditor
     {
         private const float LineMargin = 8f;
         private Node from_, to_;
-        static Pen pen = new Pen(Color.DarkViolet, 2f)
+        static readonly Pen pen = new Pen(Color.DarkViolet, 2f)
         {
             DashCap = DashCap.Round,
             DashPattern = new[] { 2.0F, 1.0F }
