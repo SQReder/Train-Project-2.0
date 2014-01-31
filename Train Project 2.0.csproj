@@ -130,6 +130,7 @@
     <None Include="Resources\ToolNodeTypeInput.png" />
     <None Include="Resources\ToolNodeTypePPP.png" />
     <None Include="Resources\NodeTypeIsolation.png" />
+    <None Include="Resources\NodeTypeCross.png" />
     <Content Include="train-512.ico" />
     <None Include="Resources\ToolNodeTypeIsolation.png" />
     <None Include="Resources\ToolNodeTypeDock.png" />

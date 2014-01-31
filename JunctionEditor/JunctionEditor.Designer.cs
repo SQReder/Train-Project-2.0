@@ -41,8 +41,8 @@
             this.ToolNodeTypeDock = new System.Windows.Forms.ToolStripButton();
             this.ToolNodeTypeEntrance = new System.Windows.Forms.ToolStripButton();
             this.ToolNodeTypePPP = new System.Windows.Forms.ToolStripButton();
+            this.ToolNodeTypeCross = new System.Windows.Forms.ToolStripButton();
             this.img = new System.Windows.Forms.PictureBox();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.img)).BeginInit();
             this.SuspendLayout();
@@ -57,11 +57,11 @@
             this.CreateNewNodeForLinks,
             this.toolStripButton2,
             this.toolStripLabel1,
-            this.ToolNodeTypeIsolation,
-            this.ToolNodeTypeDock,
             this.ToolNodeTypeEntrance,
-            this.ToolNodeTypePPP,
-            this.toolStripButton1});
+            this.ToolNodeTypeIsolation,
+            this.ToolNodeTypeCross,
+            this.ToolNodeTypeDock,
+            this.ToolNodeTypePPP});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(439, 25);
@@ -170,6 +170,16 @@
             this.ToolNodeTypePPP.Text = "toolStripButton1";
             this.ToolNodeTypePPP.Click += new System.EventHandler(this.ToolNodeTypePPP_Click);
             // 
+            // ToolNodeTypeCross
+            // 
+            this.ToolNodeTypeCross.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolNodeTypeCross.Image = global::TrainProject.Properties.Resources.NodeTypeCross;
+            this.ToolNodeTypeCross.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolNodeTypeCross.Name = "ToolNodeTypeCross";
+            this.ToolNodeTypeCross.Size = new System.Drawing.Size(23, 22);
+            this.ToolNodeTypeCross.Text = "toolStripButton1";
+            this.ToolNodeTypeCross.Click += new System.EventHandler(this.ToolNodeTypeCross_Click);
+            // 
             // img
             // 
             this.img.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -185,15 +195,6 @@
             this.img.MouseDown += new System.Windows.Forms.MouseEventHandler(this.img_MouseDown);
             this.img.MouseMove += new System.Windows.Forms.MouseEventHandler(this.img_MouseMove);
             this.img.MouseUp += new System.Windows.Forms.MouseEventHandler(this.img_MouseUp);
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::TrainProject.Properties.Resources.NodeTypeIsolation;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
             // 
             // JEditor
             // 
@@ -226,6 +227,6 @@
         private System.Windows.Forms.ToolStripButton ToolNodeTypeIsolation;
         private System.Windows.Forms.ToolStripButton ToolNodeTypeEntrance;
         private System.Windows.Forms.ToolStripButton ToolNodeTypePPP;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton ToolNodeTypeCross;
     }
 }

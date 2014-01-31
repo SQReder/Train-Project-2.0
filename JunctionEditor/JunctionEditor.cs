@@ -290,6 +290,10 @@ namespace TrainProject.JunctionEditor
         private void ToolNodeTypePPP_Click(object sender, EventArgs e)
         { SelectActiveToolTypeButton(Node.NodeType.Ppp); }
 
+        private void ToolNodeTypeCross_Click(object sender, EventArgs e)
+        { SelectActiveToolTypeButton(Node.NodeType.Cross); }
+
+
         private void SelectActiveToolTypeButton(Node.NodeType? nodeType)
         {
             ToolPutNodes.Checked = false;
@@ -304,6 +308,7 @@ namespace TrainProject.JunctionEditor
                 ToolNodeTypeIsolation.Checked = Node.NodeType.Isolation == nodeType.Value;
                 ToolNodeTypeEntrance.Checked = Node.NodeType.Entrance == nodeType.Value;
                 ToolNodeTypePPP.Checked = Node.NodeType.Ppp == nodeType.Value;
+                ToolNodeTypeCross.Checked = Node.NodeType.Cross == nodeType.Value;
             }
 
             newNodeType_ = nodeType;

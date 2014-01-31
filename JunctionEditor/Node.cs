@@ -100,6 +100,14 @@ namespace TrainProject.JunctionEditor
                     break;
 
                 case NodeType.Cross:
+
+                    if (IsSelected())
+                    {
+                        rect = new Rectangle(position.X - Radius, position.Y - Radius, Radius * 2, Radius * 2);
+                        graphics.FillRectangle(highlightBrush_, rect);
+                    }
+                    graphics.DrawLine(pen_, new Point(position.X - Radius, position.Y), new Point(position.X + Radius, position.Y));
+                    graphics.DrawLine(pen_, new Point(position.X - (int)(Radius * 0.5), position.Y), new Point(position.X + (int)(Radius * 0.8), position.Y + (int)(Radius * 0.8)));
                     break;
 
                 default:
