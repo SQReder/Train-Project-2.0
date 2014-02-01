@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TrainProject.JunctionEditor
@@ -12,8 +8,10 @@ namespace TrainProject.JunctionEditor
     class Link: IDrawable
     {
         private const float LineMargin = 8f;
-        private Node from_, to_;
-        static readonly Pen pen = new Pen(Color.DarkViolet, 2f)
+        private readonly Node from_;
+        private Node to_;
+
+        static readonly Pen Pen = new Pen(Color.DarkViolet, 2f)
         {
             DashCap = DashCap.Round,
             DashPattern = new[] { 2.0F, 1.0F }
@@ -44,10 +42,10 @@ namespace TrainProject.JunctionEditor
                 var a = croppedLine.Item1;
                 var b = croppedLine.Item2;
 
-                graphics.DrawLine(pen, a, b);
+                graphics.DrawLine(Pen, a, b);
 
                 if (from_.Distance(to_.GetPosition()) > LineMargin*2)
-                    DrawArrowHead(graphics, pen, from_, to_);
+                    DrawArrowHead(graphics, Pen, from_, to_);
             }
             catch (Exception e)
             {
@@ -73,12 +71,12 @@ namespace TrainProject.JunctionEditor
 
             var normal = new PointF(-mainVectorNormal.Y, mainVectorNormal.X);
 
-            var A = new PointF(start.X + o.X + normal.X * w, start.Y + o.Y + normal.Y * w);
-            var B = new PointF(start.X + o.X + normal.X * -w, start.Y + o.Y + normal.Y * -w);
+            var a = new PointF(start.X + o.X + normal.X * w, start.Y + o.Y + normal.Y * w);
+            var b = new PointF(start.X + o.X + normal.X * -w, start.Y + o.Y + normal.Y * -w);
 
             var headPen = new Pen(parentPen.Color, parentPen.Width);
-            g.DrawLine(headPen, end, A);
-            g.DrawLine(headPen, end, B);
+            g.DrawLine(headPen, end, a);
+            g.DrawLine(headPen, end, b);
         }
 
         private static Tuple<PointF, PointF> GetCroppedLine(IPositionable nodeStart, IPositionable nodeEnd, float crops)
@@ -89,10 +87,10 @@ namespace TrainProject.JunctionEditor
             var mainVectorLen = (float)nodeStart.Distance(nodeEnd.GetPosition());
             var mainVectorNormal = new PointF(mainVector.X / mainVectorLen, mainVector.Y / mainVectorLen);
 
-            var A = new PointF(start.X + mainVectorNormal.X * crops, start.Y + mainVectorNormal.Y * crops);
-            var B = new PointF(end.X - mainVectorNormal.X * crops, end.Y - mainVectorNormal.Y * crops);
+            var a = new PointF(start.X + mainVectorNormal.X * crops, start.Y + mainVectorNormal.Y * crops);
+            var b = new PointF(end.X - mainVectorNormal.X * crops, end.Y - mainVectorNormal.Y * crops);
 
-            return new Tuple<PointF, PointF>(A, B);
+            return new Tuple<PointF, PointF>(a, b);
         }
     }
 }

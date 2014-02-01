@@ -12,8 +12,7 @@ namespace TrainProject.JunctionEditor
     {
         #region vars
         
-        private List<Node> nodes = new List<Node>();
-        private List<Link> links = new List<Link>(); 
+        private readonly JunctionRepository repository_ = new JunctionRepository();
 
         private Node tempNode_;
         private Node movingNodeRef_;
@@ -79,7 +78,6 @@ namespace TrainProject.JunctionEditor
 
         private void img_MouseDown(object sender, MouseEventArgs e)
         {
-            Node node;
             switch (mouseAction_)
             {
                 case MouseAction.None:
@@ -96,10 +94,10 @@ namespace TrainProject.JunctionEditor
                     }
                     break;
                 case MouseAction.MoveNode:
-                    movingNodeRef_ = GetFirstSelectedNode();
+                    movingNodeRef_ = repository_.GetFirstSelectedNode();
                     break;
                 case MouseAction.AddLinkFindStartNode:
-                    var startNode = GetFirstSelectedNode();
+                    var startNode = repository_.GetFirstSelectedNode();
                     if (startNode != null)
                     {
                         tempNode_ = new Node();
@@ -110,10 +108,10 @@ namespace TrainProject.JunctionEditor
                     break;
                 case MouseAction.AddLinkFindEndNode:
                     UpdateSelectionStates(e.Location);
-                    tempLink_.To = GetFirstSelectedNode() ?? tempNode_;
+                    tempLink_.To = repository_.GetFirstSelectedNode() ?? tempNode_;
                     break;
                 case MouseAction.UpdateNodeType:
-                    node = GetFirstSelectedNode();
+                    Node node = repository_.GetFirstSelectedNode();
                     if (node != null && newNodeType_.HasValue)
                         node.Type = newNodeType_.Value;
                     break;
@@ -134,8 +132,8 @@ namespace TrainProject.JunctionEditor
                     if (tempNode_ != null)
                     {
                         tempNode_.SetPosition(e.Location);
-                        tempNode_.Title = nodes.Count.ToString(CultureInfo.InvariantCulture);
-                        nodes.Add(tempNode_);
+                        tempNode_.Title = repository_.ListNodes().Count().ToString(CultureInfo.InvariantCulture);
+                        repository_.AddNode(tempNode_);
                         tempNode_ = null;
                     }
                     break;
@@ -146,28 +144,28 @@ namespace TrainProject.JunctionEditor
                     tempLink_ = null;
                     break;
                 case MouseAction.AddLinkFindEndNode:
-                    var node = GetFirstSelectedNode();
+                    var node = repository_.GetFirstSelectedNode();
                     if (node != null)
                     {
                         tempLink_.To = node;
                         var sameLink =
-                            links.FirstOrDefault(l => l.From == tempLink_.From && l.To == tempLink_.To);
-                        var reverseLink = links.FirstOrDefault(l => l.From == tempLink_.To && l.To == tempLink_.From);
+                            repository_.ListLinks().FirstOrDefault(l => l.From == tempLink_.From && l.To == tempLink_.To);
+                        var reverseLink = repository_.ListLinks().FirstOrDefault(l => l.From == tempLink_.To && l.To == tempLink_.From);
                         if (sameLink != null)
-                            links.Remove(sameLink);
+                            repository_.RemoveLink(sameLink);
                         else if (reverseLink != null)
                         {
-                            links.Remove(reverseLink);
-                            links.Add(tempLink_);
+                            repository_.RemoveLink(reverseLink);
+                            repository_.AddLink(tempLink_);
                         }
                         else
-                            links.Add(tempLink_);
+                            repository_.AddLink(tempLink_);
                     }
                     else if (CreateNewNodeForLinks.Checked)
                     {
-                        tempNode_.Title = nodes.Count.ToString(CultureInfo.InvariantCulture);
-                        nodes.Add(tempNode_);
-                        links.Add(tempLink_);
+                        tempNode_.Title = repository_.ListNodes().Count().ToString(CultureInfo.InvariantCulture);
+                        repository_.AddNode(tempNode_);
+                        repository_.AddLink(tempLink_);
                     }
 
                     tempNode_ = null;
@@ -192,8 +190,8 @@ namespace TrainProject.JunctionEditor
         {
             var graphics = e.Graphics;
             graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            DrawSomething(graphics, links);
-            DrawSomething(graphics, nodes);
+            DrawSomething(graphics, repository_.ListLinks());
+            DrawSomething(graphics, repository_.ListNodes());
             DrawSomething(graphics, tempNode_);
             DrawSomething(graphics, tempLink_);
         }
@@ -219,31 +217,15 @@ namespace TrainProject.JunctionEditor
 
         private void RemoveSelectedNode()
         {
-            var node = GetFirstSelectedNode();
-            if (node != null)
-            {
-                var nodeToRemove = nodes.FirstOrDefault(n => n == node);
-
-                var linksToRemove = links.Where(l => l.From == nodeToRemove || l.To == nodeToRemove).ToList();
-                foreach (var link in linksToRemove)
-                    links.Remove(link);
-
-                nodes.Remove(nodeToRemove);
-            }
+            var node = repository_.GetFirstSelectedNode();
+            repository_.RemoveNode(node);
         }
 
         private void UpdateSelectionStates(Point position)
         {
-            foreach (var node in nodes)
+            foreach (var node in repository_.ListNodes())
                 node.UpdateSelectionState(position);
         }
-
-
-        private Node GetFirstSelectedNode()
-        {
-            return nodes.FirstOrDefault(node => node.IsSelected());
-        }
-
 
         private void img_Click(object sender, EventArgs e)
         {
