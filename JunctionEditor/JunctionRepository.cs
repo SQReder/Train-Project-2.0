@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace TrainProject.JunctionEditor
@@ -76,6 +77,11 @@ namespace TrainProject.JunctionEditor
         public Node GetFirstSelectedNode()
         {
             return nodes_.FirstOrDefault(node => node.IsSelected());
+        }
+
+        public void UpdateSelectionStates(Point position)
+        {
+            nodes_.ForEach(n => n.UpdateSelectionState(position));
         }
 
         #endregion

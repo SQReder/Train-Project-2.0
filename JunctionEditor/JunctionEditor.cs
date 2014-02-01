@@ -44,30 +44,36 @@ namespace TrainProject.JunctionEditor
 
         private void img_MouseMove(object sender, MouseEventArgs e)
         {
+            repository_.UpdateSelectionStates(e.Location);
             switch (mouseAction_)
             {
                 case MouseAction.None:
                     break;
                 case MouseAction.PutNode:
-                    UpdateSelectionStates(e.Location);
                     if (tempNode_ != null)
                         tempNode_.SetPosition(e.Location);
                     break;
                 case MouseAction.MoveNode:
-                    if (movingNodeRef_ == null)
-                        UpdateSelectionStates(e.Location);
-                    else
+                    if (movingNodeRef_ != null)
                         movingNodeRef_.SetPosition(e.Location);
                     break;
                 case MouseAction.AddLinkFindStartNode:
-                    UpdateSelectionStates(e.Location);
                     break;
                 case MouseAction.AddLinkFindEndNode:
-                    UpdateSelectionStates(e.Location);
-                    tempNode_.SetPosition(e.Location);
+                    var firstSelectedNode = repository_.GetFirstSelectedNode();
+                    if (firstSelectedNode == null)
+                    {
+                        tempNode_ = new Node();
+                        tempNode_.SetPosition(e.Location);
+                        tempLink_.To = tempNode_; 
+                    }
+                    else
+                    {
+                        tempNode_ = null;
+                        tempLink_.To = firstSelectedNode;
+                    }
                     break;
                 case MouseAction.UpdateNodeType:
-                    UpdateSelectionStates(e.Location);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -107,7 +113,7 @@ namespace TrainProject.JunctionEditor
                     }
                     break;
                 case MouseAction.AddLinkFindEndNode:
-                    UpdateSelectionStates(e.Location);
+                    repository_.UpdateSelectionStates(e.Location);
                     tempLink_.To = repository_.GetFirstSelectedNode() ?? tempNode_;
                     break;
                 case MouseAction.UpdateNodeType:
@@ -221,11 +227,6 @@ namespace TrainProject.JunctionEditor
             repository_.RemoveNode(node);
         }
 
-        private void UpdateSelectionStates(Point position)
-        {
-            foreach (var node in repository_.ListNodes())
-                node.UpdateSelectionState(position);
-        }
 
         private void img_Click(object sender, EventArgs e)
         {
