@@ -1,0 +1,14 @@
+{"From":{"Position":"73, 137","Type":1,"Title":"0"},"To":{"Position":"173, 138","Type":4,"Title":"1"}}
+{"From":{"Position":"173, 138","Type":4,"Title":"1"},"To":{"Position":"273, 139","Type":4,"Title":"2"}}
+{"From":{"Position":"273, 139","Type":4,"Title":"2"},"To":{"Position":"373, 139","Type":4,"Title":"3"}}
+{"From":{"Position":"118, 54","Type":1,"Title":"4"},"To":{"Position":"218, 55","Type":0,"Title":"6"}}
+{"From":{"Position":"218, 55","Type":0,"Title":"6"},"To":{"Position":"273, 139","Type":4,"Title":"2"}}
+{"From":{"Position":"73, 225","Type":1,"Title":"5"},"To":{"Position":"223, 225","Type":4,"Title":"7"}}
+{"From":{"Position":"223, 225","Type":4,"Title":"7"},"To":{"Position":"323, 225","Type":4,"Title":"8"}}
+{"From":{"Position":"173, 138","Type":4,"Title":"1"},"To":{"Position":"223, 225","Type":4,"Title":"7"}}
+{"From":{"Position":"373, 139","Type":4,"Title":"3"},"To":{"Position":"424, 225","Type":4,"Title":"9"}}
+{"From":{"Position":"323, 225","Type":4,"Title":"8"},"To":{"Position":"424, 225","Type":4,"Title":"9"}}
+{"From":{"Position":"373, 139","Type":4,"Title":"3"},"To":{"Position":"523, 140","Type":0,"Title":"10"}}
+{"From":{"Position":"424, 225","Type":4,"Title":"9"},"To":{"Position":"524, 225","Type":2,"Title":"11"}}
+{"From":{"Position":"323, 225","Type":4,"Title":"8"},"To":{"Position":"371, 313","Type":0,"Title":"12"}}
+{"From":{"Position":"371, 313","Type":0,"Title":"12"},"To":{"Position":"471, 313","Type":3,"Title":"13"}}

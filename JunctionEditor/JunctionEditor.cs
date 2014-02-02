@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace TrainProject.JunctionEditor
 {
@@ -296,6 +298,29 @@ namespace TrainProject.JunctionEditor
         private void ToolClearEditor_Click(object sender, EventArgs e)
         {
             repository_.Clear();
+        }
+
+        private void ToolLoadFromFile_Click(object sender, EventArgs e)
+        {
+            var result = openFileDialog.ShowDialog();
+            if (result != DialogResult.OK)
+                return;
+            
+            var filename = openFileDialog.FileName;
+            var text = File.ReadAllText(filename);
+            repository_.Deserialize(text);
+            Invalidate(true);
+        }
+
+        private void ToolSaveToFile_Click(object sender, EventArgs e)
+        {
+            var result = saveFileDialog.ShowDialog();
+            if (result != DialogResult.OK)
+                return;
+
+            var filename = saveFileDialog.FileName;
+            var serializedData = repository_.Serialize();
+            File.WriteAllText(filename, serializedData);
         }
     }
 }

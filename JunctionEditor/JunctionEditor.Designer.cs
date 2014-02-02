@@ -34,7 +34,13 @@
             this.toolStripButton2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.img = new System.Windows.Forms.PictureBox();
+            this.ToolClearEditor = new System.Windows.Forms.ToolStripButton();
+            this.ToolLoadFromFile = new System.Windows.Forms.ToolStripButton();
+            this.ToolSaveToFile = new System.Windows.Forms.ToolStripButton();
             this.ToolPutNodes = new System.Windows.Forms.ToolStripButton();
             this.ToolMoveNodes = new System.Windows.Forms.ToolStripButton();
             this.ToolCreateLink = new System.Windows.Forms.ToolStripButton();
@@ -44,7 +50,6 @@
             this.ToolNodeTypeCross = new System.Windows.Forms.ToolStripButton();
             this.ToolNodeTypeDock = new System.Windows.Forms.ToolStripButton();
             this.ToolNodeTypePPP = new System.Windows.Forms.ToolStripButton();
-            this.ToolClearEditor = new System.Windows.Forms.ToolStripButton();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.img)).BeginInit();
             this.SuspendLayout();
@@ -52,6 +57,10 @@
             // toolStrip
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolClearEditor,
+            this.ToolLoadFromFile,
+            this.ToolSaveToFile,
+            this.toolStripSeparator2,
             this.ToolPutNodes,
             this.ToolMoveNodes,
             this.toolStripSeparator1,
@@ -64,8 +73,7 @@
             this.ToolNodeTypeCross,
             this.ToolNodeTypeDock,
             this.ToolNodeTypePPP,
-            this.toolStripButton1,
-            this.ToolClearEditor});
+            this.toolStripButton1});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(439, 25);
@@ -93,6 +101,22 @@
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(6, 25);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "*.jun";
+            this.openFileDialog.Filter = "Junction files|*.jun|All files|*.*";
+            this.openFileDialog.InitialDirectory = ".";
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Filter = "Junction files|*.jun|All files|*.*";
+            this.saveFileDialog.InitialDirectory = ".";
+            // 
             // img
             // 
             this.img.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -108,6 +132,36 @@
             this.img.MouseDown += new System.Windows.Forms.MouseEventHandler(this.img_MouseDown);
             this.img.MouseMove += new System.Windows.Forms.MouseEventHandler(this.img_MouseMove);
             this.img.MouseUp += new System.Windows.Forms.MouseEventHandler(this.img_MouseUp);
+            // 
+            // ToolClearEditor
+            // 
+            this.ToolClearEditor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolClearEditor.Image = global::TrainProject.Properties.Resources.document_16xLG;
+            this.ToolClearEditor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolClearEditor.Name = "ToolClearEditor";
+            this.ToolClearEditor.Size = new System.Drawing.Size(23, 22);
+            this.ToolClearEditor.Text = "New junction";
+            this.ToolClearEditor.Click += new System.EventHandler(this.ToolClearEditor_Click);
+            // 
+            // ToolLoadFromFile
+            // 
+            this.ToolLoadFromFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolLoadFromFile.Image = global::TrainProject.Properties.Resources.folder_Open_16xLG;
+            this.ToolLoadFromFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolLoadFromFile.Name = "ToolLoadFromFile";
+            this.ToolLoadFromFile.Size = new System.Drawing.Size(23, 22);
+            this.ToolLoadFromFile.Text = "toolStripButton3";
+            this.ToolLoadFromFile.Click += new System.EventHandler(this.ToolLoadFromFile_Click);
+            // 
+            // ToolSaveToFile
+            // 
+            this.ToolSaveToFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolSaveToFile.Image = global::TrainProject.Properties.Resources.save_16xLG;
+            this.ToolSaveToFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolSaveToFile.Name = "ToolSaveToFile";
+            this.ToolSaveToFile.Size = new System.Drawing.Size(23, 22);
+            this.ToolSaveToFile.Text = "toolStripButton4";
+            this.ToolSaveToFile.Click += new System.EventHandler(this.ToolSaveToFile_Click);
             // 
             // ToolPutNodes
             // 
@@ -205,16 +259,6 @@
             this.ToolNodeTypePPP.Text = "Set node type to PPP";
             this.ToolNodeTypePPP.Click += new System.EventHandler(this.ToolNodeTypePPP_Click);
             // 
-            // ToolClearEditor
-            // 
-            this.ToolClearEditor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolClearEditor.Image = global::TrainProject.Properties.Resources.EraseTool_203;
-            this.ToolClearEditor.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolClearEditor.Name = "ToolClearEditor";
-            this.ToolClearEditor.Size = new System.Drawing.Size(23, 22);
-            this.ToolClearEditor.Text = "Erase editor";
-            this.ToolClearEditor.Click += new System.EventHandler(this.ToolClearEditor_Click);
-            // 
             // JEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -249,5 +293,10 @@
         private System.Windows.Forms.ToolStripButton ToolNodeTypeCross;
         private System.Windows.Forms.ToolStripSeparator toolStripButton1;
         private System.Windows.Forms.ToolStripButton ToolClearEditor;
+        private System.Windows.Forms.ToolStripButton ToolLoadFromFile;
+        private System.Windows.Forms.ToolStripButton ToolSaveToFile;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }
