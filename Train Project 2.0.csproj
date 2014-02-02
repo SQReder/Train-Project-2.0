@@ -137,13 +137,17 @@
     <None Include="Resources\NodeTypeIsolation.png" />
     <None Include="Resources\NodeTypeCross.png" />
     <None Include="Resources\ToolClearEditor.png" />
+    <None Include="Resources\save_16xLG.png" />
+    <None Include="Resources\folder_Open_16xLG.png" />
+    <None Include="Resources\arrow_Next_16xLG.png" />
+    <None Include="Resources\arrow_previous_16xLG.png" />
+    <None Include="Resources\EraseTool_203.png" />
     <Content Include="train-512.ico" />
     <None Include="Resources\ToolNodeTypeIsolation.png" />
     <None Include="Resources\ToolNodeTypeDock.png" />
     <None Include="Resources\CreateNewNodesForLinks.png" />
     <None Include="Resources\ToolCreateLink.png" />
     <None Include="Resources\ToolMoveNode.png" />
-    <None Include="Resources\Image1.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

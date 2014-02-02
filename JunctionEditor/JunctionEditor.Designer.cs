@@ -208,7 +208,7 @@
             // ToolClearEditor
             // 
             this.ToolClearEditor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolClearEditor.Image = global::TrainProject.Properties.Resources.ToolClearEditor;
+            this.ToolClearEditor.Image = global::TrainProject.Properties.Resources.EraseTool_203;
             this.ToolClearEditor.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolClearEditor.Name = "ToolClearEditor";
             this.ToolClearEditor.Size = new System.Drawing.Size(23, 22);
