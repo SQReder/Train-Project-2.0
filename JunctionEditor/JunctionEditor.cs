@@ -51,11 +51,11 @@ namespace TrainProject.JunctionEditor
                     break;
                 case MouseAction.PutNode:
                     if (tempNode_ != null)
-                        tempNode_.SetPosition(e.Location);
+                        tempNode_.Position = e.Location;
                     break;
                 case MouseAction.MoveNode:
                     if (movingNodeRef_ != null)
-                        movingNodeRef_.SetPosition(e.Location);
+                        movingNodeRef_.Position = e.Location;
                     break;
                 case MouseAction.AddLinkFindStartNode:
                     break;
@@ -63,8 +63,7 @@ namespace TrainProject.JunctionEditor
                     var firstSelectedNode = repository_.GetFirstSelectedNode();
                     if (firstSelectedNode == null)
                     {
-                        tempNode_ = new Node();
-                        tempNode_.SetPosition(e.Location);
+                        tempNode_ = new Node {Position = e.Location};
                         tempLink_.To = tempNode_; 
                     }
                     else
@@ -84,7 +83,7 @@ namespace TrainProject.JunctionEditor
 
         private void img_MouseDown(object sender, MouseEventArgs e)
         {
-            var selectedNode = repository_.GetFirstSelectedNode(); ;
+            var selectedNode = repository_.GetFirstSelectedNode();
             switch (mouseAction_)
             {
                 case MouseAction.None:
@@ -96,8 +95,7 @@ namespace TrainProject.JunctionEditor
                     }
                     else if (e.Button.HasFlag(MouseButtons.Left))
                     {
-                        tempNode_ = new Node();
-                        tempNode_.SetPosition(e.Location);
+                        tempNode_ = new Node {Position = e.Location};
                     }
                     break;
                 case MouseAction.MoveNode:
@@ -107,8 +105,7 @@ namespace TrainProject.JunctionEditor
                     var startNode = selectedNode;
                     if (startNode != null)
                     {
-                        tempNode_ = new Node();
-                        tempNode_.SetPosition(e.Location);
+                        tempNode_ = new Node {Position = e.Location};
                         tempLink_ = new Link(startNode, tempNode_);
                         mouseAction_ = MouseAction.AddLinkFindEndNode;
                     }
@@ -116,7 +113,7 @@ namespace TrainProject.JunctionEditor
                 case MouseAction.AddLinkFindEndNode:
                     tempLink_.To = selectedNode ?? tempNode_;
                     break;
-                case MouseAction.UpdateNodeType:;
+                case MouseAction.UpdateNodeType:
                     if (selectedNode != null && newNodeType_.HasValue)
                         selectedNode.Type = newNodeType_.Value;
                     break;
@@ -136,7 +133,7 @@ namespace TrainProject.JunctionEditor
                 case MouseAction.PutNode:
                     if (tempNode_ != null)
                     {
-                        tempNode_.SetPosition(e.Location);
+                        tempNode_.Position = e.Location;
                         tempNode_.Title = repository_.ListNodes().Count().ToString(CultureInfo.InvariantCulture);
                         repository_.AddNode(tempNode_);
                         tempNode_ = null;

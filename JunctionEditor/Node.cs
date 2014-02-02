@@ -26,7 +26,7 @@ namespace TrainProject.JunctionEditor
 
         public void Draw(Graphics graphics)
         {
-            var position = GetPosition();
+            var position = Position;
             Rectangle rect;
             Point[] lines;
             switch (type_)
@@ -116,22 +116,18 @@ namespace TrainProject.JunctionEditor
             graphics.DrawString(title_, SystemFonts.DefaultFont, Brushes.Black, new Point(position.X - Radius, position.Y + Radius*2));
         }
 
-        public Point GetPosition()
+        public Point Position
         {
-            return position_;
+            get { return position_; }
+            set { position_ = value; }
         }
 
-        public void SetPosition(Point position)
+        public float Distance(Point position)
         {
-            position_ = position;
-        }
-
-        public double Distance(Point position)
-        {
-            var pos = GetPosition();
+            var pos = Position;
             var a = Math.Pow(pos.X - position.X, 2);
             var b = Math.Pow(pos.Y - position.Y, 2);
-            return Math.Sqrt(a + b);
+            return (float)Math.Sqrt(a + b);
         }
 
         public bool IsSelected()

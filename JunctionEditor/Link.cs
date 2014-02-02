@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace TrainProject.JunctionEditor
@@ -44,8 +45,9 @@ namespace TrainProject.JunctionEditor
 
                 graphics.DrawLine(Pen, a, b);
 
-                if (from_.Distance(to_.GetPosition()) > LineMargin*2)
+                if (from_.Distance(to_.Position) > LineMargin*2)
                     DrawArrowHead(graphics, Pen, from_, to_);
+                DrawLength(graphics);
             }
             catch (Exception e)
             {
@@ -53,13 +55,13 @@ namespace TrainProject.JunctionEditor
             }
         }
 
-        private void DrawArrowHead(Graphics g, Pen parentPen, IPositionable nodeStart, IPositionable nodeEnd)
+        private static void DrawArrowHead(Graphics g, Pen parentPen, IPositionable nodeStart, IPositionable nodeEnd)
         {
             const float h = 10f;
             const float w = 4f;
 
             var croppedLine = GetCroppedLine(nodeStart, nodeEnd, LineMargin);
-            var start = nodeStart.GetPosition();
+            var start = nodeStart.Position;
             var end = croppedLine.Item2;
 
             var mainVector = new PointF(end.X - start.X, end.Y - start.Y);
@@ -79,12 +81,40 @@ namespace TrainProject.JunctionEditor
             g.DrawLine(headPen, end, b);
         }
 
+        private void DrawLength(Graphics graphics)
+        {
+            var distance = from_.Distance(to_.Position);
+            var label = Math.Round(distance).ToString(CultureInfo.InvariantCulture);
+
+            var mainVector = new Point(To.Position.X - From.Position.X, To.Position.Y - From.Position.Y);
+            
+            var normal = new SizeF(mainVector.X / distance, mainVector.Y / distance);
+            var textNormal = new SizeF(normal.Height, -normal.Width); // turn normal 90 degree clockwise
+
+            var center = new SizeF(normal.Width * distance / 2f, normal.Height * distance / 2f);
+            var textMargin = SystemFonts.DefaultFont.Size * 1.5f;
+            var textOffcet = new SizeF(textNormal.Width*textMargin, textNormal.Height*textMargin);
+            var offset = center + textOffcet;
+            var intOffset = new Size((int) offset.Width, (int) offset.Height);
+
+            var textPosition = From.Position + intOffset;
+
+            var font = SystemFonts.DefaultFont;
+            var stringFormat = new StringFormat
+            {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Center
+            };
+
+            graphics.DrawString(label, font, Brushes.Black, textPosition, stringFormat);
+        }
+
         private static Tuple<PointF, PointF> GetCroppedLine(IPositionable nodeStart, IPositionable nodeEnd, float crops)
         {
-            var start = nodeStart.GetPosition();
-            var end = nodeEnd.GetPosition();
+            var start = nodeStart.Position;
+            var end = nodeEnd.Position;
             var mainVector = new PointF(end.X - start.X, end.Y - start.Y);
-            var mainVectorLen = (float)nodeStart.Distance(nodeEnd.GetPosition());
+            var mainVectorLen = (float)nodeStart.Distance(nodeEnd.Position);
             var mainVectorNormal = new PointF(mainVector.X / mainVectorLen, mainVector.Y / mainVectorLen);
 
             var a = new PointF(start.X + mainVectorNormal.X * crops, start.Y + mainVectorNormal.Y * crops);
