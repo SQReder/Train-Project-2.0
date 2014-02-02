@@ -30,37 +30,62 @@ namespace TrainProject
         /// </summary>
         private void InitializeComponent()
         {
-            this.junctionEditor1 = new TrainProject.JunctionEditor.JEditor();
+            this.junctionEditor = new TrainProject.JunctionEditor.JEditor();
+            this.btnSerialize = new System.Windows.Forms.Button();
+            this.tbSerializedJunction = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // junctionEditor1
+            // junctionEditor
             // 
-            this.junctionEditor1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.junctionEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.junctionEditor1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.junctionEditor1.Location = new System.Drawing.Point(0, 0);
-            this.junctionEditor1.Name = "junctionEditor1";
-            this.junctionEditor1.Size = new System.Drawing.Size(615, 406);
-            this.junctionEditor1.TabIndex = 0;
-            this.junctionEditor1.Load += new System.EventHandler(this.junctionEditor1_Load);
+            this.junctionEditor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.junctionEditor.Location = new System.Drawing.Point(12, 12);
+            this.junctionEditor.Name = "junctionEditor";
+            this.junctionEditor.Size = new System.Drawing.Size(679, 393);
+            this.junctionEditor.TabIndex = 0;
+            this.junctionEditor.Load += new System.EventHandler(this.junctionEditor1_Load);
+            // 
+            // btnSerialize
+            // 
+            this.btnSerialize.Location = new System.Drawing.Point(697, 12);
+            this.btnSerialize.Name = "btnSerialize";
+            this.btnSerialize.Size = new System.Drawing.Size(262, 23);
+            this.btnSerialize.TabIndex = 1;
+            this.btnSerialize.Text = "Serialize";
+            this.btnSerialize.UseVisualStyleBackColor = true;
+            this.btnSerialize.Click += new System.EventHandler(this.btnSerialize_Click);
+            // 
+            // tbSerializedJunction
+            // 
+            this.tbSerializedJunction.Location = new System.Drawing.Point(697, 41);
+            this.tbSerializedJunction.Multiline = true;
+            this.tbSerializedJunction.Name = "tbSerializedJunction";
+            this.tbSerializedJunction.Size = new System.Drawing.Size(262, 364);
+            this.tbSerializedJunction.TabIndex = 2;
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(615, 407);
-            this.Controls.Add(this.junctionEditor1);
+            this.ClientSize = new System.Drawing.Size(971, 417);
+            this.Controls.Add(this.tbSerializedJunction);
+            this.Controls.Add(this.btnSerialize);
+            this.Controls.Add(this.junctionEditor);
             this.Name = "FormMain";
             this.Text = "Junction Editor";
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private JEditor junctionEditor1;
+        private JEditor junctionEditor;
+        private System.Windows.Forms.Button btnSerialize;
+        private System.Windows.Forms.TextBox tbSerializedJunction;
     }
 }
 

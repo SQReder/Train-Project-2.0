@@ -2,15 +2,18 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace TrainProject.JunctionEditor
 {
-    class Link: IDrawable
+    public class Link: IDrawable
     {
         private const float LineMargin = 8f;
         private readonly Node from_;
         private Node to_;
+        private int length_ = 0;
 
         static readonly Pen Pen = new Pen(Color.DarkViolet, 2f)
         {
@@ -33,6 +36,11 @@ namespace TrainProject.JunctionEditor
         {
             get { return to_; }
             set { to_ = value; }
+        }
+
+        public int Length
+        {
+            get { return length_; }
         }
 
         public void Draw(Graphics graphics)
@@ -65,7 +73,7 @@ namespace TrainProject.JunctionEditor
             var end = croppedLine.Item2;
 
             var mainVector = new PointF(end.X - start.X, end.Y - start.Y);
-            var mainVectorLen = (float)nodeStart.Distance(new Point((int)end.X,(int)end.Y));
+            var mainVectorLen = nodeStart.Distance(new Point((int)end.X,(int)end.Y));
             var mainVectorNormal = new PointF(mainVector.X / mainVectorLen, mainVector.Y / mainVectorLen);
 
             var oPointLen = mainVectorLen - h;
@@ -84,7 +92,8 @@ namespace TrainProject.JunctionEditor
         private void DrawLength(Graphics graphics)
         {
             var distance = from_.Distance(to_.Position);
-            var label = Math.Round(distance).ToString(CultureInfo.InvariantCulture);
+            length_ = (int) Math.Round(distance);
+            var label = length_.ToString(CultureInfo.InvariantCulture);
 
             var mainVector = new Point(To.Position.X - From.Position.X, To.Position.Y - From.Position.Y);
             
@@ -114,7 +123,7 @@ namespace TrainProject.JunctionEditor
             var start = nodeStart.Position;
             var end = nodeEnd.Position;
             var mainVector = new PointF(end.X - start.X, end.Y - start.Y);
-            var mainVectorLen = (float)nodeStart.Distance(nodeEnd.Position);
+            var mainVectorLen = nodeStart.Distance(nodeEnd.Position);
             var mainVectorNormal = new PointF(mainVector.X / mainVectorLen, mainVector.Y / mainVectorLen);
 
             var a = new PointF(start.X + mainVectorNormal.X * crops, start.Y + mainVectorNormal.Y * crops);

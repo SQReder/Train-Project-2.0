@@ -19,5 +19,10 @@ namespace TrainProject
         {
 
         }
+
+        private void btnSerialize_Click(object sender, EventArgs e)
+        {
+            tbSerializedJunction.Text = junctionEditor.Repository.Serialize();
+        }
     }
 }

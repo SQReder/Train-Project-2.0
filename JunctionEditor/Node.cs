@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace TrainProject.JunctionEditor
 {
-    class Node : IDrawable, ISelectable, IPositionable
+    public class Node : IDrawable, ISelectable, IPositionable
     {
         private const int Radius = 5;
         private Point position_ = new Point(0,0);

@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace TrainProject.JunctionEditor
 {
-    class JunctionRepository
+    public class JunctionRepository
     {
         private readonly List<Node> nodes_ = new List<Node>();
         private readonly List<Link> links_ = new List<Link>();
@@ -119,5 +122,15 @@ namespace TrainProject.JunctionEditor
 
         #endregion
 
+
+        public string Serialize()
+        {
+            var sb = new StringBuilder();
+
+            //nodes_.ForEach(n => sb.Append("Node ").AppendLine(JsonConvert.SerializeObject(n)));
+            links_.ForEach(l => sb.Append("Link ").AppendLine(JsonConvert.SerializeObject(l)));
+
+            return sb.ToString();
+        }
     }
 }

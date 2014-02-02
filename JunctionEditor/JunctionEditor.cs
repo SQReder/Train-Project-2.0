@@ -286,5 +286,11 @@ namespace TrainProject.JunctionEditor
 
             newNodeType_ = nodeType;
         }
+
+
+        public JunctionRepository Repository
+        {
+            get { return repository_; }
+        }
     }
 }
