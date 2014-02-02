@@ -34,7 +34,7 @@
             this.ToolMoveNodes = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolCreateLink = new System.Windows.Forms.ToolStripButton();
-            this.CreateNewNodeForLinks = new System.Windows.Forms.ToolStripButton();
+            this.ToggleCreateNewNodeForLinks = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.ToolNodeTypeIsolation = new System.Windows.Forms.ToolStripButton();
@@ -54,7 +54,7 @@
             this.ToolMoveNodes,
             this.toolStripSeparator1,
             this.ToolCreateLink,
-            this.CreateNewNodeForLinks,
+            this.ToggleCreateNewNodeForLinks,
             this.toolStripButton2,
             this.toolStripLabel1,
             this.ToolNodeTypeEntrance,
@@ -106,15 +106,15 @@
             this.ToolCreateLink.Text = "Create link between nodes";
             this.ToolCreateLink.Click += new System.EventHandler(this.ToolCreateLink_Click);
             // 
-            // CreateNewNodeForLinks
+            // ToggleCreateNewNodeForLinks
             // 
-            this.CreateNewNodeForLinks.CheckOnClick = true;
-            this.CreateNewNodeForLinks.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.CreateNewNodeForLinks.Image = global::TrainProject.Properties.Resources.CreateNewNodeForLinks;
-            this.CreateNewNodeForLinks.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.CreateNewNodeForLinks.Name = "CreateNewNodeForLinks";
-            this.CreateNewNodeForLinks.Size = new System.Drawing.Size(23, 22);
-            this.CreateNewNodeForLinks.Text = "Create new nodes when link to nowere";
+            this.ToggleCreateNewNodeForLinks.CheckOnClick = true;
+            this.ToggleCreateNewNodeForLinks.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToggleCreateNewNodeForLinks.Image = global::TrainProject.Properties.Resources.CreateNewNodeForLinks;
+            this.ToggleCreateNewNodeForLinks.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToggleCreateNewNodeForLinks.Name = "CreateNewNodeForLinks";
+            this.ToggleCreateNewNodeForLinks.Size = new System.Drawing.Size(23, 22);
+            this.ToggleCreateNewNodeForLinks.Text = "Create new nodes when link to nowere";
             // 
             // toolStripButton2
             // 
@@ -220,7 +220,7 @@
         private System.Windows.Forms.ToolStripButton ToolMoveNodes;
         private System.Windows.Forms.ToolStripButton ToolCreateLink;
         private System.Windows.Forms.ToolStripSeparator toolStripButton2;
-        private System.Windows.Forms.ToolStripButton CreateNewNodeForLinks;
+        private System.Windows.Forms.ToolStripButton ToggleCreateNewNodeForLinks;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton ToolNodeTypeDock;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;

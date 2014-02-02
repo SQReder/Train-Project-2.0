@@ -11,14 +11,21 @@ namespace TrainProject.JunctionEditor
 
         #region Nodes manipulation
         
+        /// <summary>
+        /// Add node to repository
+        /// </summary>
+        /// <param name="node">Node ref to add into reposytory. If null or has duplicate in repo - do nothing.</param>
         public void AddNode(Node node)
         {
-            if (nodes_.FirstOrDefault(n => n == node) != null)
+            if (node == null || nodes_.FirstOrDefault(n => n == node) != null)
                 return;
             nodes_.Add(node);
         }
 
-
+        /// <summary>
+        /// Remove node and all assigned links from repository
+        /// </summary>
+        /// <param name="node">Node ref to remove. If null do nothing.</param>
         public void RemoveNode(Node node)
         {
             if (node == null)
@@ -28,6 +35,10 @@ namespace TrainProject.JunctionEditor
         }
 
 
+        /// <summary>
+        /// List all nodes in reposytory
+        /// </summary>
+        /// <returns>Enumeration of node collection in repository</returns>
         public IEnumerable<Node> ListNodes()
         {
             return nodes_;
@@ -39,25 +50,32 @@ namespace TrainProject.JunctionEditor
 
         #region Links manipultion
         
-        public void AddLink(Node from, Node to)
-        {
-            if (nodes_.Contains(from) && nodes_.Contains(to))
-                links_.Add(new Link(from, to));
-        }
-
+        /// <summary>
+        /// Add link to reposytory
+        /// </summary>
+        /// <param name="link">Link ref to add into reposytory. If null or has duplicate in repo - do nothing</param>
         public void AddLink(Link link)
         {
-            if (links_.FirstOrDefault(l => l == link) != null)
+            if (link == null || links_.FirstOrDefault(l => l == link) != null)
                 return;
-
             links_.Add(link);
         }
 
+        /// <summary>
+        /// Removes link from repository
+        /// </summary>
+        /// <param name="link">Link ref to remove. If null do nothing.</param>
         public void RemoveLink(Link link)
         {
+            if (link == null)
+                return;
             links_.Remove(link);
         }
 
+        /// <summary>
+        /// List all links in reposytory
+        /// </summary>
+        /// <returns>Enumeration of link collection in repository</returns>
         public IEnumerable<Link> ListLinks()
         {
             return links_;
@@ -69,16 +87,31 @@ namespace TrainProject.JunctionEditor
         
         #region Selectors
 
+        /// <summary>
+        /// List links associated to node
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns>Enumeration of links connected to referenced node</returns>
         public IEnumerable<Link> ListLinksByNode(Node node)
         {
             return links_.Where(l => l.From == node || l.To == node).ToList();
         }
 
+        /// <summary>
+        /// Get first node with IsSelected flag
+        /// </summary>
+        /// <returns>First node from repository with IsSelected flag</returns>
+        /// <seealso cref="ISelectable.IsSelected"/>
         public Node GetFirstSelectedNode()
         {
             return nodes_.FirstOrDefault(node => node.IsSelected());
         }
 
+        /// <summary>
+        /// Update selection states of nodes in reposytory
+        /// </summary>
+        /// <param name="position">Point to check selection state for nodes</param>
+        /// <seealso cref="ISelectable.UpdateSelectionState"/>
         public void UpdateSelectionStates(Point position)
         {
             nodes_.ForEach(n => n.UpdateSelectionState(position));

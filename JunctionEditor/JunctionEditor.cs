@@ -84,6 +84,7 @@ namespace TrainProject.JunctionEditor
 
         private void img_MouseDown(object sender, MouseEventArgs e)
         {
+            var selectedNode = repository_.GetFirstSelectedNode(); ;
             switch (mouseAction_)
             {
                 case MouseAction.None:
@@ -91,7 +92,7 @@ namespace TrainProject.JunctionEditor
                 case MouseAction.PutNode:
                     if (e.Button.HasFlag(MouseButtons.Right))
                     {
-                        RemoveSelectedNode();
+                        repository_.RemoveNode(selectedNode);
                     }
                     else if (e.Button.HasFlag(MouseButtons.Left))
                     {
@@ -100,10 +101,10 @@ namespace TrainProject.JunctionEditor
                     }
                     break;
                 case MouseAction.MoveNode:
-                    movingNodeRef_ = repository_.GetFirstSelectedNode();
+                    movingNodeRef_ = selectedNode;
                     break;
                 case MouseAction.AddLinkFindStartNode:
-                    var startNode = repository_.GetFirstSelectedNode();
+                    var startNode = selectedNode;
                     if (startNode != null)
                     {
                         tempNode_ = new Node();
@@ -113,13 +114,11 @@ namespace TrainProject.JunctionEditor
                     }
                     break;
                 case MouseAction.AddLinkFindEndNode:
-                    repository_.UpdateSelectionStates(e.Location);
-                    tempLink_.To = repository_.GetFirstSelectedNode() ?? tempNode_;
+                    tempLink_.To = selectedNode ?? tempNode_;
                     break;
-                case MouseAction.UpdateNodeType:
-                    Node node = repository_.GetFirstSelectedNode();
-                    if (node != null && newNodeType_.HasValue)
-                        node.Type = newNodeType_.Value;
+                case MouseAction.UpdateNodeType:;
+                    if (selectedNode != null && newNodeType_.HasValue)
+                        selectedNode.Type = newNodeType_.Value;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -150,15 +149,16 @@ namespace TrainProject.JunctionEditor
                     tempLink_ = null;
                     break;
                 case MouseAction.AddLinkFindEndNode:
-                    var node = repository_.GetFirstSelectedNode();
-                    if (node != null)
+                    var selectedNode = repository_.GetFirstSelectedNode();
+                    if (selectedNode != null)
                     {
-                        tempLink_.To = node;
-                        var sameLink =
+                        tempLink_.To = selectedNode;
+                        var sameLinkExists =
                             repository_.ListLinks().FirstOrDefault(l => l.From == tempLink_.From && l.To == tempLink_.To);
                         var reverseLink = repository_.ListLinks().FirstOrDefault(l => l.From == tempLink_.To && l.To == tempLink_.From);
-                        if (sameLink != null)
-                            repository_.RemoveLink(sameLink);
+                        
+                        if (sameLinkExists != null)
+                            repository_.RemoveLink(sameLinkExists);
                         else if (reverseLink != null)
                         {
                             repository_.RemoveLink(reverseLink);
@@ -167,7 +167,7 @@ namespace TrainProject.JunctionEditor
                         else
                             repository_.AddLink(tempLink_);
                     }
-                    else if (CreateNewNodeForLinks.Checked)
+                    else if (ToggleCreateNewNodeForLinks.Checked)
                     {
                         tempNode_.Title = repository_.ListNodes().Count().ToString(CultureInfo.InvariantCulture);
                         repository_.AddNode(tempNode_);
@@ -220,13 +220,6 @@ namespace TrainProject.JunctionEditor
 
 
         #endregion
-
-        private void RemoveSelectedNode()
-        {
-            var node = repository_.GetFirstSelectedNode();
-            repository_.RemoveNode(node);
-        }
-
 
         private void img_Click(object sender, EventArgs e)
         {
