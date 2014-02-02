@@ -20,7 +20,7 @@ namespace TrainProject.JunctionEditor
         /// <param name="node">Node ref to add into reposytory. If null or has duplicate in repo - do nothing.</param>
         public void AddNode(Node node)
         {
-            if (node == null || nodes_.FirstOrDefault(n => n == node) != null)
+            if (node == null || nodes_.Contains(node))
                 return;
             nodes_.Add(node);
         }
@@ -59,9 +59,26 @@ namespace TrainProject.JunctionEditor
         /// <param name="link">Link ref to add into reposytory. If null or has duplicate in repo - do nothing</param>
         public void AddLink(Link link)
         {
-            if (link == null || links_.FirstOrDefault(l => l == link) != null)
+            if (link == null)
                 return;
-            links_.Add(link);
+
+            var @from = nodes_.FirstOrDefault(n => n.Equals(link.From));
+            if (@from == null)
+            {
+                nodes_.Add(link.From);
+                @from = link.From;
+            }
+
+            var @to = nodes_.FirstOrDefault(n => n.Equals(link.To));
+            if (@to == null)
+            {
+                nodes_.Add(link.To);
+                @to = link.To;
+            }
+
+            var linkToAdd = new Link(@from, @to);
+            if (!links_.Contains(linkToAdd))
+                links_.Add(linkToAdd);
         }
 
         /// <summary>
@@ -128,9 +145,29 @@ namespace TrainProject.JunctionEditor
             var sb = new StringBuilder();
 
             //nodes_.ForEach(n => sb.Append("Node ").AppendLine(JsonConvert.SerializeObject(n)));
-            links_.ForEach(l => sb.Append("Link ").AppendLine(JsonConvert.SerializeObject(l)));
+            links_.ForEach(l => sb./*Append("Link ").*/AppendLine(JsonConvert.SerializeObject(l)));
 
             return sb.ToString();
+        }
+
+        public void Deserialize(string data)
+        {
+            Clear();
+
+            var strings = data.Split('\n').Where(s => s != string.Empty).ToList();
+            var links = strings.Select(JsonConvert.DeserializeObject<Link>).ToList();
+            links.ForEach(l =>
+            {
+                AddNode(l.From);
+                AddNode(l.To);
+                AddLink(l);
+            });
+        }
+
+        public void Clear()
+        {
+            links_.Clear();
+            nodes_.Clear();
         }
     }
 }

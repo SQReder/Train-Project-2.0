@@ -292,5 +292,10 @@ namespace TrainProject.JunctionEditor
         {
             get { return repository_; }
         }
+
+        private void ToolClearEditor_Click(object sender, EventArgs e)
+        {
+            repository_.Clear();
+        }
     }
 }

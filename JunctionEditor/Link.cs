@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace TrainProject.JunctionEditor
 {
-    public class Link: IDrawable
+    public class Link: IDrawable, IEquatable<Link>
     {
         private const float LineMargin = 8f;
         private readonly Node from_;
@@ -38,10 +38,10 @@ namespace TrainProject.JunctionEditor
             set { to_ = value; }
         }
 
-        public int Length
-        {
-            get { return length_; }
-        }
+        //public int Length
+        //{
+        //    get { return length_; }
+        //}
 
         public void Draw(Graphics graphics)
         {
@@ -130,6 +130,13 @@ namespace TrainProject.JunctionEditor
             var b = new PointF(end.X - mainVectorNormal.X * crops, end.Y - mainVectorNormal.Y * crops);
 
             return new Tuple<PointF, PointF>(a, b);
+        }
+
+
+        public bool Equals(Link other)
+        {
+            return from_.Equals(other.from_)
+                   && to_.Equals(other.to_);
         }
     }
 }

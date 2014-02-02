@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace TrainProject.JunctionEditor
 {
-    public class Node : IDrawable, ISelectable, IPositionable
+    public class Node : IDrawable, ISelectable, IPositionable, IEquatable<Node>
     {
         private const int Radius = 5;
         private Point position_ = new Point(0,0);
@@ -151,6 +151,13 @@ namespace TrainProject.JunctionEditor
         {
             get { return title_; }
             set { title_ = value; }
+        }
+
+        public bool Equals(Node other)
+        {
+            return position_ == other.position_
+                   && type_ == other.type_
+                   && title_ == other.title_;
         }
     }
 }

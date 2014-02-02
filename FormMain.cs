@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace TrainProject
 {
@@ -23,6 +24,12 @@ namespace TrainProject
         private void btnSerialize_Click(object sender, EventArgs e)
         {
             tbSerializedJunction.Text = junctionEditor.Repository.Serialize();
+        }
+
+        private void btnDeserialize_Click(object sender, EventArgs e)
+        {
+            junctionEditor.Repository.Deserialize(tbSerializedJunction.Text);
+            junctionEditor.Invalidate(true);
         }
     }
 }
