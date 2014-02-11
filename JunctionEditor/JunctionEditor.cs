@@ -129,6 +129,7 @@ namespace TrainProject.JunctionEditor
                         tempNode_ = selectedNode;
                         DenominatorsList.Left = e.Location.X;
                         DenominatorsList.Top = e.Location.Y + DenominatorsList.Height;
+                        DenominatorsList.SelectedIndex = -1;
                         DenominatorsList.Show();
                     }
                     else
@@ -250,10 +251,8 @@ namespace TrainProject.JunctionEditor
         private void ToolPutNodes_Click(object sender, EventArgs e)
         { SelectActiveToolTypeButton(JunctionTool.PutNode); }
 
-
         private void ToolMoveNodes_Click(object sender, EventArgs e)
         { SelectActiveToolTypeButton(JunctionTool.MoveNode); }
-
 
         private void ToolCreateLink_Click(object sender, EventArgs e)
         { SelectActiveToolTypeButton(JunctionTool.AddLinkFindStartNode); }

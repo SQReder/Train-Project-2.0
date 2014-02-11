@@ -193,6 +193,16 @@ namespace TrainProject.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ToolDenominatorUpdate {
+            get {
+                object obj = ResourceManager.GetObject("ToolDenominatorUpdate", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ToolMoveNode {
             get {
                 object obj = ResourceManager.GetObject("ToolMoveNode", resourceCulture);

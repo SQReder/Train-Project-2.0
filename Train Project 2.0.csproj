@@ -160,6 +160,7 @@
     <None Include="Resources\document_16xLG.png" />
     <None Include="Resources\NewFile_6276.png" />
     <None Include="Resources\Node.png" />
+    <None Include="Resources\ToolDenominatorUpdate.png" />
     <Content Include="train-512.ico" />
     <None Include="Resources\ToolNodeTypeIsolation.png" />
     <None Include="Resources\ToolNodeTypeDock.png" />
