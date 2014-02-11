@@ -22,7 +22,10 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>12</ApplicationRevision>
+    <TargetCulture>en</TargetCulture>
+    <ProductName>Train Project 2.0</ProductName>
+    <PublisherName>SQReder</PublisherName>
+    <ApplicationRevision>14</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -62,6 +65,15 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>train-512.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>TrainProject.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -115,10 +127,11 @@
     <EmbeddedResource Include="JunctionEditor\JunctionEditor.resx">
       <DependentUpon>JunctionEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="JunctionData\basic_junction.jun">
+    <Content Include="JunctionData\basic_junction.jun">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -146,7 +159,7 @@
     <None Include="Resources\EraseTool_203.png" />
     <None Include="Resources\document_16xLG.png" />
     <None Include="Resources\NewFile_6276.png" />
-    <Content Include="Resources\Node.png" />
+    <None Include="Resources\Node.png" />
     <Content Include="train-512.ico" />
     <None Include="Resources\ToolNodeTypeIsolation.png" />
     <None Include="Resources\ToolNodeTypeDock.png" />
@@ -170,6 +183,14 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <FileAssociation Include=".jun">
+      <Visible>False</Visible>
+      <Description>Junction</Description>
+      <Progid>01</Progid>
+      <DefaultIcon>train-512.ico</DefaultIcon>
+    </FileAssociation>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

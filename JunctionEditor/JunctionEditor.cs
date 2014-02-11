@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace TrainProject.JunctionEditor
 {
@@ -29,17 +30,18 @@ namespace TrainProject.JunctionEditor
 
         #region mouse events
 
-        private enum MouseAction
+        private enum JunctionTool
         {
             None,
             PutNode,
             MoveNode,
             AddLinkFindStartNode,
             AddLinkFindEndNode,
-            UpdateNodeType
+            UpdateNodeType,
+            UpdateDenominator,
         };
 
-        private MouseAction mouseAction_ = MouseAction.None;
+        private JunctionTool junctionTool_ = JunctionTool.None;
 
         private Node.NodeType? newNodeType_ = Node.NodeType.Isolation;
 
@@ -47,21 +49,21 @@ namespace TrainProject.JunctionEditor
         private void img_MouseMove(object sender, MouseEventArgs e)
         {
             repository_.UpdateSelectionStates(e.Location);
-            switch (mouseAction_)
+            switch (junctionTool_)
             {
-                case MouseAction.None:
+                case JunctionTool.None:
                     break;
-                case MouseAction.PutNode:
+                case JunctionTool.PutNode:
                     if (tempNode_ != null)
                         tempNode_.Position = e.Location;
                     break;
-                case MouseAction.MoveNode:
+                case JunctionTool.MoveNode:
                     if (movingNodeRef_ != null)
                         movingNodeRef_.Position = e.Location;
                     break;
-                case MouseAction.AddLinkFindStartNode:
+                case JunctionTool.AddLinkFindStartNode:
                     break;
-                case MouseAction.AddLinkFindEndNode:
+                case JunctionTool.AddLinkFindEndNode:
                     var firstSelectedNode = repository_.GetFirstSelectedNode();
                     if (firstSelectedNode == null)
                     {
@@ -74,7 +76,9 @@ namespace TrainProject.JunctionEditor
                         tempLink_.To = firstSelectedNode;
                     }
                     break;
-                case MouseAction.UpdateNodeType:
+                case JunctionTool.UpdateNodeType:
+                    break;
+                case JunctionTool.UpdateDenominator:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -86,11 +90,11 @@ namespace TrainProject.JunctionEditor
         private void img_MouseDown(object sender, MouseEventArgs e)
         {
             var selectedNode = repository_.GetFirstSelectedNode();
-            switch (mouseAction_)
+            switch (junctionTool_)
             {
-                case MouseAction.None:
+                case JunctionTool.None:
                     break;
-                case MouseAction.PutNode:
+                case JunctionTool.PutNode:
                     if (e.Button.HasFlag(MouseButtons.Right))
                     {
                         repository_.RemoveNode(selectedNode);
@@ -100,24 +104,26 @@ namespace TrainProject.JunctionEditor
                         tempNode_ = new Node {Position = e.Location};
                     }
                     break;
-                case MouseAction.MoveNode:
+                case JunctionTool.MoveNode:
                     movingNodeRef_ = selectedNode;
                     break;
-                case MouseAction.AddLinkFindStartNode:
+                case JunctionTool.AddLinkFindStartNode:
                     var startNode = selectedNode;
                     if (startNode != null)
                     {
                         tempNode_ = new Node {Position = e.Location};
                         tempLink_ = new Link(startNode, tempNode_);
-                        mouseAction_ = MouseAction.AddLinkFindEndNode;
+                        junctionTool_ = JunctionTool.AddLinkFindEndNode;
                     }
                     break;
-                case MouseAction.AddLinkFindEndNode:
+                case JunctionTool.AddLinkFindEndNode:
                     tempLink_.To = selectedNode ?? tempNode_;
                     break;
-                case MouseAction.UpdateNodeType:
+                case JunctionTool.UpdateNodeType:
                     if (selectedNode != null && newNodeType_.HasValue)
                         selectedNode.Type = newNodeType_.Value;
+                    break;
+                case JunctionTool.UpdateDenominator:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -128,11 +134,11 @@ namespace TrainProject.JunctionEditor
 
         private void img_MouseUp(object sender, MouseEventArgs e)
         {
-            switch (mouseAction_)
+            switch (junctionTool_)
             {
-                case MouseAction.None:
+                case JunctionTool.None:
                     break;
-                case MouseAction.PutNode:
+                case JunctionTool.PutNode:
                     if (tempNode_ != null)
                     {
                         tempNode_.Position = e.Location;
@@ -141,13 +147,13 @@ namespace TrainProject.JunctionEditor
                         tempNode_ = null;
                     }
                     break;
-                case MouseAction.MoveNode:
+                case JunctionTool.MoveNode:
                     movingNodeRef_ = null;
                     break;
-                case MouseAction.AddLinkFindStartNode:
+                case JunctionTool.AddLinkFindStartNode:
                     tempLink_ = null;
                     break;
-                case MouseAction.AddLinkFindEndNode:
+                case JunctionTool.AddLinkFindEndNode:
                     var selectedNode = repository_.GetFirstSelectedNode();
                     if (selectedNode != null)
                     {
@@ -176,9 +182,11 @@ namespace TrainProject.JunctionEditor
                     tempNode_ = null;
                     tempLink_ = null;
 
-                    mouseAction_ = MouseAction.AddLinkFindStartNode;
+                    junctionTool_ = JunctionTool.AddLinkFindStartNode;
                     break;
-                case MouseAction.UpdateNodeType:
+                case JunctionTool.UpdateNodeType:
+                    break;
+                case JunctionTool.UpdateDenominator:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -225,33 +233,42 @@ namespace TrainProject.JunctionEditor
             Invalidate(true);
         }
 
+        #region All tools
 
         private void ToolPutNodes_Click(object sender, EventArgs e)
-        {
-            ToolMoveNodes.Checked = false;
-            ToolCreateLink.Checked = false;
-            ToolNodeTypeDock.Checked = false;
-            mouseAction_ = ToolPutNodes.Checked ? MouseAction.PutNode : MouseAction.None;            
-        }
+        { SelectActiveToolTypeButton(JunctionTool.PutNode); }
 
 
         private void ToolMoveNodes_Click(object sender, EventArgs e)
-        {
-            ToolPutNodes.Checked = false;
-            ToolCreateLink.Checked = false;
-            ToolNodeTypeDock.Checked = false;
-            mouseAction_ = ToolMoveNodes.Checked ? MouseAction.MoveNode : MouseAction.None;
-        }
+        { SelectActiveToolTypeButton(JunctionTool.MoveNode); }
 
 
         private void ToolCreateLink_Click(object sender, EventArgs e)
+        { SelectActiveToolTypeButton(JunctionTool.AddLinkFindStartNode); }
+
+        private void ToolSetBase_Click(object sender, EventArgs e)
+        { SelectActiveToolTypeButton(JunctionTool.UpdateDenominator); }
+
+        private void SelectActiveToolTypeButton(JunctionTool tool)
         {
-            ToolPutNodes.Checked = false;
-            ToolMoveNodes.Checked = false;
             ToolNodeTypeDock.Checked = false;
-            mouseAction_ = ToolCreateLink.Checked ? MouseAction.AddLinkFindStartNode : MouseAction.None;
+            ToolNodeTypeIsolation.Checked = false;
+            ToolNodeTypeEntrance.Checked = false;
+            ToolNodeTypePPP.Checked = false;
+            ToolNodeTypeCross.Checked = false;
+
+            ToolPutNodes.Checked = JunctionTool.PutNode == tool;
+            ToolMoveNodes.Checked = JunctionTool.MoveNode == tool;
+            ToolCreateLink.Checked = JunctionTool.AddLinkFindStartNode == tool;
+            ToolUpdateCrossDenominator.Checked = JunctionTool.UpdateDenominator == tool;
+
+            junctionTool_ = tool;
         }
 
+        #endregion
+
+
+        #region Node type tools
 
         private void ToolNodeTypeDock_Click(object sender, EventArgs e)
         { SelectActiveToolTypeButton(Node.NodeType.Dock); }
@@ -269,25 +286,25 @@ namespace TrainProject.JunctionEditor
         { SelectActiveToolTypeButton(Node.NodeType.Cross); }
 
 
-        private void SelectActiveToolTypeButton(Node.NodeType? nodeType)
+        private void SelectActiveToolTypeButton(Node.NodeType nodeType)
         {
             ToolPutNodes.Checked = false;
             ToolMoveNodes.Checked = false;
             ToolCreateLink.Checked = false;
+            ToolUpdateCrossDenominator.Checked = false;
 
-            mouseAction_ = MouseAction.UpdateNodeType;
+            junctionTool_ = JunctionTool.UpdateNodeType;
 
-            if (nodeType.HasValue)
-            {
-                ToolNodeTypeDock.Checked = Node.NodeType.Dock == nodeType.Value;
-                ToolNodeTypeIsolation.Checked = Node.NodeType.Isolation == nodeType.Value;
-                ToolNodeTypeEntrance.Checked = Node.NodeType.Entrance == nodeType.Value;
-                ToolNodeTypePPP.Checked = Node.NodeType.Ppp == nodeType.Value;
-                ToolNodeTypeCross.Checked = Node.NodeType.Cross == nodeType.Value;
-            }
+            ToolNodeTypeDock.Checked = Node.NodeType.Dock == nodeType;
+            ToolNodeTypeIsolation.Checked = Node.NodeType.Isolation == nodeType;
+            ToolNodeTypeEntrance.Checked = Node.NodeType.Entrance == nodeType;
+            ToolNodeTypePPP.Checked = Node.NodeType.Ppp == nodeType;
+            ToolNodeTypeCross.Checked = Node.NodeType.Cross == nodeType;
 
             newNodeType_ = nodeType;
         }
+
+        #endregion
 
 
         public JunctionRepository Repository
