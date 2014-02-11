@@ -124,6 +124,18 @@ namespace TrainProject.JunctionEditor
                         selectedNode.Type = newNodeType_.Value;
                     break;
                 case JunctionTool.UpdateDenominator:
+                    if (selectedNode != null)
+                    {
+                        tempNode_ = selectedNode;
+                        DenominatorsList.Left = e.Location.X;
+                        DenominatorsList.Top = e.Location.Y + DenominatorsList.Height;
+                        DenominatorsList.Show();
+                    }
+                    else
+                    {
+                        tempNode_ = null;
+                        DenominatorsList.Hide();
+                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -338,6 +350,17 @@ namespace TrainProject.JunctionEditor
             var filename = saveFileDialog.FileName;
             var serializedData = repository_.Serialize();
             File.WriteAllText(filename, serializedData);
+        }
+
+        private void DenominatorsList_DropDownClosed(object sender, EventArgs e)
+        {
+            tempNode_.Denominator = int.Parse(DenominatorsList.Text);
+            DenominatorsList.Hide();
+        }
+
+        private void DenominatorsList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

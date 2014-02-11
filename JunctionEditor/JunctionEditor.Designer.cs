@@ -51,6 +51,7 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.img = new System.Windows.Forms.PictureBox();
+            this.DenominatorsList = new System.Windows.Forms.ComboBox();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.img)).BeginInit();
             this.SuspendLayout();
@@ -272,10 +273,32 @@
             this.img.MouseMove += new System.Windows.Forms.MouseEventHandler(this.img_MouseMove);
             this.img.MouseUp += new System.Windows.Forms.MouseEventHandler(this.img_MouseUp);
             // 
+            // DenominatorsList
+            // 
+            this.DenominatorsList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DenominatorsList.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.DenominatorsList.FormattingEnabled = true;
+            this.DenominatorsList.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"});
+            this.DenominatorsList.Location = new System.Drawing.Point(14, 40);
+            this.DenominatorsList.Name = "DenominatorsList";
+            this.DenominatorsList.Size = new System.Drawing.Size(43, 21);
+            this.DenominatorsList.TabIndex = 2;
+            this.DenominatorsList.Visible = false;
+            this.DenominatorsList.SelectedIndexChanged += new System.EventHandler(this.DenominatorsList_SelectedIndexChanged);
+            this.DenominatorsList.DropDownClosed += new System.EventHandler(this.DenominatorsList_DropDownClosed);
+            // 
             // JEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.DenominatorsList);
             this.Controls.Add(this.img);
             this.Controls.Add(this.toolStrip);
             this.Name = "JEditor";
@@ -312,5 +335,6 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ToolStripButton ToolUpdateCrossDenominator;
+        private System.Windows.Forms.ComboBox DenominatorsList;
     }
 }

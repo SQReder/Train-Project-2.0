@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 
 namespace TrainProject.JunctionEditor
 {
@@ -12,6 +13,7 @@ namespace TrainProject.JunctionEditor
         private readonly Pen pen_ = new Pen(Color.SteelBlue,2f);
         private bool isSelected_;
         private string title_;
+        private int denominator_;
 
         public enum NodeType
         {
@@ -112,8 +114,19 @@ namespace TrainProject.JunctionEditor
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            var stringFormat = new StringFormat
+            {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Center
+            }; 
             
-            graphics.DrawString(title_, SystemFonts.DefaultFont, Brushes.Black, new Point(position.X - Radius, position.Y + Radius*2));
+            var str = title_;
+            if (type_ == NodeType.Cross)
+                str += ":" + denominator_.ToString(CultureInfo.InvariantCulture);
+
+            var textPosition = new Point(position.X, position.Y + Radius*3);
+            graphics.DrawString(str, SystemFonts.DefaultFont, Brushes.Black, textPosition, stringFormat);
         }
 
         public Point Position
@@ -153,10 +166,17 @@ namespace TrainProject.JunctionEditor
             set { title_ = value; }
         }
 
+        public int Denominator
+        {
+            get { return denominator_; }
+            set { denominator_ = value; }
+        }
+
         public bool Equals(Node other)
         {
             return position_ == other.position_
                    && type_ == other.type_
+                   && denominator_ == other.denominator_
                    && title_ == other.title_;
         }
     }
