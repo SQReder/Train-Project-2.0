@@ -4,11 +4,13 @@ using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using Newtonsoft.Json;
+using TrainProject.Vectors;
 
 namespace TrainProject.JunctionEditor
 {
-    public class Link: IDrawable, IEquatable<Link>
+    public class Link: IDrawable, IEquatable<Link>, ISelectable
     {
         private const float LineMargin = 8f;
         private readonly Node from_;
@@ -38,23 +40,20 @@ namespace TrainProject.JunctionEditor
             set { to_ = value; }
         }
 
-        //public int Length
-        //{
-        //    get { return length_; }
-        //}
+        #region IDrawable implementation
 
         public void Draw(Graphics graphics)
         {
             try
             {
-                var croppedLine = GetCroppedLine(from_, to_, LineMargin);
+                var croppedLine = GetCroppedLine(LineMargin);
                 var a = croppedLine.Item1;
                 var b = croppedLine.Item2;
 
                 graphics.DrawLine(Pen, a, b);
 
-                if (from_.Distance(to_.Position) > LineMargin*2)
-                    DrawArrowHead(graphics, Pen, from_, to_);
+                if (Vector.Distance(from_,to_) > LineMargin*2)
+                    DrawArrowHead(graphics, Pen);
                 DrawLength(graphics);
             }
             catch (Exception e)
@@ -63,50 +62,52 @@ namespace TrainProject.JunctionEditor
             }
         }
 
-        private static void DrawArrowHead(Graphics g, Pen parentPen, IPositionable nodeStart, IPositionable nodeEnd)
+        private void DrawArrowHead(Graphics g, Pen parentPen)
         {
             const float h = 10f;
             const float w = 4f;
 
-            var croppedLine = GetCroppedLine(nodeStart, nodeEnd, LineMargin);
-            var start = nodeStart.Position;
-            var end = croppedLine.Item2;
+            var croppedLine = GetCroppedLine(LineMargin);
+            var croppedEnd = croppedLine.Item2;
 
-            var mainVector = new PointF(end.X - start.X, end.Y - start.Y);
-            var mainVectorLen = nodeStart.Distance(new Point((int)end.X,(int)end.Y));
-            var mainVectorNormal = new PointF(mainVector.X / mainVectorLen, mainVector.Y / mainVectorLen);
+            var mainVector = Vector.Create(from_, to_);
+            var mainNormal = Vector.Normalize(mainVector);
 
-            var oPointLen = mainVectorLen - h;
-            var o = new PointF(mainVectorNormal.X * oPointLen, mainVectorNormal.Y * oPointLen);
+            var cropVectorLen = Vector.Distance(from_.Position, croppedEnd);
 
-            var normal = new PointF(-mainVectorNormal.Y, mainVectorNormal.X);
+            var oPointLen = cropVectorLen - h;
+            var o = Vector.MultiplyByScalar(mainNormal, oPointLen);
 
-            var a = new PointF(start.X + o.X + normal.X * w, start.Y + o.Y + normal.Y * w);
-            var b = new PointF(start.X + o.X + normal.X * -w, start.Y + o.Y + normal.Y * -w);
+            var normal = new PointF(-mainNormal.Y, mainNormal.X);
+
+            var left = Vector.MultiplyByScalar(normal, w);
+            var right = Vector.MultiplyByScalar(normal, -w);
+            var sbase = Vector.Addition(from_.Position, o);
+
+            var a = Vector.Addition(sbase, left);//new PointF(start.X + o.X + normal.X * w, start.Y + o.Y + normal.Y * w);
+            var b = Vector.Addition(sbase, right);//new PointF(start.X + o.X + normal.X * -w, start.Y + o.Y + normal.Y * -w);
 
             var headPen = new Pen(parentPen.Color, parentPen.Width);
-            g.DrawLine(headPen, end, a);
-            g.DrawLine(headPen, end, b);
+            g.DrawLine(headPen, croppedEnd, a);
+            g.DrawLine(headPen, croppedEnd, b);
         }
 
         private void DrawLength(Graphics graphics)
         {
-            var distance = from_.Distance(to_.Position);
-            length_ = (int) Math.Round(distance);
-            var label = length_.ToString(CultureInfo.InvariantCulture);
-
-            var mainVector = new Point(To.Position.X - From.Position.X, To.Position.Y - From.Position.Y);
-            
-            var normal = new SizeF(mainVector.X / distance, mainVector.Y / distance);
-            var textNormal = new SizeF(normal.Height, -normal.Width); // turn normal 90 degree clockwise
-
-            var center = new SizeF(normal.Width * distance / 2f, normal.Height * distance / 2f);
             var textMargin = SystemFonts.DefaultFont.Size * 1.5f;
-            var textOffcet = new SizeF(textNormal.Width*textMargin, textNormal.Height*textMargin);
-            var offset = center + textOffcet;
-            var intOffset = new Size((int) offset.Width, (int) offset.Height);
 
-            var textPosition = From.Position + intOffset;
+            var mainVector = Vector.Create(from_.Position, to_.Position);
+
+            var normal = Vector.Normalize(mainVector);
+            var textNormal = Vector.Create(normal.Y, -normal.X); // turn normal 90 degree clockwise
+            var textOffcet = Vector.MultiplyByScalar(textNormal, textMargin);
+
+            var vectorLength = Vector.VectorLength(mainVector);
+            var center = Vector.MultiplyByScalar(normal, vectorLength / 2f);
+            
+            var offset = Vector.Addition(center, textOffcet);
+
+            var textPosition = Vector.Addition(From.Position, offset);
 
             var font = SystemFonts.DefaultFont;
             var stringFormat = new StringFormat
@@ -115,28 +116,50 @@ namespace TrainProject.JunctionEditor
                 LineAlignment = StringAlignment.Center
             };
 
+            length_ = (int)Math.Round(vectorLength);
+            var label = length_.ToString(CultureInfo.InvariantCulture);
+
             graphics.DrawString(label, font, Brushes.Black, textPosition, stringFormat);
         }
 
-        private static Tuple<PointF, PointF> GetCroppedLine(IPositionable nodeStart, IPositionable nodeEnd, float crops)
+        private Tuple<PointF, PointF> GetCroppedLine(float crops)
         {
-            var start = nodeStart.Position;
-            var end = nodeEnd.Position;
-            var mainVector = new PointF(end.X - start.X, end.Y - start.Y);
-            var mainVectorLen = nodeStart.Distance(nodeEnd.Position);
-            var mainVectorNormal = new PointF(mainVector.X / mainVectorLen, mainVector.Y / mainVectorLen);
+            var start = from_.Position;
+            var end = to_.Position;
+            var mainVector = Vector.Create(from_.Position, to_.Position);
+            var normal = Vector.Normalize(mainVector);
 
-            var a = new PointF(start.X + mainVectorNormal.X * crops, start.Y + mainVectorNormal.Y * crops);
-            var b = new PointF(end.X - mainVectorNormal.X * crops, end.Y - mainVectorNormal.Y * crops);
+            var croppedVector = Vector.MultiplyByScalar(normal, crops);
+            var a = Vector.Addition(start, croppedVector);
+            var b = Vector.Divide(end, croppedVector);
 
             return new Tuple<PointF, PointF>(a, b);
         }
 
+        #endregion
+
+        #region IEquatable implementation
 
         public bool Equals(Link other)
         {
             return from_.Equals(other.from_)
                    && to_.Equals(other.to_);
         }
+
+        #endregion
+
+        #region ISelectable implementation
+
+        public bool IsSelected()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateSelectionState(Point position)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

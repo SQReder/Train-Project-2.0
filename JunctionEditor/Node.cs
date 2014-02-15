@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
+using TrainProject.Vectors;
 
 namespace TrainProject.JunctionEditor
 {
     public class Node : IDrawable, ISelectable, IPositionable, IEquatable<Node>
     {
         private const int Radius = 5;
-        private Point position_ = new Point(0,0);
+        private PointF position_ = new Point(0,0);
         private readonly Brush highlightBrush_ = Brushes.DodgerBlue;
         private readonly Pen pen_ = new Pen(Color.SteelBlue,2f);
         private bool isSelected_;
         private string title_;
-        private int denominator_;
+        private int? denominator_;
 
         public enum NodeType
         {
@@ -26,29 +28,56 @@ namespace TrainProject.JunctionEditor
 
         private NodeType type_ = NodeType.Isolation;
 
+        public PointF Position
+        {
+            get { return position_; }
+            set { position_ = value; }
+        }
+
+
+        public NodeType Type
+        {
+            get { return type_; }
+            set { type_ = value; }
+        }
+
+        public string Title
+        {
+            get { return title_; }
+            set { title_ = value; }
+        }
+
+        public int? Denominator
+        {
+            get { return denominator_; }
+            set { denominator_ = value; }
+        }
+
+        #region IDrawable implementation
+
         public void Draw(Graphics graphics)
         {
             var position = Position;
-            Rectangle rect;
-            Point[] lines;
+            RectangleF rect;
+            PointF[] lines;
             switch (type_)
             {
                 case NodeType.Isolation:
-                    rect = new Rectangle(position.X - Radius, position.Y - Radius, Radius * 2, Radius * 2);
+                    rect = new RectangleF(position.X - Radius, position.Y - Radius, Radius * 2, Radius * 2);
 
                     if (IsSelected())
                         graphics.FillRectangle(highlightBrush_, rect);
-                    graphics.DrawLine(pen_, new Point(position.X - Radius, position.Y - Radius), new Point(position.X + Radius, position.Y - Radius));
-                    graphics.DrawLine(pen_, new Point(position.X, position.Y - Radius), new Point(position.X, position.Y + Radius));
-                    graphics.DrawLine(pen_, new Point(position.X - Radius, position.Y + Radius), new Point(position.X + Radius, position.Y + Radius));
+                    graphics.DrawLine(pen_, new PointF(position.X - Radius, position.Y - Radius), new PointF(position.X + Radius, position.Y - Radius));
+                    graphics.DrawLine(pen_, new PointF(position.X, position.Y - Radius), new PointF(position.X, position.Y + Radius));
+                    graphics.DrawLine(pen_, new PointF(position.X - Radius, position.Y + Radius), new PointF(position.X + Radius, position.Y + Radius));
                     break;
 
                 case NodeType.Entrance:
-                    lines = new List<Point>
+                    lines = new List<PointF>
                     {
-                        new Point(position.X - Radius / 2, position.Y - Radius),
-                        new Point(position.X + Radius / 2, position.Y),
-                        new Point(position.X - Radius / 2, position.Y + Radius)
+                        new PointF(position.X - Radius / 2f, position.Y - Radius),
+                        new PointF(position.X + Radius / 2f, position.Y),
+                        new PointF(position.X - Radius / 2f, position.Y + Radius)
                     }.ToArray();
                     if (IsSelected())
                         graphics.FillPolygon(highlightBrush_, lines);
@@ -58,19 +87,19 @@ namespace TrainProject.JunctionEditor
                 case NodeType.Dock:
                     if (isSelected_)
                     {
-                        rect = new Rectangle(
+                        rect = new RectangleF(
                             position.X, position.Y - Radius,
                             Radius, Radius * 2 );
                         graphics.FillRectangle(highlightBrush_, rect);
                     }
 
-                    lines = new List<Point>
+                    lines = new List<PointF>
                     {
-                        new Point(position.X + Radius, position.Y + Radius),
-                        new Point(position.X, position.Y + Radius),
-                        new Point(position.X, position.Y),
-                        new Point(position.X, position.Y - Radius),
-                        new Point(position.X + Radius, position.Y - Radius)
+                        new PointF(position.X + Radius, position.Y + Radius),
+                        new PointF(position.X, position.Y + Radius),
+                        new PointF(position.X, position.Y),
+                        new PointF(position.X, position.Y - Radius),
+                        new PointF(position.X + Radius, position.Y - Radius)
                     }.ToArray();
 
                     graphics.DrawLines(pen_, lines);
@@ -79,21 +108,21 @@ namespace TrainProject.JunctionEditor
                 case NodeType.Ppp:
                     if (isSelected_)
                     {
-                        rect = new Rectangle(
+                        rect = new RectangleF(
                             position.X, position.Y - Radius,
                             Radius, Radius * 2);
                         graphics.FillRectangle(highlightBrush_, rect);
                     }
 
-                    lines = new List<Point>
+                    lines = new List<PointF>
                     {
-                        new Point(position.X + Radius, position.Y + Radius),
-                        new Point(position.X, position.Y + Radius),
-                        new Point(position.X, position.Y),
-                        new Point(position.X+Radius,position.Y),
-                        new Point(position.X, position.Y),
-                        new Point(position.X, position.Y - Radius),
-                        new Point(position.X + Radius, position.Y - Radius)
+                        new PointF(position.X + Radius, position.Y + Radius),
+                        new PointF(position.X, position.Y + Radius),
+                        new PointF(position.X, position.Y),
+                        new PointF(position.X+Radius,position.Y),
+                        new PointF(position.X, position.Y),
+                        new PointF(position.X, position.Y - Radius),
+                        new PointF(position.X + Radius, position.Y - Radius)
                     }.ToArray();
 
                     graphics.DrawLines(pen_, lines);
@@ -104,11 +133,11 @@ namespace TrainProject.JunctionEditor
 
                     if (IsSelected())
                     {
-                        rect = new Rectangle(position.X - Radius, position.Y - Radius, Radius * 2, Radius * 2);
+                        rect = new RectangleF(position.X - Radius, position.Y - Radius, Radius * 2, Radius * 2);
                         graphics.FillRectangle(highlightBrush_, rect);
                     }
-                    graphics.DrawLine(pen_, new Point(position.X - Radius, position.Y), new Point(position.X + Radius, position.Y));
-                    graphics.DrawLine(pen_, new Point(position.X - (int)(Radius * 0.5), position.Y), new Point(position.X + (int)(Radius * 0.8), position.Y + (int)(Radius * 0.8)));
+                    graphics.DrawLine(pen_, new PointF(position.X - Radius, position.Y), new PointF(position.X + Radius, position.Y));
+                    graphics.DrawLine(pen_, new PointF(position.X - (int)(Radius * 0.5), position.Y), new PointF(position.X + (int)(Radius * 0.8), position.Y + (int)(Radius * 0.8)));
                     break;
 
                 default:
@@ -123,25 +152,18 @@ namespace TrainProject.JunctionEditor
             
             var str = title_;
             if (type_ == NodeType.Cross)
-                str += ":" + denominator_.ToString(CultureInfo.InvariantCulture);
+            {
+                Debug.Assert(denominator_ != null, "denominator_ != null");
+                str += ":" + denominator_.Value.ToString(CultureInfo.InvariantCulture);
+            }
 
-            var textPosition = new Point(position.X, position.Y + Radius*3);
+            var textPosition = new PointF(position.X, position.Y + Radius*3);
             graphics.DrawString(str, SystemFonts.DefaultFont, Brushes.Black, textPosition, stringFormat);
         }
 
-        public Point Position
-        {
-            get { return position_; }
-            set { position_ = value; }
-        }
+        #endregion
 
-        public float Distance(Point position)
-        {
-            var pos = Position;
-            var a = Math.Pow(pos.X - position.X, 2);
-            var b = Math.Pow(pos.Y - position.Y, 2);
-            return (float)Math.Sqrt(a + b);
-        }
+        #region ISelectable implementation
 
         public bool IsSelected()
         {
@@ -151,26 +173,12 @@ namespace TrainProject.JunctionEditor
         public void UpdateSelectionState(Point position)
         {
 
-            isSelected_ = Distance(position) < Radius + 4;
+            isSelected_ = Vector.Distance(position_ ,position) < Radius + 4;
         }
 
-        public NodeType Type
-        {
-            get { return type_; }
-            set { type_ = value; }
-        }
+        #endregion
 
-        public string Title
-        {
-            get { return title_; }
-            set { title_ = value; }
-        }
-
-        public int Denominator
-        {
-            get { return denominator_; }
-            set { denominator_ = value; }
-        }
+        #region IEquatable impelementation
 
         public bool Equals(Node other)
         {
@@ -179,5 +187,19 @@ namespace TrainProject.JunctionEditor
                    && denominator_ == other.denominator_
                    && title_ == other.title_;
         }
+
+        #endregion
+
+        #region IPositionable implementation
+
+        public float X { get { return position_.X; } }
+        public float Y { get { return position_.Y; } }
+        
+        public void MoveTo(PointF position)
+        {
+            position_ = position;
+        }
+
+        #endregion
     }
 }
