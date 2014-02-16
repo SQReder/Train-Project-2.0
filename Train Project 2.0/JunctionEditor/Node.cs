@@ -48,7 +48,7 @@ namespace TrainProject.JunctionEditor
 
         public int? Denominator
         {
-            get { return denominator_; }
+            get { return type_ == NodeType.Cross ? denominator_ : null; }
             set { denominator_ = value; }
         }
 
