@@ -30,5 +30,37 @@ namespace TrainProjectTests
 
             Assert.AreEqual<Node>(expected, actual);
         }
+
+        [TestMethod]
+        public void MoveToPositionTest()
+        {
+            var actual = new Node();        
+            actual.MoveTo(new PointF(100,100));
+
+            var expected = new Node
+            {
+                Position = new PointF(100, 100)
+            };
+
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.X, actual.X);
+            Assert.AreEqual(expected.Y, actual.Y);
+        }
+
+        [TestMethod]
+        public void SelectableTest()
+        {
+            var node = new Node
+            {
+                Position = new PointF(100,100)
+            };
+            Assert.AreEqual(false, node.IsSelected(), "Default selected flag must be false");
+
+            node.UpdateSelectionState(new Point(100,100));
+            Assert.AreEqual(true, node.IsSelected(), "Broken selection update when must be selected");
+
+            node.UpdateSelectionState(new Point(0,0));
+            Assert.AreEqual(false, node.IsSelected(), "Broken selection update when must be unselected");
+        }
     }
 }
