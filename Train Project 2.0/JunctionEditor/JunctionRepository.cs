@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace TrainProject.JunctionEditor
 {
-    public class JunctionRepository
+    public partial class JunctionRepository
     {
         private readonly List<Node> nodes_ = new List<Node>();
         private readonly List<Link> links_ = new List<Link>();
@@ -33,7 +33,7 @@ namespace TrainProject.JunctionEditor
         {
             if (node == null)
                 return;
-            links_.RemoveAll(l => l.From == node && l.To == node);
+            links_.RemoveAll(l => Equals(l.From, node) || Equals(l.To, node));
             nodes_.Remove(node);
         }
 
@@ -76,6 +76,10 @@ namespace TrainProject.JunctionEditor
                 @to = link.To;
             }
 
+            if (Equals(@from, @to))
+                throw new ArgumentException("Creating ring links not allowed");
+
+
             var linkToAdd = new Link(@from, @to);
             if (!links_.Contains(linkToAdd))
                 links_.Add(linkToAdd);
@@ -114,7 +118,7 @@ namespace TrainProject.JunctionEditor
         /// <returns>Enumeration of links connected to referenced node</returns>
         public IEnumerable<Link> ListLinksByNode(Node node)
         {
-            return links_.Where(l => l.From == node || l.To == node).ToList();
+            return links_.Where(l => Equals(l.From, node) || Equals(l.To, node)).ToList();
         }
 
         /// <summary>

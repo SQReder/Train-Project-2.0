@@ -10,7 +10,7 @@ namespace TrainProjectTests
     public class NodeTest
     {
         [TestMethod]
-        public void EqualTest()
+        public void NodeEqualTest()
         {
             var actual = new Node
             {
@@ -32,7 +32,7 @@ namespace TrainProjectTests
         }
 
         [TestMethod]
-        public void MoveToPositionTest()
+        public void NodeMoveToPositionTest()
         {
             var actual = new Node();        
             actual.MoveTo(new PointF(100,100));
@@ -48,7 +48,7 @@ namespace TrainProjectTests
         }
 
         [TestMethod]
-        public void SelectableTest()
+        public void NodeSelectableTest()
         {
             var node = new Node
             {
