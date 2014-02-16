@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Train Project 2.0", "Train Project 2.0\Train Project 2.0.csproj", "{9DFD66D8-24DB-47F1-B766-A2786C3FED4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainProjectTests", "TrainProjectTests\TrainProjectTests.csproj", "{466B802C-DEE3-4DEE-8526-A4C0CEB5EDC4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DFD66D8-24DB-47F1-B766-A2786C3FED4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DFD66D8-24DB-47F1-B766-A2786C3FED4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DFD66D8-24DB-47F1-B766-A2786C3FED4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DFD66D8-24DB-47F1-B766-A2786C3FED4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{466B802C-DEE3-4DEE-8526-A4C0CEB5EDC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{466B802C-DEE3-4DEE-8526-A4C0CEB5EDC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{466B802C-DEE3-4DEE-8526-A4C0CEB5EDC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{466B802C-DEE3-4DEE-8526-A4C0CEB5EDC4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+EndGlobal
