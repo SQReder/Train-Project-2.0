@@ -11,7 +11,7 @@ namespace TrainProject.JunctionEditor
         /// Return current selection state
         /// </summary>
         /// <returns>True if object selected otherwise false</returns>
-        bool IsSelected();
+        bool Selected { get; }
 
         /// <summary>
         /// Update current selected state

@@ -122,13 +122,13 @@ namespace TrainProject.JunctionEditor
         }
 
         /// <summary>
-        /// Get first node with IsSelected flag
+        /// Get first node with Selected flag
         /// </summary>
-        /// <returns>First node from repository with IsSelected flag</returns>
-        /// <seealso cref="ISelectable.IsSelected"/>
+        /// <returns>First node from repository with Selected flag</returns>
+        /// <seealso cref="ISelectable.Selected"/>
         public Node GetFirstSelectedNode()
         {
-            return nodes_.FirstOrDefault(node => node.IsSelected());
+            return nodes_.FirstOrDefault(node => node.Selected);
         }
 
         /// <summary>

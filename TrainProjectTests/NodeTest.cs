@@ -54,13 +54,13 @@ namespace TrainProjectTests
             {
                 Position = new PointF(100,100)
             };
-            Assert.AreEqual(false, node.IsSelected(), "Default selected flag must be false");
+            Assert.AreEqual(false, node.Selected, "Default selected flag must be false");
 
             node.UpdateSelectionState(new Point(100,100));
-            Assert.AreEqual(true, node.IsSelected(), "Broken selection update when must be selected");
+            Assert.AreEqual(true, node.Selected, "Broken selection update when must be selected");
 
             node.UpdateSelectionState(new Point(0,0));
-            Assert.AreEqual(false, node.IsSelected(), "Broken selection update when must be unselected");
+            Assert.AreEqual(false, node.Selected, "Broken selection update when must be unselected");
         }
     }
 }

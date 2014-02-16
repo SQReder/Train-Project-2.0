@@ -25,6 +25,7 @@ namespace TrainProject.JunctionEditor
 
         public Link(Node from, Node to)
         {
+            Selected = false;
             from_ = from;
             to_ = to;
         }
@@ -167,10 +168,7 @@ namespace TrainProject.JunctionEditor
 
         #region ISelectable implementation
 
-        public bool IsSelected()
-        {
-            throw new NotImplementedException();
-        }
+        public bool Selected { get; private set; }
 
         public void UpdateSelectionState(Point position)
         {

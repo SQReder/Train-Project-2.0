@@ -13,7 +13,6 @@ namespace TrainProject.JunctionEditor
         private PointF position_ = new Point(0,0);
         private readonly Brush highlightBrush_ = Brushes.DodgerBlue;
         private readonly Pen pen_ = new Pen(Color.SteelBlue,2f);
-        private bool isSelected_;
         private string title_;
         private int? denominator_;
 
@@ -27,6 +26,11 @@ namespace TrainProject.JunctionEditor
         }
 
         private NodeType type_ = NodeType.Isolation;
+
+        public Node()
+        {
+            Selected = false;
+        }
 
         public PointF Position
         {
@@ -64,7 +68,7 @@ namespace TrainProject.JunctionEditor
                 case NodeType.Isolation:
                     rect = new RectangleF(position.X - Radius, position.Y - Radius, Radius * 2, Radius * 2);
 
-                    if (IsSelected())
+                    if (Selected)
                         graphics.FillRectangle(highlightBrush_, rect);
                     graphics.DrawLine(pen_, new PointF(position.X - Radius, position.Y - Radius), new PointF(position.X + Radius, position.Y - Radius));
                     graphics.DrawLine(pen_, new PointF(position.X, position.Y - Radius), new PointF(position.X, position.Y + Radius));
@@ -78,13 +82,13 @@ namespace TrainProject.JunctionEditor
                         new PointF(position.X + Radius / 2f, position.Y),
                         new PointF(position.X - Radius / 2f, position.Y + Radius)
                     }.ToArray();
-                    if (IsSelected())
+                    if (Selected)
                         graphics.FillPolygon(highlightBrush_, lines);
                     graphics.DrawLines(pen_, lines);
                     break;
 
                 case NodeType.Dock:
-                    if (isSelected_)
+                    if (Selected)
                     {
                         rect = new RectangleF(
                             position.X, position.Y - Radius,
@@ -105,7 +109,7 @@ namespace TrainProject.JunctionEditor
                     break;
 
                 case NodeType.Ppp:
-                    if (isSelected_)
+                    if (Selected)
                     {
                         rect = new RectangleF(
                             position.X, position.Y - Radius,
@@ -130,7 +134,7 @@ namespace TrainProject.JunctionEditor
 
                 case NodeType.Cross:
 
-                    if (IsSelected())
+                    if (Selected)
                     {
                         rect = new RectangleF(position.X - Radius, position.Y - Radius, Radius * 2, Radius * 2);
                         graphics.FillRectangle(highlightBrush_, rect);
@@ -164,15 +168,12 @@ namespace TrainProject.JunctionEditor
 
         #region ISelectable implementation
 
-        public bool IsSelected()
-        {
-            return isSelected_;
-        }
+        public bool Selected { get; private set; }
 
         public void UpdateSelectionState(Point position)
         {
 
-            isSelected_ = Vector.Distance(position_ ,position) < Radius + 4;
+            Selected = Vector.Distance(position_ ,position) < Radius + 4;
         }
 
         #endregion
