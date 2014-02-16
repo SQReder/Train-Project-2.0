@@ -38,7 +38,6 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.DenominatorsList = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.LinkLength = new System.Windows.Forms.TextBox();
             this.img = new System.Windows.Forms.PictureBox();
             this.ToolClearEditor = new System.Windows.Forms.ToolStripButton();
@@ -144,13 +143,6 @@
             this.DenominatorsList.Visible = false;
             this.DenominatorsList.SelectedIndexChanged += new System.EventHandler(this.DenominatorsList_SelectedIndexChanged);
             this.DenominatorsList.DropDownClosed += new System.EventHandler(this.DenominatorsList_DropDownClosed);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(-15, -15);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 3;
             // 
             // LinkLength
             // 
@@ -332,7 +324,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.LinkLength);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.DenominatorsList);
             this.Controls.Add(this.img);
             this.Controls.Add(this.toolStrip);
@@ -372,7 +363,6 @@
         private System.Windows.Forms.ToolStripButton ToolUpdateCrossDenominator;
         private System.Windows.Forms.ComboBox DenominatorsList;
         private System.Windows.Forms.ToolStripButton ToolSetLinkLength;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox LinkLength;
     }
 }
