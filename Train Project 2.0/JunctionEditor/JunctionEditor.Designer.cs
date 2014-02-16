@@ -30,28 +30,31 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JEditor));
             this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripSeparator();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.DenominatorsList = new System.Windows.Forms.ComboBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.LinkLength = new System.Windows.Forms.TextBox();
+            this.img = new System.Windows.Forms.PictureBox();
             this.ToolClearEditor = new System.Windows.Forms.ToolStripButton();
             this.ToolLoadFromFile = new System.Windows.Forms.ToolStripButton();
             this.ToolSaveToFile = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolPutNodes = new System.Windows.Forms.ToolStripButton();
             this.ToolMoveNodes = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolCreateLink = new System.Windows.Forms.ToolStripButton();
             this.ToggleCreateNewNodeForLinks = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.ToolNodeTypeEntrance = new System.Windows.Forms.ToolStripButton();
             this.ToolNodeTypeIsolation = new System.Windows.Forms.ToolStripButton();
             this.ToolNodeTypeCross = new System.Windows.Forms.ToolStripButton();
             this.ToolNodeTypeDock = new System.Windows.Forms.ToolStripButton();
             this.ToolNodeTypePPP = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolUpdateCrossDenominator = new System.Windows.Forms.ToolStripButton();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.DenominatorsList = new System.Windows.Forms.ComboBox();
-            this.img = new System.Windows.Forms.PictureBox();
+            this.ToolSetLinkLength = new System.Windows.Forms.ToolStripButton();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.img)).BeginInit();
             this.SuspendLayout();
@@ -76,12 +79,105 @@
             this.ToolNodeTypeDock,
             this.ToolNodeTypePPP,
             this.toolStripButton1,
-            this.ToolUpdateCrossDenominator});
+            this.ToolUpdateCrossDenominator,
+            this.ToolSetLinkLength});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(498, 25);
             this.toolStrip.TabIndex = 0;
             this.toolStrip.Text = "toolStrip1";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(70, 22);
+            this.toolStripLabel1.Text = "Node types:";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "*.jun";
+            this.openFileDialog.Filter = "Junction files|*.jun|All files|*.*";
+            this.openFileDialog.InitialDirectory = ".";
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Filter = "Junction files|*.jun|All files|*.*";
+            this.saveFileDialog.InitialDirectory = ".";
+            // 
+            // DenominatorsList
+            // 
+            this.DenominatorsList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DenominatorsList.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.DenominatorsList.FormattingEnabled = true;
+            this.DenominatorsList.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"});
+            this.DenominatorsList.Location = new System.Drawing.Point(14, 40);
+            this.DenominatorsList.Name = "DenominatorsList";
+            this.DenominatorsList.Size = new System.Drawing.Size(43, 21);
+            this.DenominatorsList.TabIndex = 2;
+            this.DenominatorsList.Visible = false;
+            this.DenominatorsList.SelectedIndexChanged += new System.EventHandler(this.DenominatorsList_SelectedIndexChanged);
+            this.DenominatorsList.DropDownClosed += new System.EventHandler(this.DenominatorsList_DropDownClosed);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(-15, -15);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 3;
+            // 
+            // LinkLength
+            // 
+            this.LinkLength.AcceptsReturn = true;
+            this.LinkLength.Location = new System.Drawing.Point(77, 40);
+            this.LinkLength.Name = "LinkLength";
+            this.LinkLength.Size = new System.Drawing.Size(53, 20);
+            this.LinkLength.TabIndex = 4;
+            this.LinkLength.Visible = false;
+            this.LinkLength.TextChanged += new System.EventHandler(this.LinkLength_TextChanged);
+            this.LinkLength.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LinkLength_KeyDown);
+            // 
+            // img
+            // 
+            this.img.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.img.Location = new System.Drawing.Point(3, 28);
+            this.img.Name = "img";
+            this.img.Size = new System.Drawing.Size(492, 266);
+            this.img.TabIndex = 1;
+            this.img.TabStop = false;
+            this.img.Click += new System.EventHandler(this.img_Click);
+            this.img.Paint += new System.Windows.Forms.PaintEventHandler(this.img_Paint);
+            this.img.MouseDown += new System.Windows.Forms.MouseEventHandler(this.img_MouseDown);
+            this.img.MouseMove += new System.Windows.Forms.MouseEventHandler(this.img_MouseMove);
+            this.img.MouseUp += new System.Windows.Forms.MouseEventHandler(this.img_MouseUp);
             // 
             // ToolClearEditor
             // 
@@ -113,11 +209,6 @@
             this.ToolSaveToFile.Text = "toolStripButton4";
             this.ToolSaveToFile.Click += new System.EventHandler(this.ToolSaveToFile_Click);
             // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
             // ToolPutNodes
             // 
             this.ToolPutNodes.CheckOnClick = true;
@@ -140,11 +231,6 @@
             this.ToolMoveNodes.Text = "Move nodes";
             this.ToolMoveNodes.Click += new System.EventHandler(this.ToolMoveNodes_Click);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
             // ToolCreateLink
             // 
             this.ToolCreateLink.CheckOnClick = true;
@@ -165,17 +251,6 @@
             this.ToggleCreateNewNodeForLinks.Name = "ToggleCreateNewNodeForLinks";
             this.ToggleCreateNewNodeForLinks.Size = new System.Drawing.Size(23, 22);
             this.ToggleCreateNewNodeForLinks.Text = "Create new nodes when link to nowere";
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(70, 22);
-            this.toolStripLabel1.Text = "Node types:";
             // 
             // ToolNodeTypeEntrance
             // 
@@ -230,11 +305,6 @@
             this.ToolNodeTypePPP.Text = "Set node type to PPP";
             this.ToolNodeTypePPP.Click += new System.EventHandler(this.ToolNodeTypePPP_Click);
             // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(6, 25);
-            // 
             // ToolUpdateCrossDenominator
             // 
             this.ToolUpdateCrossDenominator.CheckOnClick = true;
@@ -246,58 +316,23 @@
             this.ToolUpdateCrossDenominator.Text = "Set cross denominator";
             this.ToolUpdateCrossDenominator.Click += new System.EventHandler(this.ToolSetBase_Click);
             // 
-            // openFileDialog
+            // ToolSetLinkLength
             // 
-            this.openFileDialog.FileName = "*.jun";
-            this.openFileDialog.Filter = "Junction files|*.jun|All files|*.*";
-            this.openFileDialog.InitialDirectory = ".";
-            // 
-            // saveFileDialog
-            // 
-            this.saveFileDialog.Filter = "Junction files|*.jun|All files|*.*";
-            this.saveFileDialog.InitialDirectory = ".";
-            // 
-            // DenominatorsList
-            // 
-            this.DenominatorsList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.DenominatorsList.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.DenominatorsList.FormattingEnabled = true;
-            this.DenominatorsList.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7"});
-            this.DenominatorsList.Location = new System.Drawing.Point(14, 40);
-            this.DenominatorsList.Name = "DenominatorsList";
-            this.DenominatorsList.Size = new System.Drawing.Size(43, 21);
-            this.DenominatorsList.TabIndex = 2;
-            this.DenominatorsList.Visible = false;
-            this.DenominatorsList.SelectedIndexChanged += new System.EventHandler(this.DenominatorsList_SelectedIndexChanged);
-            this.DenominatorsList.DropDownClosed += new System.EventHandler(this.DenominatorsList_DropDownClosed);
-            // 
-            // img
-            // 
-            this.img.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.img.Location = new System.Drawing.Point(3, 28);
-            this.img.Name = "img";
-            this.img.Size = new System.Drawing.Size(492, 266);
-            this.img.TabIndex = 1;
-            this.img.TabStop = false;
-            this.img.Click += new System.EventHandler(this.img_Click);
-            this.img.Paint += new System.Windows.Forms.PaintEventHandler(this.img_Paint);
-            this.img.MouseDown += new System.Windows.Forms.MouseEventHandler(this.img_MouseDown);
-            this.img.MouseMove += new System.Windows.Forms.MouseEventHandler(this.img_MouseMove);
-            this.img.MouseUp += new System.Windows.Forms.MouseEventHandler(this.img_MouseUp);
+            this.ToolSetLinkLength.CheckOnClick = true;
+            this.ToolSetLinkLength.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolSetLinkLength.Image = global::TrainProject.Properties.Resources.LinkLengths;
+            this.ToolSetLinkLength.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolSetLinkLength.Name = "ToolSetLinkLength";
+            this.ToolSetLinkLength.Size = new System.Drawing.Size(23, 22);
+            this.ToolSetLinkLength.Text = "Set link length";
+            this.ToolSetLinkLength.Click += new System.EventHandler(this.ToolSetLinkLength_Click);
             // 
             // JEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.LinkLength);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.DenominatorsList);
             this.Controls.Add(this.img);
             this.Controls.Add(this.toolStrip);
@@ -336,5 +371,8 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ToolStripButton ToolUpdateCrossDenominator;
         private System.Windows.Forms.ComboBox DenominatorsList;
+        private System.Windows.Forms.ToolStripButton ToolSetLinkLength;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox LinkLength;
     }
 }

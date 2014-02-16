@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
@@ -21,6 +22,11 @@ namespace TrainProject.JunctionEditor
         private Node movingNodeRef_;
         private Link tempLink_;
 
+        public JunctionRepository Repository
+        {
+            get { return repository_; }
+        }
+
         #endregion
 
         public JEditor()
@@ -39,6 +45,7 @@ namespace TrainProject.JunctionEditor
             AddLinkFindEndNode,
             UpdateNodeType,
             UpdateDenominator,
+            UpdateLinkLength,
         };
 
         private JunctionTool junctionTool_ = JunctionTool.None;
@@ -80,6 +87,8 @@ namespace TrainProject.JunctionEditor
                     break;
                 case JunctionTool.UpdateDenominator:
                     break;
+                case JunctionTool.UpdateLinkLength:
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -90,6 +99,7 @@ namespace TrainProject.JunctionEditor
         private void img_MouseDown(object sender, MouseEventArgs e)
         {
             var selectedNode = repository_.GetFirstSelectedNode();
+            var selectedLink = repository_.GetFirstSelectedLink();
             switch (junctionTool_)
             {
                 case JunctionTool.None:
@@ -136,6 +146,21 @@ namespace TrainProject.JunctionEditor
                     {
                         tempNode_ = null;
                         DenominatorsList.Hide();
+                    }
+                    break;
+                case JunctionTool.UpdateLinkLength:
+                    if (selectedLink != null)
+                    {
+                        tempLink_ = selectedLink;
+                        LinkLength.Left = e.Location.X;
+                        LinkLength.Top = e.Location.Y + LinkLength.Height;
+                        LinkLength.Text = tempLink_.Length.ToString(CultureInfo.InvariantCulture);
+                        LinkLength.Show();
+                    }
+                    else
+                    {
+                        tempLink_ = null;
+                        LinkLength.Hide();
                     }
                     break;
                 default:
@@ -201,6 +226,8 @@ namespace TrainProject.JunctionEditor
                     break;
                 case JunctionTool.UpdateDenominator:
                     break;
+                case JunctionTool.UpdateLinkLength:
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -260,6 +287,9 @@ namespace TrainProject.JunctionEditor
         private void ToolSetBase_Click(object sender, EventArgs e)
         { SelectActiveToolTypeButton(JunctionTool.UpdateDenominator); }
 
+        private void ToolSetLinkLength_Click(object sender, EventArgs e)
+        { SelectActiveToolTypeButton(JunctionTool.UpdateLinkLength); }
+
         private void SelectActiveToolTypeButton(JunctionTool tool)
         {
             ToolNodeTypeDock.Checked = false;
@@ -272,6 +302,7 @@ namespace TrainProject.JunctionEditor
             ToolMoveNodes.Checked = JunctionTool.MoveNode == tool;
             ToolCreateLink.Checked = JunctionTool.AddLinkFindStartNode == tool;
             ToolUpdateCrossDenominator.Checked = JunctionTool.UpdateDenominator == tool;
+            ToolSetLinkLength.Checked = JunctionTool.UpdateLinkLength == tool;
 
             junctionTool_ = tool;
         }
@@ -296,13 +327,13 @@ namespace TrainProject.JunctionEditor
         private void ToolNodeTypeCross_Click(object sender, EventArgs e)
         { SelectActiveToolTypeButton(Node.NodeType.Cross); }
 
-
         private void SelectActiveToolTypeButton(Node.NodeType nodeType)
         {
             ToolPutNodes.Checked = false;
             ToolMoveNodes.Checked = false;
             ToolCreateLink.Checked = false;
             ToolUpdateCrossDenominator.Checked = false;
+            ToolSetLinkLength.Checked = false;
 
             junctionTool_ = JunctionTool.UpdateNodeType;
 
@@ -316,12 +347,6 @@ namespace TrainProject.JunctionEditor
         }
 
         #endregion
-
-
-        public JunctionRepository Repository
-        {
-            get { return repository_; }
-        }
 
         private void ToolClearEditor_Click(object sender, EventArgs e)
         {
@@ -360,6 +385,32 @@ namespace TrainProject.JunctionEditor
         private void DenominatorsList_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void LinkLength_TextChanged(object sender, EventArgs e)
+        {
+            var length = 0;
+
+            int.TryParse(LinkLength.Text, out length);
+            Debug.Assert(tempLink_ != null);
+
+            tempLink_.Length = length;
+            Invalidate(true);
+        }
+
+        private void LinkLength_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                var length = 0;
+                
+                int.TryParse(LinkLength.Text, out length);
+                Debug.Assert(tempLink_ != null);
+
+                tempLink_.Length = length;
+
+                LinkLength.Hide();
+            }
         }
     }
 }

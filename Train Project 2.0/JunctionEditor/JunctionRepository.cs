@@ -132,6 +132,15 @@ namespace TrainProject.JunctionEditor
         }
 
         /// <summary>
+        /// Get first selected link
+        /// </summary>
+        /// <returns>First link from repository with Selected flag</returns>
+        public Link GetFirstSelectedLink()
+        {
+            return links_.FirstOrDefault(link => link.Selected);
+        }
+
+        /// <summary>
         /// Update selection states of nodes in reposytory
         /// </summary>
         /// <param name="position">Point to check selection state for nodes</param>
