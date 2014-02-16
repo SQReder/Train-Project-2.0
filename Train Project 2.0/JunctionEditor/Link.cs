@@ -23,6 +23,12 @@ namespace TrainProject.JunctionEditor
             DashPattern = new[] { 2.0F, 1.0F }
         };
 
+        static readonly Pen PenHighlight = new Pen(Color.Violet, 2f)
+        {
+            DashCap = DashCap.Round,
+            DashPattern = new[] { 2.0F, 1.0F }
+        };
+
         public Link(Node from, Node to)
         {
             Selected = false;
@@ -51,10 +57,11 @@ namespace TrainProject.JunctionEditor
                 var a = croppedLine.Item1;
                 var b = croppedLine.Item2;
 
-                graphics.DrawLine(Pen, a, b);
+                var pen = Selected ? PenHighlight : Pen;
+                graphics.DrawLine(pen, a, b);
 
                 if (Vector.Distance(from_,to_) > LineMargin*2)
-                    DrawArrowHead(graphics, Pen);
+                    DrawArrowHead(graphics, pen);
                 DrawLength(graphics);
             }
             catch (Exception e)
@@ -172,7 +179,13 @@ namespace TrainProject.JunctionEditor
 
         public void UpdateSelectionState(Point position)
         {
-            throw new NotImplementedException();
+            var start = from_.Position;
+            var end = to_.Position;
+
+            var linkLength = Vector.Distance(start, end);
+            var pointSidesLength = Vector.Distance(start, position) + Vector.Distance(position, end);
+
+            Selected = pointSidesLength - linkLength < 0.5;
         }
 
         #endregion

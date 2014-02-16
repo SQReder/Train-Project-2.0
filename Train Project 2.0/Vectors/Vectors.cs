@@ -18,7 +18,7 @@ namespace TrainProject.Vectors
 
         public static PointF Create(IPositionable a, IPositionable b)
         {
-            return new PointF(b.X - a.X, b.Y - a.Y);
+            return new PointF(b.Position.X - a.Position.X, b.Position.Y - a.Position.Y);
         }
 
         public static float VectorLength(PointF vector)

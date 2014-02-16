@@ -34,17 +34,14 @@ namespace TrainProjectTests
         [TestMethod]
         public void NodeMoveToPositionTest()
         {
-            var actual = new Node();        
-            actual.MoveTo(new PointF(100,100));
+            var actual = new Node();
 
-            var expected = new Node
-            {
-                Position = new PointF(100, 100)
-            };
+            actual.Position = new PointF(100, 100); // test that functional
+            var expected = new Node { Position = new PointF(100, 100) };
 
             Assert.AreEqual(expected, actual);
-            Assert.AreEqual(expected.X, actual.X);
-            Assert.AreEqual(expected.Y, actual.Y);
+            Assert.AreEqual(expected.Position.X, actual.Position.X);
+            Assert.AreEqual(expected.Position.Y, actual.Position.Y);
         }
 
         [TestMethod]

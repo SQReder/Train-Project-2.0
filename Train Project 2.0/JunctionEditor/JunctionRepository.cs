@@ -139,6 +139,7 @@ namespace TrainProject.JunctionEditor
         public void UpdateSelectionStates(Point position)
         {
             nodes_.ForEach(n => n.UpdateSelectionState(position));
+            links_.ForEach(l => l.UpdateSelectionState(position));
         }
 
         #endregion

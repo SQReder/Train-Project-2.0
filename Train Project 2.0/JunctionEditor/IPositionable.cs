@@ -7,9 +7,6 @@ namespace TrainProject.JunctionEditor
     /// </summary>
     public interface IPositionable
     {
-        float X { get; }
-        float Y { get; }
         PointF Position { get; set; }
-        void MoveTo(PointF position);
     }
 }

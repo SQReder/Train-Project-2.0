@@ -32,12 +32,6 @@ namespace TrainProject.JunctionEditor
             Selected = false;
         }
 
-        public PointF Position
-        {
-            get { return position_; }
-            set { position_ = value; }
-        }
-
         public NodeType Type
         {
             get { return type_; }
@@ -211,12 +205,10 @@ namespace TrainProject.JunctionEditor
 
         #region IPositionable implementation
 
-        public float X { get { return position_.X; } }
-        public float Y { get { return position_.Y; } }
-        
-        public void MoveTo(PointF position)
+        public PointF Position
         {
-            position_ = position;
+            get { return position_; }
+            set { position_ = value; }
         }
 
         #endregion
