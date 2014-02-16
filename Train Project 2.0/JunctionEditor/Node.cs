@@ -34,7 +34,6 @@ namespace TrainProject.JunctionEditor
             set { position_ = value; }
         }
 
-
         public NodeType Type
         {
             get { return type_; }
@@ -182,10 +181,29 @@ namespace TrainProject.JunctionEditor
 
         public bool Equals(Node other)
         {
-            return position_ == other.position_
-                   && type_ == other.type_
-                   && denominator_ == other.denominator_
-                   && title_ == other.title_;
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return position_.Equals(other.position_) && string.Equals(title_, other.title_) && denominator_ == other.denominator_ && type_ == other.type_;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (Node)) return false;
+            return Equals((Node) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = position_.GetHashCode();
+                hashCode = (hashCode*397) ^ (title_ != null ? title_.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ denominator_.GetHashCode();
+                hashCode = (hashCode*397) ^ (int) type_;
+                return hashCode;
+            }
         }
 
         #endregion

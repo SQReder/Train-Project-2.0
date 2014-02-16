@@ -142,8 +142,25 @@ namespace TrainProject.JunctionEditor
 
         public bool Equals(Link other)
         {
-            return from_.Equals(other.from_)
-                   && to_.Equals(other.to_);
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(from_, other.from_) && Equals(to_, other.to_);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (Link)) return false;
+            return Equals((Link) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((from_ != null ? from_.GetHashCode() : 0)*397) ^ (to_ != null ? to_.GetHashCode() : 0);
+            }
         }
 
         #endregion
