@@ -7,7 +7,7 @@ using TrainProject.JunctionEditor;
 namespace TrainProjectTests
 {
     [TestClass]
-    public class NodeTest
+    public class NodeTestCase
     {
         [TestMethod]
         public void NodeEqualTest()

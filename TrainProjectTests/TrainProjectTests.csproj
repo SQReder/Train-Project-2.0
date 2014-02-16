@@ -51,9 +51,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="JunctionRepositoryTests.cs" />
+    <Compile Include="JunctionRepositoryTestCase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NodeTest.cs" />
+    <Compile Include="NodeTestCase.cs" />
+    <Compile Include="LinkTestCase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Train Project 2.0\Train Project 2.0.csproj">

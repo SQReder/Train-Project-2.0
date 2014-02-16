@@ -16,6 +16,7 @@ namespace TrainProject.JunctionEditor
         private readonly Node from_;
         private Node to_;
         private int length_ = 0;
+        private bool fixedLength_ = false;
 
         static readonly Pen Pen = new Pen(Color.DarkViolet, 2f)
         {
@@ -28,6 +29,32 @@ namespace TrainProject.JunctionEditor
             DashCap = DashCap.Round,
             DashPattern = new[] { 2.0F, 1.0F }
         };
+
+        public int Length
+        {
+            get
+            {
+                if (!fixedLength_)
+                {
+                    var mainVector = Vector.Create(from_.Position, to_.Position);
+                    var vectorLength = Vector.VectorLength(mainVector);
+                    length_ = (int) Math.Round(vectorLength);
+                }
+                
+                return length_;
+            }
+            set {
+                if (value != 0)
+                {
+                    fixedLength_ = true;
+                    length_ = value;
+                }
+                else
+                {
+                    length_ = value;
+                }
+            }
+        }
 
         public Link(Node from, Node to)
         {
@@ -124,8 +151,8 @@ namespace TrainProject.JunctionEditor
                 LineAlignment = StringAlignment.Center
             };
 
-            length_ = (int)Math.Round(vectorLength);
-            var label = length_.ToString(CultureInfo.InvariantCulture);
+            var length = fixedLength_ ? Length : (int)Math.Round(vectorLength);
+            var label = length.ToString(CultureInfo.InvariantCulture);
 
             graphics.DrawString(label, font, Brushes.Black, textPosition, stringFormat);
         }
