@@ -147,5 +147,31 @@ namespace TrainProjectTests
             Assert.AreEqual(false, jr.ListLinks().Any(), "Link wasn't removed");
             Assert.AreEqual(true, jr.ListNodes().Count() == 2, "Something strange with nodes");
         }
+
+        [TestMethod]
+        public void DuplicateNodeAdd()
+        {
+            var jr = new JunctionRepository();
+            var one = new Node
+            {
+                Position = new PointF(1, 1),
+                Title = "Node",
+                Type = Node.NodeType.Ppp
+            };
+
+            jr.AddNode(one);
+            jr.AddNode(one);
+
+             var two = new Node
+            {
+                Position = new PointF(1, 1),
+                Title = "Node",
+                Type = Node.NodeType.Ppp
+            };
+
+            jr.AddNode(two);
+
+            Assert.AreEqual(1, jr.ListNodes().Count());
+        }
     }
 }

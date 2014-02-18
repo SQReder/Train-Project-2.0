@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace TrainProject.JunctionEditor
 {
-    public partial class JunctionRepository
+    public class JunctionRepository
     {
         private readonly List<Node> nodes_ = new List<Node>();
         private readonly List<Link> links_ = new List<Link>();
@@ -158,8 +158,7 @@ namespace TrainProject.JunctionEditor
         {
             var sb = new StringBuilder();
 
-            //nodes_.ForEach(n => sb.Append("Node ").AppendLine(JsonConvert.SerializeObject(n)));
-            links_.ForEach(l => sb./*Append("Link ").*/AppendLine(JsonConvert.SerializeObject(l)));
+            links_.ForEach(l => sb.AppendLine(JsonConvert.SerializeObject(l)));
 
             return sb.ToString();
         }
