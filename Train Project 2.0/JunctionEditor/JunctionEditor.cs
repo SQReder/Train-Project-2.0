@@ -139,7 +139,11 @@ namespace TrainProject.JunctionEditor
                         tempNode_ = selectedNode;
                         DenominatorsList.Left = e.Location.X;
                         DenominatorsList.Top = e.Location.Y + DenominatorsList.Height;
-                        DenominatorsList.SelectedIndex = -1;
+                        if (selectedNode.Denominator != null)
+                            DenominatorsList.SelectedItem =
+                                selectedNode.Denominator.Value.ToString(CultureInfo.InvariantCulture);
+                        else
+                            DenominatorsList.SelectedIndex = -1;
                         DenominatorsList.Show();
                     }
                     else
@@ -378,7 +382,10 @@ namespace TrainProject.JunctionEditor
 
         private void DenominatorsList_DropDownClosed(object sender, EventArgs e)
         {
-            tempNode_.Denominator = int.Parse(DenominatorsList.Text);
+            int denominator;
+            int.TryParse(DenominatorsList.Text, out denominator);
+            if (denominator != 0)
+                tempNode_.Denominator = denominator;
             DenominatorsList.Hide();
         }
 
