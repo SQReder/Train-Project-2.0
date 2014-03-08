@@ -1,90 +1,103 @@
 ﻿using System;
 using System.Drawing;
+using System.Security.Cryptography.X509Certificates;
 using TrainProject.JunctionEditor;
 
 namespace TrainProject.Vectors
 {
-    public class Vector
+    public class Vector: IEquatable<Vector>
     {
-        public float X { get; set; }
-        public float Y { get; set; }
+        public float X { get; private set; }
+        public float Y { get; private set; }
 
-        public static PointF Create(float x, float y)
+        #region ctors
+
+        private Vector()
         {
-            return new PointF(x,y);
+            X = 0;
+            Y = 0;
         }
 
-        public static PointF Create(PointF from, PointF to)
+        public Vector(float x, float y)
         {
-            return new PointF(to.X - from.X, to.Y - from.Y);
+            X = x;
+            Y = y;
         }
 
-        public static PointF Create(IPositionable a, IPositionable b)
+        public Vector(PointF from, PointF to)
         {
-            return new PointF(b.Position.X - a.Position.X, b.Position.Y - a.Position.Y);
+            X = to.X - from.X;
+            Y = to.Y - from.Y;
         }
 
-        public static float VectorLength(PointF vector)
+        public Vector(IPositionable a, IPositionable b)
         {
-            var a = vector.X * vector.X;
-            var b = vector.Y * vector.Y;
-            return (float)Math.Sqrt(a + b);
+            X = b.Position.X - a.Position.X;
+            Y = b.Position.Y - a.Position.Y;
         }
 
-        public static PointF Normalize(PointF vector)
+        #endregion
+
+
+        public float Length
         {
-            var length = VectorLength(vector);
-            return new PointF(vector.X / length, vector.Y / length);
+            get
+            {
+                var a = X * X;
+                var b = Y * Y;
+                return (float)Math.Sqrt(a + b);
+            }
         }
 
-        public static PointF MultiplyByScalar(PointF vector, float k)
+        public Vector Normalized
         {
-            return new PointF(k * vector.X, k * vector.Y);
+            get
+            {
+                var length = Length;
+                return new Vector(X / length, Y / length);
+            }
         }
 
-        public static PointF Addition(PointF a, PointF b)
+        public Vector Add(Vector v)
         {
-            return new PointF(a.X + b.X, a.Y + b.Y);
+            return new Vector(X + v.X, Y + v.Y);
         }
 
-        public static PointF Divide(PointF a, PointF b)
+        public Vector Substract(Vector v)
         {
-            return new PointF(a.X - b.X, a.Y - b.Y);
+            return new Vector(X - v.X, Y - v.Y);
         }
 
-        public static float Distance(PointF a, PointF b)
+        public float Multiplied(Vector v)
         {
-            return VectorLength(Create(a, b));
+            return X * v.X + Y * v.Y;
         }
 
-        public static float Distance(IPositionable a, IPositionable b)
+        public Vector Multiplied(float k)
         {
-            return VectorLength(Create(a, b));
-        }
-
-        public static float Multiply(PointF a, PointF b)
-        {
-            return a.X*b.X + a.Y*b.Y;
+            return new Vector(k * X, k * Y);           
         }
 
         public static PointF MapPointToVector(PointF a, PointF b, PointF c)
         {
-            var main = Create(a, b);
-            var e = Normalize(main);
+            var main = new Vector(a, b);
+            var e = main.Normalized;
 
-            var vectorToMapping = Create(a, c);
-            var scalarMultiplication = Multiply(vectorToMapping, e);
-            var mappedVector = MultiplyByScalar(e, scalarMultiplication);
+            var vectorToMapping = new Vector(a, c);
+            var scalarMultiplication = vectorToMapping.Multiplied(e);
+            var mappedVector = e.Multiplied(scalarMultiplication);
             
             return new PointF(a.X + mappedVector.X, a.Y + mappedVector.Y);            
         }
 
-        public static implicit operator PointF(Vector v)
+        #region Casts
+
+        public static explicit operator PointF(Vector v)
         {
             return new PointF(v.X, v.Y);
         }
 
-        public static implicit operator Vector(PointF pointF)
+        public static explicit operator Vector(PointF pointF)
         {
             return new Vector
             {
@@ -92,5 +105,52 @@ namespace TrainProject.Vectors
                 Y = pointF.Y
             };
         }
+
+        public static explicit operator SizeF(Vector v)
+        {
+            return new SizeF(v.X, v.Y);
+        }
+
+        #endregion
+
+
+        #region IEquatable impelementation
+
+        public bool Equals(Vector other)
+        {
+            const double tolerance = 0.000000001;
+            return Math.Abs(X - other.X) < tolerance && Math.Abs(Y - other.Y) < tolerance;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (Vector)) return false;
+            return Equals((Vector) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            var pointF = (PointF) this;
+            return pointF.GetHashCode();
+        }
+
+        #endregion
+
+        #region Distance between points
+
+        public static float Distance(PointF a, PointF b)
+        {
+            return new Vector(a, b).Length;
+        }
+
+        public static float Distance(IPositionable a, IPositionable b)
+        {
+            return new Vector(a, b).Length;
+        }
+
+        #endregion
+
     }
 }

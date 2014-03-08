@@ -33,9 +33,8 @@ namespace TrainProject.JunctionEditor
             {
                 if (!fixedLength_)
                 {
-                    var mainVector = Vector.Create(from_.Position, to_.Position);
-                    var vectorLength = Vector.VectorLength(mainVector);
-                    length_ = (int) Math.Round(vectorLength);
+                    var mainVector = new Vector(from_.Position, to_.Position);
+                    length_ = (int)Math.Round(mainVector.Length);
                 }
                 
                 return length_;
@@ -90,7 +89,9 @@ namespace TrainProject.JunctionEditor
             }
             catch (Exception e)
             {
+                // ReSharper disable LocalizableElement
                 MessageBox.Show("Can't draw link between nodes! Reason: \"" + e.Message + "\"\nContact with developer.");
+                // ReSharper restore LocalizableElement
             }
         }
 
@@ -102,22 +103,22 @@ namespace TrainProject.JunctionEditor
             var croppedLine = GetCroppedLine(LineMargin);
             var croppedEnd = croppedLine.Second;
 
-            var mainVector = Vector.Create(from_, to_);
-            var mainNormal = Vector.Normalize(mainVector);
+            var mainVector = new Vector(from_, to_);
+            var mainNormal = mainVector.Normalized;
 
             var cropVectorLen = Vector.Distance(from_.Position, croppedEnd);
 
             var oPointLen = cropVectorLen - h;
-            var o = Vector.MultiplyByScalar(mainNormal, oPointLen);
+            var o = mainNormal.Multiplied(oPointLen); //Vector.MultiplyByScalar(mainNormal, oPointLen);
 
-            var normal = new PointF(-mainNormal.Y, mainNormal.X);
+            var normal = new Vector(-mainNormal.Y, mainNormal.X);
 
-            var left = Vector.MultiplyByScalar(normal, w);
-            var right = Vector.MultiplyByScalar(normal, -w);
-            var sbase = Vector.Addition(from_.Position, o);
+            var left = normal.Multiplied(w);
+            var right = normal.Multiplied(-w);
+            var sbase = from_.Position + (SizeF)o;
 
-            var a = Vector.Addition(sbase, left);//new PointF(start.X + o.X + normal.X * w, start.Y + o.Y + normal.Y * w);
-            var b = Vector.Addition(sbase, right);//new PointF(start.X + o.X + normal.X * -w, start.Y + o.Y + normal.Y * -w);
+            var a = sbase + (SizeF)left;//new PointF(start.X + o.X + normal.X * w, start.Y + o.Y + normal.Y * w);
+            var b = sbase + (SizeF)right;//new PointF(start.X + o.X + normal.X * -w, start.Y + o.Y + normal.Y * -w);
 
             var headPen = new Pen(parentPen.Color, parentPen.Width);
             g.DrawLine(headPen, croppedEnd, a);
@@ -128,18 +129,18 @@ namespace TrainProject.JunctionEditor
         {
             var textMargin = SystemFonts.DefaultFont.Size * 1.5f;
 
-            var mainVector = Vector.Create(from_.Position, to_.Position);
+            var mainVector = new Vector(from_.Position, to_.Position);
 
-            var normal = Vector.Normalize(mainVector);
-            var textNormal = Vector.Create(normal.Y, -normal.X); // turn normal 90 degree clockwise
-            var textOffcet = Vector.MultiplyByScalar(textNormal, textMargin);
+            var normal = mainVector.Normalized;
+            var textNormal = new Vector(normal.Y, -normal.X); // turn normal 90 degree clockwise
+            var textOffcet = textNormal.Multiplied(textMargin);
 
-            var vectorLength = Vector.VectorLength(mainVector);
-            var center = Vector.MultiplyByScalar(normal, vectorLength / 2f);
+            var vectorLength = mainVector.Length;
+            var center = normal.Multiplied(vectorLength / 2f);
             
-            var offset = Vector.Addition(center, textOffcet);
+            var offset = center.Add(textOffcet);
 
-            var textPosition = Vector.Addition(From.Position, offset);
+            var textPosition = From.Position + (SizeF)offset;
 
             var font = SystemFonts.DefaultFont;
             var stringFormat = new StringFormat
@@ -156,14 +157,14 @@ namespace TrainProject.JunctionEditor
 
         private Pair<PointF> GetCroppedLine(float crops)
         {
-            var start = from_.Position;
-            var end = to_.Position;
-            var mainVector = Vector.Create(from_.Position, to_.Position);
-            var normal = Vector.Normalize(mainVector);
+            var start = (Vector)from_.Position;
+            var end = (Vector)to_.Position;
+            var mainVector = new Vector(from_.Position, to_.Position);
+            var normal = mainVector.Normalized;
 
-            var croppedVector = Vector.MultiplyByScalar(normal, crops);
-            var a = Vector.Addition(start, croppedVector);
-            var b = Vector.Divide(end, croppedVector);
+            var croppedVector = normal.Multiplied(crops);
+            var a = (PointF)start.Add(croppedVector);
+            var b = (PointF)end.Substract(croppedVector);
 
             return new Pair<PointF>(a, b);
         }
