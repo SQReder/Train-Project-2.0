@@ -80,7 +80,12 @@ namespace TrainProject.JunctionEditor
                 throw new ArgumentException("Creating ring links not allowed");
 
 
-            var linkToAdd = new Link(@from, @to);
+            var linkToAdd = new Link
+            {
+                From = @from,
+                To = @to,
+                Length = link.Length
+            };
             if (!links_.Contains(linkToAdd))
                 links_.Add(linkToAdd);
         }

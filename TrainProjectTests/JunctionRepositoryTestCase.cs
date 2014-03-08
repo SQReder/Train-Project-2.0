@@ -173,5 +173,35 @@ namespace TrainProjectTests
 
             Assert.AreEqual(1, jr.ListNodes().Count());
         }
+
+        [TestMethod]
+        public void CheckConsistenceOfAddedLink()
+        {
+            var jr = new JunctionRepository();
+
+            var @from = new Node
+            {
+                Position = new PointF(0, 0),
+                Title = "Not already stored node"
+            };
+
+            var @to = new Node
+            {
+                Position = new PointF(0, 100),
+                Title = "Another not already stored node"
+            };
+
+            var expected = new Link()
+            {
+                From = @from,
+                To = @to,
+                Length = 100,
+            };
+
+            jr.AddLink(expected);
+            var actual = jr.ListLinks().First();
+
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

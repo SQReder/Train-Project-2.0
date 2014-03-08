@@ -10,7 +10,7 @@ namespace TrainProject.JunctionEditor
     public class Link: IDrawable, IEquatable<Link>, ISelectable
     {
         private const float LineMargin = 8f;
-        private readonly Node from_;
+        private Node from_;
         private Node to_;
         private int length_ = 0;
         private bool fixedLength_;
@@ -59,15 +59,30 @@ namespace TrainProject.JunctionEditor
             to_ = to;
         }
 
+        public Link()
+        { }
+
         public Node From
         {
             get { return from_; }
+            set
+            {
+                if (ReferenceEquals(value, null))
+                    throw new NullReferenceException();
+
+                from_ = value;
+            }
         }
 
         public Node To
         {
             get { return to_; }
-            set { to_ = value; }
+            set
+            {
+                if (ReferenceEquals(value, null))
+                    throw new NullReferenceException();
+                to_ = value;
+            }
         }
 
         #region IDrawable implementation
@@ -177,7 +192,7 @@ namespace TrainProject.JunctionEditor
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(from_, other.from_) && Equals(to_, other.to_);
+            return Equals(from_, other.from_) && Equals(to_, other.to_) && Equals(length_, other.length_);
         }
 
         public override bool Equals(object obj)
