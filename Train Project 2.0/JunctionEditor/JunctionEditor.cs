@@ -7,8 +7,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TrainProject.Vectors;
 
 namespace TrainProject.JunctionEditor
 {
@@ -46,6 +46,7 @@ namespace TrainProject.JunctionEditor
             UpdateNodeType,
             UpdateDenominator,
             UpdateLinkLength,
+            SplitLink
         };
 
         private JunctionTool junctionTool_ = JunctionTool.None;
@@ -88,6 +89,20 @@ namespace TrainProject.JunctionEditor
                 case JunctionTool.UpdateDenominator:
                     break;
                 case JunctionTool.UpdateLinkLength:
+                    break;
+                case JunctionTool.SplitLink:
+                    var selectedLink = repository_.GetFirstSelectedLink();
+                    if (selectedLink != null)
+                    {
+                        if (tempNode_ == null)
+                            tempNode_ = new Node();
+
+                        tempNode_.Position = selectedLink.MapPointToLine(e.Location);
+                    }
+                    else
+                    {
+                            tempNode_ = null;
+                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -167,6 +182,8 @@ namespace TrainProject.JunctionEditor
                         LinkLength.Hide();
                     }
                     break;
+                case JunctionTool.SplitLink:
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -234,6 +251,34 @@ namespace TrainProject.JunctionEditor
                     break;
                 case JunctionTool.UpdateLinkLength:
                     break;
+                case JunctionTool.SplitLink:
+                    var selectedLink = repository_.GetFirstSelectedLink();
+                    if (selectedLink != null)
+                    {
+                        var oldFixedLength = selectedLink.Length;
+                        var oldRealLen = new Vector(selectedLink.From, selectedLink.To).Length;
+                        var ratio = oldFixedLength / oldRealLen;
+
+                        var newRealLengthOne = new Vector(selectedLink.From, tempNode_).Length;
+                        var newRealLengthTwo = new Vector(tempNode_, selectedLink.To).Length;
+
+                        var newFixedLengthOne = (int)Math.Round(newRealLengthOne * ratio);
+                        var newFixedLengthTwo = (int)Math.Round(newRealLengthTwo * ratio);
+
+                        repository_.AddNode(tempNode_);
+                        
+                        var l = new Link(tempNode_, selectedLink.To)
+                        {
+                            Length = newFixedLengthTwo
+                        };
+
+                        repository_.AddLink(l);
+
+                        selectedLink.To = tempNode_;
+                        selectedLink.Length = newFixedLengthOne;
+                        tempNode_ = null;
+                    }
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -296,6 +341,10 @@ namespace TrainProject.JunctionEditor
         private void ToolSetLinkLength_Click(object sender, EventArgs e)
         { SelectActiveToolTypeButton(JunctionTool.UpdateLinkLength); }
 
+        private void ToolSplitLink_Click(object sender, EventArgs e)
+        { SelectActiveToolTypeButton(JunctionTool.SplitLink); }
+
+
         private void SelectActiveToolTypeButton(JunctionTool tool)
         {
             ToolNodeTypeDock.Checked = false;
@@ -309,6 +358,7 @@ namespace TrainProject.JunctionEditor
             ToolCreateLink.Checked = JunctionTool.AddLinkFindStartNode == tool;
             ToolUpdateCrossDenominator.Checked = JunctionTool.UpdateDenominator == tool;
             ToolSetLinkLength.Checked = JunctionTool.UpdateLinkLength == tool;
+            ToolSplitLink.Checked = JunctionTool.SplitLink == tool;
 
             junctionTool_ = tool;
         }
@@ -398,7 +448,7 @@ namespace TrainProject.JunctionEditor
 
         private void LinkLength_TextChanged(object sender, EventArgs e)
         {
-            var length = 0;
+            int length;
 
             int.TryParse(LinkLength.Text, out length);
             Debug.Assert(tempLink_ != null);
@@ -411,7 +461,7 @@ namespace TrainProject.JunctionEditor
         {
             if (e.KeyCode == Keys.Enter)
             {
-                var length = 0;
+                int length;
                 
                 int.TryParse(LinkLength.Text, out length);
                 Debug.Assert(tempLink_ != null);

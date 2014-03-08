@@ -170,6 +170,7 @@
     <None Include="Resources\Node.png" />
     <None Include="Resources\ToolDenominatorUpdate.png" />
     <None Include="Resources\LinkLengths.png" />
+    <None Include="Resources\SplitLink.png" />
     <Content Include="train-512.ico" />
     <None Include="Resources\ToolNodeTypeIsolation.png" />
     <None Include="Resources\ToolNodeTypeDock.png" />
