@@ -4,8 +4,11 @@ using TrainProject.JunctionEditor;
 
 namespace TrainProject.Vectors
 {
-    public static class Vector
+    public class Vector
     {
+        public float X { get; set; }
+        public float Y { get; set; }
+
         public static PointF Create(float x, float y)
         {
             return new PointF(x,y);
@@ -57,6 +60,37 @@ namespace TrainProject.Vectors
         public static float Distance(IPositionable a, IPositionable b)
         {
             return VectorLength(Create(a, b));
+        }
+
+        public static float Multiply(PointF a, PointF b)
+        {
+            return a.X*b.X + a.Y*b.Y;
+        }
+
+        public static PointF MapPointToVector(PointF a, PointF b, PointF c)
+        {
+            var main = Create(a, b);
+            var e = Normalize(main);
+
+            var vectorToMapping = Create(a, c);
+            var scalarMultiplication = Multiply(vectorToMapping, e);
+            var mappedVector = MultiplyByScalar(e, scalarMultiplication);
+            
+            return new PointF(a.X + mappedVector.X, a.Y + mappedVector.Y);            
+        }
+
+        public static implicit operator PointF(Vector v)
+        {
+            return new PointF(v.X, v.Y);
+        }
+
+        public static implicit operator Vector(PointF pointF)
+        {
+            return new Vector
+            {
+                X = pointF.X,
+                Y = pointF.Y
+            };
         }
     }
 }
