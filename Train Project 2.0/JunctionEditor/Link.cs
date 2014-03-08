@@ -2,10 +2,7 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
-using System.Runtime.Serialization;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using Newtonsoft.Json;
 using TrainProject.Vectors;
 
 namespace TrainProject.JunctionEditor
@@ -16,7 +13,7 @@ namespace TrainProject.JunctionEditor
         private readonly Node from_;
         private Node to_;
         private int length_ = 0;
-        private bool fixedLength_ = false;
+        private bool fixedLength_;
 
         static readonly Pen Pen = new Pen(Color.DarkViolet, 2f)
         {
@@ -81,8 +78,8 @@ namespace TrainProject.JunctionEditor
             try
             {
                 var croppedLine = GetCroppedLine(LineMargin);
-                var a = croppedLine.Item1;
-                var b = croppedLine.Item2;
+                var a = croppedLine.First;
+                var b = croppedLine.Second;
 
                 var pen = Selected ? PenHighlight : Pen;
                 graphics.DrawLine(pen, a, b);
@@ -103,7 +100,7 @@ namespace TrainProject.JunctionEditor
             const float w = 4f;
 
             var croppedLine = GetCroppedLine(LineMargin);
-            var croppedEnd = croppedLine.Item2;
+            var croppedEnd = croppedLine.Second;
 
             var mainVector = Vector.Create(from_, to_);
             var mainNormal = Vector.Normalize(mainVector);
@@ -157,7 +154,7 @@ namespace TrainProject.JunctionEditor
             graphics.DrawString(label, font, Brushes.Black, textPosition, stringFormat);
         }
 
-        private Tuple<PointF, PointF> GetCroppedLine(float crops)
+        private Pair<PointF> GetCroppedLine(float crops)
         {
             var start = from_.Position;
             var end = to_.Position;
@@ -168,7 +165,7 @@ namespace TrainProject.JunctionEditor
             var a = Vector.Addition(start, croppedVector);
             var b = Vector.Divide(end, croppedVector);
 
-            return new Tuple<PointF, PointF>(a, b);
+            return new Pair<PointF>(a, b);
         }
 
         #endregion
