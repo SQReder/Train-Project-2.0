@@ -201,8 +201,10 @@ namespace TrainProject.JunctionEditor
                     {
                         tempLink_.To = selectedNode;
                         var sameLinkExists =
-                            repository_.ListLinks().FirstOrDefault(l => l.From == tempLink_.From && l.To == tempLink_.To);
-                        var reverseLink = repository_.ListLinks().FirstOrDefault(l => l.From == tempLink_.To && l.To == tempLink_.From);
+                            repository_.ListLinks().FirstOrDefault(l => Equals(l.From, tempLink_.From) &&
+                                                                        Equals(l.To, tempLink_.To));
+                        var reverseLink = repository_.ListLinks().FirstOrDefault(l =>
+                            Equals(l.From, tempLink_.To) && Equals(l.To, tempLink_.From));
                         
                         if (sameLinkExists != null)
                             repository_.RemoveLink(sameLinkExists);
