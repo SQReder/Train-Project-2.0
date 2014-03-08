@@ -150,8 +150,7 @@ namespace TrainProject.JunctionEditor
             var str = title_;
             if (type_ == NodeType.Cross)
             {
-                Debug.Assert(denominator_ != null, "denominator_ != null");
-                str += ":" + denominator_.Value.ToString(CultureInfo.InvariantCulture);
+                str += ":" + (denominator_.HasValue ? denominator_.Value.ToString(CultureInfo.InvariantCulture) : "?");
             }
 
             var textPosition = new PointF(position.X, position.Y + Radius*3);
