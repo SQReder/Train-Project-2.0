@@ -213,5 +213,10 @@ namespace TrainProject.JunctionEditor
         }
 
         #endregion
+
+        public PointF MapPointToLine(PointF point)
+        {
+            return Vector.MapPointToVector(From.Position, To.Position, point);
+        }
     }
 }
