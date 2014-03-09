@@ -149,7 +149,7 @@ namespace TrainProject.JunctionEditor
                         selectedNode.Type = newNodeType_.Value;
                     break;
                 case JunctionTool.UpdateDenominator:
-                    if (selectedNode != null)
+                    if (selectedNode != null && selectedNode.Type == Node.NodeType.Cross)
                     {
                         tempNode_ = selectedNode;
                         DenominatorsList.Left = e.Location.X;
@@ -160,6 +160,7 @@ namespace TrainProject.JunctionEditor
                         else
                             DenominatorsList.SelectedIndex = -1;
                         DenominatorsList.Show();
+                        DenominatorsList.Focus();
                     }
                     else
                     {
@@ -175,6 +176,8 @@ namespace TrainProject.JunctionEditor
                         LinkLength.Top = e.Location.Y + LinkLength.Height;
                         LinkLength.Text = tempLink_.Length.ToString(CultureInfo.InvariantCulture);
                         LinkLength.Show();
+                        LinkLength.Focus();
+                        LinkLength.SelectAll();
                     }
                     else
                     {
@@ -287,7 +290,6 @@ namespace TrainProject.JunctionEditor
 
         #endregion
 
-
         #region draw routines
 
         private void img_Paint(object sender, PaintEventArgs e)
@@ -318,11 +320,6 @@ namespace TrainProject.JunctionEditor
 
 
         #endregion
-
-        private void img_Click(object sender, EventArgs e)
-        {
-            Invalidate(true);
-        }
 
         #region All tools
 
@@ -365,7 +362,6 @@ namespace TrainProject.JunctionEditor
 
         #endregion
 
-
         #region Node type tools
 
         private void ToolNodeTypeDock_Click(object sender, EventArgs e)
@@ -404,6 +400,8 @@ namespace TrainProject.JunctionEditor
 
         #endregion
 
+        #region LSD // McGee's cover
+
         private void ToolClearEditor_Click(object sender, EventArgs e)
         {
             repository_.Clear();
@@ -414,7 +412,7 @@ namespace TrainProject.JunctionEditor
             var result = openFileDialog.ShowDialog();
             if (result != DialogResult.OK)
                 return;
-            
+
             var filename = openFileDialog.FileName;
             var text = File.ReadAllText(filename);
             repository_.Deserialize(text);
@@ -430,6 +428,13 @@ namespace TrainProject.JunctionEditor
             var filename = saveFileDialog.FileName;
             var serializedData = repository_.Serialize();
             File.WriteAllText(filename, serializedData);
+        }
+
+        #endregion
+
+        private void img_Click(object sender, EventArgs e)
+        {
+            Invalidate(true);
         }
 
         private void DenominatorsList_DropDownClosed(object sender, EventArgs e)

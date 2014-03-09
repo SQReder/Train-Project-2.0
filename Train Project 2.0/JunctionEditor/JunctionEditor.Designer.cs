@@ -316,6 +316,7 @@
             // 
             this.LinkLength.AcceptsReturn = true;
             this.LinkLength.Location = new System.Drawing.Point(77, 40);
+            this.LinkLength.MaxLength = 5;
             this.LinkLength.Name = "LinkLength";
             this.LinkLength.Size = new System.Drawing.Size(53, 20);
             this.LinkLength.TabIndex = 4;
