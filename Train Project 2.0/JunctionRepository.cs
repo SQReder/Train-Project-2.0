@@ -4,8 +4,10 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using TrainProject.Interfaces;
+using TrainProject.Model;
 
-namespace TrainProject.JunctionEditor
+namespace TrainProject
 {
     public class JunctionRepository
     {

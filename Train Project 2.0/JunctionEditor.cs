@@ -7,10 +7,10 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Newtonsoft.Json.Linq;
-using TrainProject.Vectors;
+using TrainProject.Interfaces;
+using TrainProject.Model;
 
-namespace TrainProject.JunctionEditor
+namespace TrainProject
 {
     public partial class JEditor : UserControl
     {

@@ -1,4 +1,4 @@
-﻿namespace TrainProject.JunctionEditor
+﻿namespace TrainProject
 {
     partial class JEditor
     {

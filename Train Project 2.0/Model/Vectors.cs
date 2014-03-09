@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
-using TrainProject.JunctionEditor;
+using TrainProject.Interfaces;
 
-namespace TrainProject.Vectors
+namespace TrainProject.Model
 {
     public class Vector: IEquatable<Vector>
     {

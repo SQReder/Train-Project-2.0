@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TrainProject.JunctionEditor;
+using TrainProject.Model;
 
 namespace TrainProjectTests
 {

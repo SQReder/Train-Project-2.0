@@ -1,6 +1,6 @@
 using System.Drawing;
 
-namespace TrainProject.JunctionEditor
+namespace TrainProject.Interfaces
 {
     interface IDrawable
     {

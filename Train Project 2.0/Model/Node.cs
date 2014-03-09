@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
-using TrainProject.Vectors;
+using TrainProject.Interfaces;
 
-namespace TrainProject.JunctionEditor
+namespace TrainProject.Model
 {
     public class Node : IDrawable, ISelectable, IPositionable, IEquatable<Node>
     {

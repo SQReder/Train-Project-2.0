@@ -1,6 +1,6 @@
 using System.Drawing;
 
-namespace TrainProject.JunctionEditor
+namespace TrainProject.Interfaces
 {
     /// <summary>
     /// Interface for something that have position

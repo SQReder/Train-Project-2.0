@@ -4,7 +4,8 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TrainProject.JunctionEditor;
+using TrainProject;
+using TrainProject.Model;
 
 namespace TrainProjectTests
 {

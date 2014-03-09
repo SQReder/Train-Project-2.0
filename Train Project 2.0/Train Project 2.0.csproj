@@ -29,7 +29,7 @@
     <PublisherName>SQReder</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.htm</WebPage>
-    <ApplicationRevision>30</ApplicationRevision>
+    <ApplicationRevision>31</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -102,20 +102,20 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="JunctionEditor\IDrawable.cs" />
-    <Compile Include="JunctionEditor\IPositionable.cs" />
-    <Compile Include="JunctionEditor\ISelectable.cs" />
-    <Compile Include="JunctionEditor\JunctionRepository.cs" />
-    <Compile Include="JunctionEditor\Link.cs" />
-    <Compile Include="JunctionEditor\Node.cs" />
-    <Compile Include="JunctionEditor\Pair.cs" />
-    <Compile Include="Vectors\Vectors.cs" />
+    <Compile Include="Interfaces\IDrawable.cs" />
+    <Compile Include="Interfaces\IPositionable.cs" />
+    <Compile Include="Interfaces\ISelectable.cs" />
+    <Compile Include="JunctionRepository.cs" />
+    <Compile Include="Model\Link.cs" />
+    <Compile Include="Model\Node.cs" />
+    <Compile Include="Model\Pair.cs" />
+    <Compile Include="Model\Vectors.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="JunctionEditor\JunctionEditor.cs">
+    <Compile Include="JunctionEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="JunctionEditor\JunctionEditor.Designer.cs">
+    <Compile Include="JunctionEditor.Designer.cs">
       <DependentUpon>JunctionEditor.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="FormMain.resx">
@@ -131,7 +131,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="JunctionEditor\JunctionEditor.resx">
+    <EmbeddedResource Include="JunctionEditor.resx">
       <DependentUpon>JunctionEditor.cs</DependentUpon>
     </EmbeddedResource>
     <Content Include="JunctionData\basic_junction.jun">
@@ -206,12 +206,12 @@
   <ItemGroup>
     <PublishFile Include="JunctionData\basic_junction.jun">
       <Visible>False</Visible>
-      <PublishState>DataFile</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>

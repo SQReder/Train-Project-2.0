@@ -1,6 +1,4 @@
-﻿using TrainProject.JunctionEditor;
-
-namespace TrainProject
+﻿namespace TrainProject
 {
     partial class FormMain
     {
@@ -34,7 +32,7 @@ namespace TrainProject
             this.tbSerializedJunction = new System.Windows.Forms.TextBox();
             this.btnDeserialize = new System.Windows.Forms.Button();
             this.btnSerialize = new System.Windows.Forms.Button();
-            this.junctionEditor = new TrainProject.JunctionEditor.JEditor();
+            this.junctionEditor = new JEditor();
             this.SuspendLayout();
             // 
             // tbSerializedJunction

@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Windows.Forms;
-using TrainProject.Vectors;
+using TrainProject.Interfaces;
 
-namespace TrainProject.JunctionEditor
+namespace TrainProject.Model
 {
     public class Link: IDrawable, IEquatable<Link>, ISelectable
     {
