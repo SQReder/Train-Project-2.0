@@ -98,6 +98,16 @@ namespace TrainProject.JunctionEditor
                             tempNode_ = new Node();
 
                         tempNode_.Position = selectedLink.MapPointToLine(e.Location);
+
+                        var oldFixedLength = selectedLink.Length;
+                        var oldRealLen = new Vector(selectedLink.From, selectedLink.To).Length;
+                        var ratio = oldFixedLength / oldRealLen;
+
+                        var newRealLengthOne = new Vector(selectedLink.From, tempNode_).Length;
+
+                        var newFixedLengthOne = (int)Math.Round(newRealLengthOne * ratio);
+                        
+                        tempNode_.Title = newFixedLengthOne.ToString(CultureInfo.InvariantCulture);
                     }
                     else
                     {
@@ -386,6 +396,7 @@ namespace TrainProject.JunctionEditor
             ToolCreateLink.Checked = false;
             ToolUpdateCrossDenominator.Checked = false;
             ToolSetLinkLength.Checked = false;
+            ToolSplitLink.Checked = false;
 
             junctionTool_ = JunctionTool.UpdateNodeType;
 
@@ -405,6 +416,9 @@ namespace TrainProject.JunctionEditor
         private void ToolClearEditor_Click(object sender, EventArgs e)
         {
             repository_.Clear();
+            img.Invalidate();
+            tempNode_ = null;
+            tempLink_ = null;
         }
 
         private void ToolLoadFromFile_Click(object sender, EventArgs e)

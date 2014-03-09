@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JEditor));
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.ToolClearEditor = new System.Windows.Forms.ToolStripButton();
             this.ToolLoadFromFile = new System.Windows.Forms.ToolStripButton();
@@ -140,7 +139,7 @@
             // 
             this.ToolMoveNodes.CheckOnClick = true;
             this.ToolMoveNodes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolMoveNodes.Image = ((System.Drawing.Image)(resources.GetObject("ToolMoveNodes.Image")));
+            this.ToolMoveNodes.Image = global::TrainProject.Properties.Resources.ToolMoveNode;
             this.ToolMoveNodes.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolMoveNodes.Name = "ToolMoveNodes";
             this.ToolMoveNodes.Size = new System.Drawing.Size(23, 22);
