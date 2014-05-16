@@ -12,8 +12,14 @@ namespace TrainProject.Model
         private const float LineMargin = 8f;
         private Node from_;
         private Node to_;
-        private int length_ = 0;
-        private bool fixedLength_;
+        private int? length_ = 0;
+
+        #region Visual styles
+        readonly StringFormat centerTextFormat_ = new StringFormat
+        {
+            Alignment = StringAlignment.Center,
+            LineAlignment = StringAlignment.Center
+        };
 
         static readonly Pen Pen = new Pen(Color.DarkViolet, 2f)
         {
@@ -27,40 +33,14 @@ namespace TrainProject.Model
             DashPattern = new[] { 2.0F, 1.0F }
         };
 
+        #endregion
+
+        #region Properties
         public int Length
         {
-            get
-            {
-                if (!fixedLength_)
-                {
-                    var mainVector = new Vector(from_.Position, to_.Position);
-                    length_ = (int)Math.Round(mainVector.Length);
-                }
-                
-                return length_;
-            }
-            set {
-                if (value != 0)
-                {
-                    fixedLength_ = true;
-                    length_ = value;
-                }
-                else
-                {
-                    length_ = value;
-                }
-            }
+            get { return length_.HasValue ? length_.Value : 0; }
+            set { length_ = value; }
         }
-
-        public Link(Node from, Node to)
-        {
-            Selected = false;
-            from_ = from;
-            to_ = to;
-        }
-
-        public Link()
-        { }
 
         public Node From
         {
@@ -84,9 +64,26 @@ namespace TrainProject.Model
                 to_ = value;
             }
         }
+        #endregion
 
+
+        public Link(Node from, Node to)
+        {
+            Selected = false;
+            from_ = from;
+            to_ = to;
+        }
+
+        public Link()
+        { }
+
+        public PointF MapPointToLine(PointF point)
+        {
+            return Vector.MapPointToVector(From.Position, To.Position, point);
+        }
+
+        
         #region IDrawable implementation
-
         public void Draw(Graphics graphics)
         {
             try
@@ -158,16 +155,10 @@ namespace TrainProject.Model
             var textPosition = From.Position + (SizeF)offset;
 
             var font = SystemFonts.DefaultFont;
-            var stringFormat = new StringFormat
-            {
-                Alignment = StringAlignment.Center,
-                LineAlignment = StringAlignment.Center
-            };
 
-            var length = fixedLength_ ? Length : (int)Math.Round(vectorLength);
-            var label = length.ToString(CultureInfo.InvariantCulture);
+            var label = length_.HasValue ? length_.Value.ToString(CultureInfo.InvariantCulture) : "??";
 
-            graphics.DrawString(label, font, Brushes.Black, textPosition, stringFormat);
+            graphics.DrawString(label, font, Brushes.Black, textPosition, centerTextFormat_);
         }
 
         private Pair<PointF> GetCroppedLine(float crops)
@@ -229,10 +220,5 @@ namespace TrainProject.Model
         }
 
         #endregion
-
-        public PointF MapPointToLine(PointF point)
-        {
-            return Vector.MapPointToVector(From.Position, To.Position, point);
-        }
     }
 }

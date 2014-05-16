@@ -411,7 +411,7 @@ namespace TrainProject
 
         #endregion
 
-        #region LSD // McGee's cover
+        #region LSD // thank McGee for that
 
         private void ToolClearEditor_Click(object sender, EventArgs e)
         {
@@ -453,16 +453,23 @@ namespace TrainProject
 
         private void DenominatorsList_DropDownClosed(object sender, EventArgs e)
         {
-            int denominator;
-            int.TryParse(DenominatorsList.Text, out denominator);
-            if (denominator != 0)
-                tempNode_.Denominator = denominator;
+            Node.DenominationValues? denominator = null;
+            switch (DenominatorsList.Text)
+            {
+                case "1/6": denominator = Node.DenominationValues.dv6;
+                    break;
+                case "1/9": denominator = Node.DenominationValues.dv9;
+                    break;
+                case "1/11": denominator = Node.DenominationValues.dv11;
+                    break;
+                case "1/18": denominator = Node.DenominationValues.dv18;
+                    break;
+                case "1/22": denominator = Node.DenominationValues.dv22;
+                    break;
+            }
+            if (denominator.HasValue)
+                    tempNode_.Denominator = denominator;
             DenominatorsList.Hide();
-        }
-
-        private void DenominatorsList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void LinkLength_TextChanged(object sender, EventArgs e)

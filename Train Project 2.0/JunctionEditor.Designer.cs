@@ -296,19 +296,16 @@
             this.DenominatorsList.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.DenominatorsList.FormattingEnabled = true;
             this.DenominatorsList.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7"});
+            "1/6",
+            "1/9",
+            "1/11",
+            "1/18",
+            "1/22"});
             this.DenominatorsList.Location = new System.Drawing.Point(14, 40);
             this.DenominatorsList.Name = "DenominatorsList";
             this.DenominatorsList.Size = new System.Drawing.Size(43, 21);
             this.DenominatorsList.TabIndex = 2;
             this.DenominatorsList.Visible = false;
-            this.DenominatorsList.SelectedIndexChanged += new System.EventHandler(this.DenominatorsList_SelectedIndexChanged);
             this.DenominatorsList.DropDownClosed += new System.EventHandler(this.DenominatorsList_DropDownClosed);
             // 
             // LinkLength

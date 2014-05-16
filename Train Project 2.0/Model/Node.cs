@@ -2,18 +2,24 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.Runtime.InteropServices.ComTypes;
 using TrainProject.Interfaces;
 
 namespace TrainProject.Model
 {
     public class Node : IDrawable, ISelectable, IPositionable, IEquatable<Node>
     {
+        public enum DenominationValues
+        {
+            dv6, dv9, dv11, dv18, dv22
+        }
+
         private const int Radius = 5;
         private PointF position_ = new Point(0,0);
         private readonly Brush highlightBrush_ = Brushes.DodgerBlue;
         private readonly Pen pen_ = new Pen(Color.SteelBlue,2f);
         private string title_;
-        private int? denominator_;
+        private DenominationValues? denominator_;
 
         public enum NodeType
         {
@@ -43,7 +49,7 @@ namespace TrainProject.Model
             set { title_ = value; }
         }
 
-        public int? Denominator
+        public DenominationValues? Denominator
         {
             get { return type_ == NodeType.Cross ? denominator_ : null; }
             set { denominator_ = value; }
@@ -63,9 +69,10 @@ namespace TrainProject.Model
 
                     if (Selected)
                         graphics.FillRectangle(highlightBrush_, rect);
-                    graphics.DrawLine(pen_, new PointF(position.X - Radius, position.Y - Radius), new PointF(position.X + Radius, position.Y - Radius));
+                    const float wideness = 0.7f;
+                    graphics.DrawLine(pen_, new PointF(position.X - Radius * wideness, position.Y - Radius), new PointF(position.X + Radius * wideness, position.Y - Radius));
                     graphics.DrawLine(pen_, new PointF(position.X, position.Y - Radius), new PointF(position.X, position.Y + Radius));
-                    graphics.DrawLine(pen_, new PointF(position.X - Radius, position.Y + Radius), new PointF(position.X + Radius, position.Y + Radius));
+                    graphics.DrawLine(pen_, new PointF(position.X - Radius * wideness, position.Y + Radius), new PointF(position.X + Radius * wideness, position.Y + Radius));
                     break;
 
                 case NodeType.Entrance:
@@ -149,10 +156,10 @@ namespace TrainProject.Model
             var str = title_;
             if (type_ == NodeType.Cross)
             {
-                str += ":" + (denominator_.HasValue ? denominator_.Value.ToString(CultureInfo.InvariantCulture) : "?");
+                str += ":" + (denominator_.HasValue ? denominator_.Value.ToString(CultureInfo.InvariantCulture).Substring(2) : "?");
             }
 
-            var textPosition = new PointF(position.X, position.Y + Radius*3);
+            var textPosition = new PointF(position.X, position.Y + Radius*4);
             graphics.DrawString(str, SystemFonts.DefaultFont, Brushes.Black, textPosition, stringFormat);
         }
 
