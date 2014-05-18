@@ -129,6 +129,21 @@ namespace TrainProject
         }
 
         /// <summary>
+        /// List links that started from node
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns>Enumeration of links begins from referenced node</returns>
+        public IEnumerable<Link> ListLinksBeginsFromNode(Node node)
+        {
+            return links_.Where(l => Equals(l.From, node)).ToList();
+        }
+
+        public IEnumerable<Link> listLinksEndedInNode(Node node)
+        {
+            return links_.Where(l => Equals(l.To, node)).ToList();
+        } 
+
+        /// <summary>
         /// Get first node with Selected flag
         /// </summary>
         /// <returns>First node from repository with Selected flag</returns>

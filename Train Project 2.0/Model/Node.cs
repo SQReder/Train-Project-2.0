@@ -217,5 +217,10 @@ namespace TrainProject.Model
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return title_;
+        }
     }
 }

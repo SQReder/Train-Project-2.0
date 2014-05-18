@@ -244,7 +244,10 @@ namespace TrainProject
                             repository_.AddLink(tempLink_);
                         }
                         else
-                            repository_.AddLink(tempLink_);
+                        {
+                            if (!Equals(tempLink_.From, tempLink_.To))
+                                repository_.AddLink(tempLink_);
+                        }
                     }
                     else if (ToggleCreateNewNodeForLinks.Checked)
                     {
